@@ -2590,7 +2590,8 @@ def check_deprecated_option(fmtdict):
             msg = f"option {fmt} is deprecated, changed to {info['new']}"
             details = info.get("details")
             if details:
-                msg += f"\n{'\n'.join(details)}"
+                details_str = '\n'.join(details)
+                msg += f"\n{details_str}"
             error.cursor.warning(msg)
 
 deprecated_formats = dict(
@@ -2610,5 +2611,6 @@ def check_deprecated_format(fmtdict):
             msg = f"format {fmt} is deprecated, changed to {info['new']}"
             details = info.get("details")
             if details:
-                msg += f"\n{'\n'.join(details)}"
+                details_str = '\n'.join(details)
+                msg += f"\n{details_str}"
             error.cursor.warning(msg)

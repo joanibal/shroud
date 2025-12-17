@@ -13,7 +13,7 @@
 
 top := $(CURDIR)
 
-PYTHONEXE := python3
+PYTHONEXE := python
 
 PYTHON := $(shell which $(PYTHONEXE))
 python.dir := $(dir $(PYTHON))

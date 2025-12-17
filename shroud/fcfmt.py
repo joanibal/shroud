@@ -1374,7 +1374,9 @@ class FormatGen(object):
         fmtshape = []
         for i, dim in enumerate(shape):
             fmtshape.append(f"{c_var_cdesc}->shape[{i}] = {dim};")
-        value = f"\n{'\n'.join(fmtshape)}"
+        
+        value = '\n'.join(fmtshape)
+        value = "\n" + value
         return value
 
     @property
