@@ -168,10 +168,31 @@ class VerifyAttrs(object):
                             % (temp, gen_decl(arg))
                         )
         elif temp:
-            cursor.generate(
-                "Type '{}' may not supply template argument: {}".format(
-                    arg_typemap.name, gen_decl(arg))
-            )
+            # Check if this is a template parameter from a parent template class
+            # e.g., Vec<T>& arg in a method of template<typename T> class Vec
+            allow_template_arg = False
+            if node and hasattr(node, 'parent'):
+                from . import ast as astmod
+                if isinstance(node.parent, astmod.ClassNode) and node.parent.template_parameters:
+                    # Check if all template arguments are template parameters
+                    all_template_params = True
+                    for targ in temp:
+                        if targ.template_argument is None:
+                            all_template_params = False
+                            break
+                        if targ.template_argument not in node.parent.template_parameters:
+                            all_template_params = False
+                            break
+                    if all_template_params:
+                        # This is valid: Vec<T> where T is the class template parameter
+                        # Don't set arg.template_argument - let template substitution handle it
+                        allow_template_arg = True
+
+            if not allow_template_arg:
+                cursor.generate(
+                    "Type '{}' may not supply template argument: {}".format(
+                        arg_typemap.name, gen_decl(arg))
+                )
 
         # Flag node if any argument is assumed-rank.
         dim = attrs.get("dimension", None)  # assumed-rank
@@ -264,6 +285,70 @@ class GenFunctions(object):
     def pop_instantiate_scope(self):
         """Remove template arguments from scope"""
         self.instantiate_scope = self.instantiate_scope.get_parent()
+
+    def substitute_template_arguments(self, arg):
+        """Substitute template parameters in a Declaration's template arguments.
+
+        For example, convert Vec<T> to Vec<int> when T is instantiated as int.
+        This looks up the instantiated class typemap (e.g., Vec_int) and returns
+        a Declaration with that typemap and no template_arguments.
+
+        Args:
+            arg - declast.Declaration with template_arguments
+
+        Returns:
+            New Declaration with instantiated typemap and no template_arguments
+        """
+        import copy
+        from . import declast
+
+        # Build the instantiation string like "<int>" or "<double>"
+        inst_parts = ["<"]
+        for targ in arg.template_arguments:
+            if targ.template_argument:
+                # This template argument is a template parameter (like T)
+                # Substitute it with the actual type from instantiate_scope
+                iast = getattr(self.instantiate_scope, targ.template_argument)
+                inst_parts.append(iast.typemap.cxx_type)
+            else:
+                # Concrete type, use its type directly
+                inst_parts.append(targ.typemap.cxx_type)
+            inst_parts.append(",")
+        if inst_parts[-1] == ",":
+            inst_parts[-1] = ">"
+        else:
+            inst_parts.append(">")
+        instantiation = "".join(inst_parts)
+
+        # Look up the instantiated typemap from the base template class
+        base_typemap = arg.typemap
+        if base_typemap.cxx_instantiation and instantiation in base_typemap.cxx_instantiation:
+            # Found the instantiated class typemap
+            inst_typemap = base_typemap.cxx_instantiation[instantiation]
+
+            # Create a new Declaration with the instantiated typemap
+            newarg = copy.copy(arg)
+            newarg.set_type(inst_typemap)
+
+            # Copy declarators and update their typemap
+            declarators = []
+            for declarator in arg.declarators:
+                newd = copy.copy(declarator)
+                newd.typemap = inst_typemap
+                declarators.append(newd)
+            newarg.declarators = declarators
+            newarg.declarator = declarators[0]
+
+            # Clear template_arguments since this is now a concrete type
+            newarg.template_arguments = []
+
+            return newarg
+        else:
+            # Fallback: couldn't find instantiation, return arg unchanged
+            # This might happen if typemap wasn't properly set up
+            error.get_cursor().warning(
+                f"Could not find instantiated typemap for {arg.typemap.name}{instantiation}")
+            return arg
 
     def push_namespace_list(self, node):
         self.namespace_list.append(node)
@@ -907,19 +992,30 @@ class GenFunctions(object):
 
             self.push_instantiate_scope(new, targs)
 
+            # Handle return type template substitution
             if new.ast.template_argument:
+                # Simple case: T func() (return type is a template parameter)
                 iast = getattr(self.instantiate_scope, new.ast.template_argument)
                 new.ast = new.ast.instantiate(node.ast.instantiate(iast))
                 # Generics cannot differentiate on return type
                 new.options.F_create_generic = False
+            elif new.ast.template_arguments:
+                # Complex case: Vec<T> func() (return type has template arguments)
+                new.ast = self.substitute_template_arguments(new.ast)
 
             # Replace templated arguments.
             # arg - declast.Declaration
             newparams = []
             for arg in new.ast.declarator.params:
                 if arg.template_argument:
+                    # Simple case: T arg (entire argument is a template parameter)
                     iast = getattr(self.instantiate_scope, arg.template_argument)
                     newparams.append(arg.instantiate(iast))
+                elif arg.template_arguments:
+                    # Complex case: Vec<T> arg (type has template arguments)
+                    # Need to substitute template parameters within template arguments
+                    newarg = self.substitute_template_arguments(arg)
+                    newparams.append(newarg)
                 else:
                     newparams.append(arg)
             new.ast.declarator.params = newparams
@@ -965,18 +1061,29 @@ class GenFunctions(object):
 
         #        self.push_instantiate_scope(new, targs)
 
+        # Handle return type template substitution
         if new.ast.template_argument:
+            # Simple case: T func() (return type is a template parameter)
             iast = getattr(self.instantiate_scope, new.ast.template_argument)
             new.ast = new.ast.instantiate(node.ast.instantiate(iast))
             # Generics cannot differentiate on return type
             new.options.F_create_generic = False
+        elif new.ast.template_arguments:
+            # Complex case: Vec<T> func() (return type has template arguments)
+            new.ast = self.substitute_template_arguments(new.ast)
 
         # Replace templated arguments.
         newparams = []
         for arg in new.ast.declarator.params:
             if arg.template_argument:
+                # Simple case: T arg (entire argument is a template parameter)
                 iast = getattr(self.instantiate_scope, arg.template_argument)
                 newparams.append(arg.instantiate(iast))
+            elif arg.template_arguments:
+                # Complex case: Vec<T> arg (type has template arguments)
+                # Need to substitute template parameters within template arguments
+                newarg = self.substitute_template_arguments(arg)
+                newparams.append(newarg)
             else:
                 newparams.append(arg)
         new.ast.declarator.params = newparams

@@ -1607,9 +1607,16 @@ class FunctionNode(AstNode):
         self.have_template_args = False
         if ast.typemap.base == "template":
             self.have_template_args = True
+        elif ast.template_arguments:
+            # Return type has template arguments (e.g., Vec<T>)
+            self.have_template_args = True
         else:
             for args in declarator.params:
                 if args.typemap.base == "template":
+                    self.have_template_args = True
+                    break
+                if args.template_arguments:
+                    # Argument has template arguments (e.g., Vec<T>)
                     self.have_template_args = True
                     break
 
