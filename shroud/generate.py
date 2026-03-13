@@ -877,18 +877,29 @@ class GenFunctions(object):
                     self.function_index[index]._cxx_overload = value
 
         # Create additional functions needed for wrapping
-        ordered_functions = []
+        
+        # first expand functions that have template parameters
+        tpt_expanded_functions = []
         for method in functions:
+            # has_templated_signature is True if result/argument is templated.
+            if method.has_templated_signature:
+                
+                # template_arguments parameters are specific to the method
+                if method.template_arguments:
+                    method._overloaded = True
+                
+                self.template_function(method, tpt_expanded_functions)
+        
+        # second create functions for methods with args that may or may not be 
+        # present because they have a default val
+        ordered_functions = []
+        for method in tpt_expanded_functions:
             if method._has_default_arg:
-                self.has_default_args(method, ordered_functions)
-            ordered_functions.append(method)
-            if method.template_arguments:
-                method._overloaded = True
-                self.template_function(method, ordered_functions)
-            elif method.have_template_args:
-                # have_template_args is True if result/argument is templated.
-                #                method._overloaded = True
-                self.template_function2(method, ordered_functions)
+                expanded_fn_nodes = self.expand_default_args(method)
+                ordered_functions.extend(expanded_fn_nodes)
+            else:
+                ordered_functions.append(method)
+                
 
         # Look for overloaded functions
         overloaded_functions = {}
@@ -899,10 +910,13 @@ class GenFunctions(object):
                 continue
             if function.template_arguments:
                 continue
-            if function.have_template_args:
-                # Stuff like push_back which is in a templated class, is not an overload.
-                # C_name_scope is used to distigunish the functions, not function_suffix.
-                continue
+            if function.has_templated_signature:
+                # Stuff like push_back( T elem) which is in a class templated with T , is not an overload.
+                # C_name_scope is used to distinguish the functions, not function_suffix.
+                # However, default-arg variants must still go through overload detection.
+                if function._generated != "has_default_arg" and not hasattr(function, '_default_funcs'):
+                    continue
+            
             if function.ast.declarator.is_ctor:
                 if not function.wrap.fortran:
                     continue
@@ -932,65 +946,95 @@ class GenFunctions(object):
         return ordered3
 
     def template_function(self, node, ordered_functions):
-        """ Create overloaded functions for each templated argument.
+        """Create overloaded functions for each templated argument.
 
-        - decl: template<typename ArgType> void Function7(ArgType arg)
-          cxx_template:
-          - instantiation: <int>
-          - instantiation: <double>
-            format:
-              template_suffix: dbl
+        Handles three cases:
+        1. Function is itself templated (has template_arguments from cxx_template):
+           Creates one clone per instantiation, sets template_suffix and CXX_template,
+           and pushes/pops its own instantiate_scope.
 
-        node.template_arguments = [ TemplateArgument('<int>'), TemplateArgument('<double>')]
-                 TemplateArgument.asts[i].typemap
+           - decl: template<typename ArgType> void Function7(ArgType arg)
+             cxx_template:
+             - instantiation: <int>
+             - instantiation: <double>
 
-        Clone entire function then look for template arguments.
+        2. Function is not templated but lives in a templated class and has
+           arguments/return types using the class template parameters
+           (has_templated_signature is True). Creates a single clone and substitutes
+           class template parameters from the already-active instantiate_scope.
+           function_suffix is not modified; C_name_scope distinguishes functions.
+
+           - decl: template<typename T> class vector
+             declarations:
+             - decl: void push_back(const T& value+intent(in));
+
+        3. Both: function is itself templated AND lives in a templated class.
+           The class template parameters are already in self.instantiate_scope
+           (set up by template_class). push_instantiate_scope creates a child
+           scope for the function's own parameters, so both are accessible
+           through scope chaining when substituting arguments.
+
+           - decl: template<typename T> class Vec
+             declarations:
+             - decl: template<typename U> void convert(const Vec<U>& other)
+               cxx_template:
+               - instantiation: <int>
+               - instantiation: <double>
+
+        In all cases, template parameters in return types and arguments are
+        substituted with concrete types.
 
         Args:
-            node -
-            ordered_functions -
+            node - ast.FunctionNode
+            ordered_functions - list to append generated functions to
         """
-        oldoptions = node.options
+        has_function_template = bool(node.template_arguments)
         headers_typedef = {}
 
-        # targs - ast.TemplateArgument
-        for iargs, targs in enumerate(node.template_arguments):
+        if has_function_template:
+            iterations = list(enumerate(node.template_arguments))
+        else:
+            # Single pass for class-only template args, no function-level targs.
+            iterations = [(0, None)]
+
+        for iargs, targs in iterations:
             new = node.clone()
             ordered_functions.append(new)
             self.append_function_index(new)
 
             new._generated = "cxx_template"
             new._generated_path.append("cxx_template")
-
-            fmt = new.fmtdict
-            if targs.fmtdict:
-                fmt.update(targs.fmtdict)
-                new.user_fmt = targs.fmtdict
-
-            # Use explicit template_suffix if provide.
-            # If single template argument, use type's explicit_suffix
-            # or the unqualified flat_name.
-            # Multiple template arguments, use sequence number.
-            if fmt.template_suffix:
-                pass
-            elif len(targs.asts) == 1:
-                ntypemap = targs.asts[0].typemap
-                if ntypemap.template_suffix:
-                    fmt.template_suffix = ntypemap.template_suffix
-                else:
-                    fmt.template_suffix = f"_{ntypemap.flat_name}"
-            else:
-                fmt.template_suffix = f"_{iargs!s}"
-
             new.cxx_template = {}
-            fmt.CXX_template = targs.instantiation  # ex. <int>
 
-            # Gather headers required by template arguments.
-            for targ in targs.asts:
-                ntypemap = targ.typemap
-                headers_typedef[ntypemap.name] = ntypemap
+            if targs is not None:
+                fmt = new.fmtdict
+                if targs.fmtdict:
+                    fmt.update(targs.fmtdict)
+                    new.user_fmt = targs.fmtdict
 
-            self.push_instantiate_scope(new, targs)
+                # Use explicit template_suffix if provided.
+                # If single template argument, use type's template_suffix
+                # or the unqualified flat_name.
+                # Multiple template arguments, use sequence number.
+                if fmt.template_suffix:
+                    pass
+                elif len(targs.asts) == 1:
+                    ntypemap = targs.asts[0].typemap
+                    if ntypemap.template_suffix:
+                        fmt.template_suffix = ntypemap.template_suffix
+                    else:
+                        fmt.template_suffix = f"_{ntypemap.flat_name}"
+                else:
+                    fmt.template_suffix = f"_{iargs!s}"
+
+                fmt.CXX_template = targs.instantiation  # ex. <int>
+
+                # Gather headers required by template arguments.
+                for targ in targs.asts:
+                    ntypemap = targ.typemap
+                    headers_typedef[ntypemap.name] = ntypemap
+
+                self.push_instantiate_scope(new, targs)
 
             # Handle return type template substitution
             if new.ast.template_argument:
@@ -1013,82 +1057,17 @@ class GenFunctions(object):
                     newparams.append(arg.instantiate(iast))
                 elif arg.template_arguments:
                     # Complex case: Vec<T> arg (type has template arguments)
-                    # Need to substitute template parameters within template arguments
                     newarg = self.substitute_template_arguments(arg)
                     newparams.append(newarg)
                 else:
                     newparams.append(arg)
             new.ast.declarator.params = newparams
-            self.pop_instantiate_scope()
 
-        new.gen_headers_typedef = headers_typedef
-        # Do not process templated node, instead process
-        # generated functions above.
-        node.wrap.clear()
+            if targs is not None:
+                self.pop_instantiate_scope()
 
-    def template_function2(self, node, ordered_functions):
-        """ Create overloaded functions for each templated argument.
-
-        - decl: template<typename T> class vector
-          cxx_template:
-          - instantiation: <int>
-          - instantiation: <double>
-          declarations:
-          - decl: void push_back( const T& value+intent(in) );
-
-        node.template_arguments = [ TemplateArgument('<int>'), TemplateArgument('<double>')]
-                 TemplateArgument.asts[i].typemap
-
-        Clone entire function then look for template arguments.
-        Use when the function itself is not templated, but it has a templated argument
-        from a class.
-        function_suffix is not modified for functions in a templated class.
-        Instead C_name_scope is used to distinguish the functions.
-
-        Args:
-            node -
-            ordered_functions -
-        """
-        new = node.clone()
-        ordered_functions.append(new)
-        self.append_function_index(new)
-
-        new._generated = "cxx_template"
-        new._generated_path.append("cxx_template")
-
-        new.cxx_template = {}
-        #        fmt.CXX_template = targs.instantiation   # ex. <int>
-
-        #        self.push_instantiate_scope(new, targs)
-
-        # Handle return type template substitution
-        if new.ast.template_argument:
-            # Simple case: T func() (return type is a template parameter)
-            iast = getattr(self.instantiate_scope, new.ast.template_argument)
-            new.ast = new.ast.instantiate(node.ast.instantiate(iast))
-            # Generics cannot differentiate on return type
-            new.options.F_create_generic = False
-        elif new.ast.template_arguments:
-            # Complex case: Vec<T> func() (return type has template arguments)
-            new.ast = self.substitute_template_arguments(new.ast)
-
-        # Replace templated arguments.
-        newparams = []
-        for arg in new.ast.declarator.params:
-            if arg.template_argument:
-                # Simple case: T arg (entire argument is a template parameter)
-                iast = getattr(self.instantiate_scope, arg.template_argument)
-                newparams.append(arg.instantiate(iast))
-            elif arg.template_arguments:
-                # Complex case: Vec<T> arg (type has template arguments)
-                # Need to substitute template parameters within template arguments
-                newarg = self.substitute_template_arguments(arg)
-                newparams.append(newarg)
-            else:
-                newparams.append(arg)
-        new.ast.declarator.params = newparams
-        #        self.pop_instantiate_scope()
-
+        if has_function_template:
+            new.gen_headers_typedef = headers_typedef
         # Do not process templated node, instead process
         # generated functions above.
         node.wrap.clear()
@@ -1237,7 +1216,7 @@ class GenFunctions(object):
         else:
             node.wrap.fortran = False
 
-    def has_default_args(self, node, ordered_functions):
+    def expand_default_args(self, node):
         """
         For each function which has a default argument, generate
         a version for each possible call.
@@ -1258,10 +1237,13 @@ class GenFunctions(object):
         """
         # Need to create individual routines for Fortran and C
         if node.wrap.fortran == False and node.wrap.c == False:
-            return
+            return [node]
         if node.options.F_default_args != "generic":
-            return
+            return [node]
+        
         default_funcs = []
+        
+        expanded_fn_nodes = []
 
         default_arg_suffix = node.default_arg_suffix
         ndefault = 0
@@ -1276,6 +1258,7 @@ class GenFunctions(object):
             new._generated = "has_default_arg"
             new._generated_path.append("has_default_arg")
             del new.ast.declarator.params[i:]  # remove trailing arguments
+            new._compute_has_templated_signature()
             new._has_default_arg = False
             if node.fortran_generic:
                 new.fortran_generic = ast.trim_fortran_generic_decls(node.fortran_generic, i)
@@ -1289,7 +1272,7 @@ class GenFunctions(object):
                 # XXX  fmt.function_suffix + '_nargs%d' % (i + 1)
                 pass
             default_funcs.append(new._function_index)
-            ordered_functions.append(new)
+            expanded_fn_nodes.append(new)
             ndefault += 1
 
         # keep track of generated default value functions
@@ -1300,6 +1283,11 @@ class GenFunctions(object):
             node.fmtdict.function_suffix = default_arg_suffix[ndefault]
         except IndexError:
             pass
+        
+        # append the orginal function node last since it has all the possible parms
+        expanded_fn_nodes.append(node)
+    
+        return expanded_fn_nodes
 
     def XXXcheck_class_dependencies(self, node):
         """

@@ -61,7 +61,7 @@ Note that due to dictionaries not being ordered in Python 2.7, the
 
 # Documentation
 
-Sphinx is used the create the documentation.
+Sphinx is used to create the documentation.
 The files are in `docs` directory.
 
     make docs

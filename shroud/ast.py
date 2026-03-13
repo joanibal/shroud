@@ -1604,21 +1604,7 @@ class FunctionNode(AstNode):
                     "return_this must return a pointer to the class")
 
         # Look for any template (include class template) arguments.
-        self.have_template_args = False
-        if ast.typemap.base == "template":
-            self.have_template_args = True
-        elif ast.template_arguments:
-            # Return type has template arguments (e.g., Vec<T>)
-            self.have_template_args = True
-        else:
-            for args in declarator.params:
-                if args.typemap.base == "template":
-                    self.have_template_args = True
-                    break
-                if args.template_arguments:
-                    # Argument has template arguments (e.g., Vec<T>)
-                    self.have_template_args = True
-                    break
+        self._compute_has_templated_signature()
 
         # Compute full param list for each generic specification
         # by copying original params then substituting decls from fortran_generic.
@@ -1735,6 +1721,26 @@ class FunctionNode(AstNode):
 
         if fmtdict:
             self.fmtdict.update(fmtdict, replace=True)
+
+    def _compute_has_templated_signature(self):
+        """Recompute has_templated_signature from current ast params."""
+        ast = self.ast
+        declarator = ast.declarator
+        self.has_templated_signature = False
+        if ast.typemap.base == "template":
+            self.has_templated_signature = True
+        elif ast.template_arguments:
+            # Return type has template arguments (e.g., Vec<T>)
+            self.has_templated_signature = True
+        else:
+            for args in declarator.params:
+                if args.typemap.base == "template":
+                    self.has_templated_signature = True
+                    break
+                if args.template_arguments:
+                    # Argument has template arguments (e.g., Vec<T>)
+                    self.has_templated_signature = True
+                    break
 
     def clone(self):
         """Create a copy of a FunctionNode to use with C++ template

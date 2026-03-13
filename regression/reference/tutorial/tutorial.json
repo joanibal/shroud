@@ -2664,7 +2664,7 @@
                 },
                 "decl": "template<typename ArgType>\nvoid TemplateArgument(ArgType arg)\n",
                 "declgen": "void TemplateArgument(ArgType arg)",
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "TemplateArgument",
                 "options": {},
                 "template_arguments": [
@@ -2751,7 +2751,7 @@
                 },
                 "decl": "template<typename ArgType>\nvoid TemplateArgument(ArgType arg)\n",
                 "declgen": "void TemplateArgument(int arg)",
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "TemplateArgument",
                 "options": {},
                 "template_arguments": [
@@ -3070,7 +3070,7 @@
                     "int",
                     "double"
                 ],
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "TemplateArgument",
                 "options": {},
                 "template_arguments": [
@@ -3363,7 +3363,7 @@
                 },
                 "decl": "template<typename RetType> RetType TemplateReturn()",
                 "declgen": "RetType TemplateReturn(void)",
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "TemplateReturn",
                 "options": {
                     "wrap_lua": false,
@@ -3435,7 +3435,7 @@
                 },
                 "decl": "template<typename RetType> RetType TemplateReturn()",
                 "declgen": "int TemplateReturn(void)",
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "TemplateReturn",
                 "options": {
                     "F_create_generic": false,
@@ -3597,7 +3597,7 @@
                     "int",
                     "double"
                 ],
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "TemplateReturn",
                 "options": {
                     "F_create_generic": false,

@@ -466,7 +466,7 @@ class ToDict(visitor.Visitor):
                 "doxygen",
                 "linenumber",
                 "return_this",
-                "have_template_args",
+                "has_templated_signature",
                 "template_parameters",
                 "C_error_pattern",
                 "PY_error_pattern",

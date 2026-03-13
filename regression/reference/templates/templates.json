@@ -216,7 +216,7 @@
                         },
                         "decl": "template<U> void nested( T arg1, U arg2 );",
                         "declgen": "void nested(T arg1, U arg2)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "nested",
                         "options": {},
                         "template_arguments": [
@@ -313,7 +313,7 @@
                         "gen_headers_typedef": [
                             "double"
                         ],
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "nested",
                         "options": {},
                         "template_arguments": [
@@ -1202,7 +1202,7 @@
                         },
                         "decl": "void set_value(T v)",
                         "declgen": "void set_value(T v)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "set_value",
                         "options": {},
                         "wrap": {},
@@ -1261,7 +1261,7 @@
                         },
                         "decl": "void set_value(T v)",
                         "declgen": "void set_value(int v)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "set_value",
                         "options": {},
                         "wrap": {
@@ -1437,7 +1437,7 @@
                         },
                         "decl": "T get_value()",
                         "declgen": "T get_value(void)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "get_value",
                         "options": {},
                         "wrap": {},
@@ -1478,7 +1478,7 @@
                         },
                         "decl": "T get_value()",
                         "declgen": "int get_value(void)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "get_value",
                         "options": {
                             "F_create_generic": false
@@ -2148,7 +2148,7 @@
                         },
                         "decl": "void set_value(T v)",
                         "declgen": "void set_value(T v)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "set_value",
                         "options": {},
                         "wrap": {},
@@ -2207,7 +2207,7 @@
                         },
                         "decl": "void set_value(T v)",
                         "declgen": "void set_value(double v)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "set_value",
                         "options": {},
                         "wrap": {
@@ -2383,7 +2383,7 @@
                         },
                         "decl": "T get_value()",
                         "declgen": "T get_value(void)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "get_value",
                         "options": {},
                         "wrap": {},
@@ -2424,7 +2424,7 @@
                         },
                         "decl": "T get_value()",
                         "declgen": "double get_value(void)",
-                        "have_template_args": true,
+                        "has_templated_signature": true,
                         "name": "get_value",
                         "options": {
                             "F_create_generic": false
@@ -2832,7 +2832,7 @@
                 "doxygen": {
                     "brief": "Function template with two template parameters."
                 },
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "FunctionTU",
                 "options": {},
                 "template_arguments": [
@@ -2953,7 +2953,7 @@
                 "doxygen": {
                     "brief": "Function template with two template parameters."
                 },
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "FunctionTU",
                 "options": {},
                 "template_arguments": [
@@ -3363,7 +3363,7 @@
                     "float",
                     "double"
                 ],
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "FunctionTU",
                 "options": {},
                 "template_arguments": [
@@ -4608,7 +4608,7 @@
                                 },
                                 "decl": "void push_back( const T& value+intent(in) )",
                                 "declgen": "void push_back(const T &value +intent(in))",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "push_back",
                                 "options": {},
                                 "wrap": {},
@@ -4675,7 +4675,7 @@
                                 },
                                 "decl": "void push_back( const T& value+intent(in) )",
                                 "declgen": "void push_back(const int &value +intent(in))",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "push_back",
                                 "options": {},
                                 "wrap": {
@@ -4917,7 +4917,7 @@
                                 },
                                 "decl": "T & at(size_type n)",
                                 "declgen": "T &at(size_type n)",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "at",
                                 "options": {},
                                 "wrap": {},
@@ -4981,7 +4981,7 @@
                                 },
                                 "decl": "T & at(size_type n)",
                                 "declgen": "int &at(size_type n)",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "at",
                                 "options": {
                                     "F_create_generic": false
@@ -5707,7 +5707,7 @@
                                 },
                                 "decl": "void push_back( const T& value+intent(in) )",
                                 "declgen": "void push_back(const T &value +intent(in))",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "push_back",
                                 "options": {},
                                 "wrap": {},
@@ -5774,7 +5774,7 @@
                                 },
                                 "decl": "void push_back( const T& value+intent(in) )",
                                 "declgen": "void push_back(const double &value +intent(in))",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "push_back",
                                 "options": {},
                                 "wrap": {
@@ -6016,7 +6016,7 @@
                                 },
                                 "decl": "T & at(size_type n)",
                                 "declgen": "T &at(size_type n)",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "at",
                                 "options": {},
                                 "wrap": {},
@@ -6080,7 +6080,7 @@
                                 },
                                 "decl": "T & at(size_type n)",
                                 "declgen": "double &at(size_type n)",
-                                "have_template_args": true,
+                                "has_templated_signature": true,
                                 "name": "at",
                                 "options": {
                                     "F_create_generic": false

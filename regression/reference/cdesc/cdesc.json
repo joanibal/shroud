@@ -1068,7 +1068,7 @@
                 "doxygen": {
                     "description": "Wrapper for function which is templated on the return value.\n"
                 },
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "getData",
                 "options": {},
                 "template_arguments": [
@@ -1140,7 +1140,7 @@
                 "doxygen": {
                     "description": "Wrapper for function which is templated on the return value.\n"
                 },
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "getData",
                 "options": {
                     "F_create_generic": false
@@ -1303,7 +1303,7 @@
                     "int",
                     "double"
                 ],
-                "have_template_args": true,
+                "has_templated_signature": true,
                 "name": "getData",
                 "options": {
                     "F_create_generic": false

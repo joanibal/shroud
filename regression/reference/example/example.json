@@ -4914,7 +4914,7 @@
                                         },
                                         "decl": "template<typename ValueType> void setValue(ValueType value)",
                                         "declgen": "void setValue(ValueType value)",
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "setValue",
                                         "options": {},
                                         "template_arguments": [
@@ -5023,7 +5023,7 @@
                                         },
                                         "decl": "template<typename ValueType> void setValue(ValueType value)",
                                         "declgen": "void setValue(int value)",
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "setValue",
                                         "options": {},
                                         "template_arguments": [
@@ -5366,7 +5366,7 @@
                                         },
                                         "decl": "template<typename ValueType> void setValue(ValueType value)",
                                         "declgen": "void setValue(long value)",
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "setValue",
                                         "options": {},
                                         "template_arguments": [
@@ -5697,7 +5697,7 @@
                                         },
                                         "decl": "template<typename ValueType> void setValue(ValueType value)",
                                         "declgen": "void setValue(float value)",
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "setValue",
                                         "options": {},
                                         "template_arguments": [
@@ -6034,7 +6034,7 @@
                                             "float",
                                             "double"
                                         ],
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "setValue",
                                         "options": {},
                                         "template_arguments": [
@@ -6354,7 +6354,7 @@
                                         },
                                         "decl": "template<typename ValueType> ValueType getValue()",
                                         "declgen": "ValueType getValue(void)",
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "getValue",
                                         "options": {},
                                         "template_arguments": [
@@ -6423,7 +6423,7 @@
                                         },
                                         "decl": "template<typename ValueType> ValueType getValue()",
                                         "declgen": "int getValue(void)",
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "getValue",
                                         "options": {
                                             "F_create_generic": false
@@ -6655,7 +6655,7 @@
                                             "int",
                                             "double"
                                         ],
-                                        "have_template_args": true,
+                                        "has_templated_signature": true,
                                         "name": "getValue",
                                         "options": {
                                             "F_create_generic": false
