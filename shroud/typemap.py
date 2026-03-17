@@ -915,6 +915,25 @@ def default_typemap():
             base="vector",
             sgroup="vector",
         ),
+        span=Typemap(
+            "std::span",
+            ntemplate_args=1,
+            cxx_type="std::span<{cxx_T}>",
+            cxx_header="<span>",
+            # cxx_to_c='{cxx_var}.data()',
+            # c_to_cxx="std::span<{cxx_T}>({c_var}, {c_var} + size )",
+            # #- cxx_to_c='{cxx_var}{cxx_member}empty() ? NULL : &{cxx_var}[0]', # C++03)
+            # custom code for templates
+            #            PY_format='s',
+            #            PY_ctor='PyString_FromString({c_var})',
+            #            LUA_type='LUA_TSTRING',
+            #            LUA_pop='lua_tostring({LUA_state_var}, {LUA_index})',
+            #            LUA_push='lua_pushstring({LUA_state_var}, {push_arg})',
+            impl_header=["<span>"],
+            implied_array=True,
+            base="span",
+            sgroup="span",
+        ),
         shared_ptr=Typemap(
             "std::shared_ptr",
             ntemplate_args=1,
@@ -962,6 +981,8 @@ def default_typemap():
     del def_types["shared_ptr"]
     def_types["std::weak_ptr"] = def_types["weak_ptr"]
     del def_types["weak_ptr"]
+    def_types["std::span"] = def_types["span"]
+    del def_types["span"]
 
     # One typemap for all template parameters.
     type_name = "--template-parameter--"

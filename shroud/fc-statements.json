@@ -3581,6 +3581,26 @@
     },
     {
         "alias": [
+            "f_in_span<native>_buf",
+            "f_in_span<native>*_buf",
+            "f_in_span<native>&_buf",
+            "c_in_span<native>_buf",
+            "c_in_span<native>*_buf",
+            "c_in_span<native>&_buf"
+        ],
+        "mixin": [
+            "f_mixin_in_vector_buf",
+            "c_mixin_arg-call-cxx"
+        ],
+        "c_pre_call": [
+            "{c_const}std::span<{cxx_T}> {c_local_cxx}({c_var}, {c_var_size});"
+        ],
+        "c_local": [
+            "cxx"
+        ]
+    },
+    {
+        "alias": [
             "c_out_vector<native>_buf_copy",
             "c_out_vector<native>*_buf_copy",
             "c_out_vector<native>&_buf_copy"
