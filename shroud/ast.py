@@ -1724,25 +1724,37 @@ class FunctionNode(AstNode):
 
     def _compute_has_templated_signature(self):
         """Recompute has_templated_signature from current ast params."""
+        
+        def _has_templated_template_arguments(decl):
+            """Check if a Declaration's template_arguments reference any
+            template parameters (as opposed to concrete types like span<int>).
+            """
+            for targ in decl.template_arguments:
+                if targ.typemap.base == "template":
+                    return True
+                if targ.template_argument:
+                    return True
+            return False
+        
         ast = self.ast
         declarator = ast.declarator
         self.has_templated_signature = False
         if ast.typemap.base == "template":
             self.has_templated_signature = True
-        elif ast.template_arguments:
-            # Return type has template arguments (e.g., Vec<T>)
+        elif _has_templated_template_arguments(ast):
+            # Return type has template arguments referencing a template
+            # parameter (e.g., Vec<T>), not concrete types (e.g., span<int>).
             self.has_templated_signature = True
         else:
             for args in declarator.params:
                 if args.typemap.base == "template":
                     self.has_templated_signature = True
                     break
-                # if args.template_arguments:
-                #     # Argument has template arguments (e.g., Vec<T>)
-                #     self.has_templated_signature = True
-                #     break
-                
-        print(self.name, self.has_templated_signature)
+                if _has_templated_template_arguments(args):
+                    # Argument has template arguments referencing a template
+                    # parameter (e.g., Vec<T>), not concrete (e.g., span<int>).
+                    self.has_templated_signature = True
+                    break
 
     def clone(self):
         """Create a copy of a FunctionNode to use with C++ template

@@ -771,11 +771,16 @@ class Parser(ExprParser):
         TODO: This should support expressions
         """
         self.enter("initializer")
+        negate = self.have("MINUS")
         value = self.token.value
         if self.have("REAL"):
             value = float(value)
+            if negate:
+                value = -value
         elif self.have("INTEGER"):
             value = int(value)
+            if negate:
+                value = -value
         elif self.have("DQUOTE"):
             value = value
         elif self.have("SQUOTE"):
