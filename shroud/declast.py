@@ -2105,6 +2105,7 @@ class SymbolTable(object):
         # create_typedef_typemap  - GGG must be in typemap
         self.add_typedef_by_name("string")
         self.add_typedef_by_name("vector")
+        self.add_typedef_by_name("span")
         self.add_typedef_by_name("shared_ptr")
         self.add_typedef_by_name("weak_ptr")
         self.restore_depth(depth)
