@@ -1737,10 +1737,12 @@ class FunctionNode(AstNode):
                 if args.typemap.base == "template":
                     self.has_templated_signature = True
                     break
-                if args.template_arguments:
-                    # Argument has template arguments (e.g., Vec<T>)
-                    self.has_templated_signature = True
-                    break
+                # if args.template_arguments:
+                #     # Argument has template arguments (e.g., Vec<T>)
+                #     self.has_templated_signature = True
+                #     break
+                
+        print(self.name, self.has_templated_signature)
 
     def clone(self):
         """Create a copy of a FunctionNode to use with C++ template

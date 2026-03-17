@@ -877,7 +877,6 @@ class GenFunctions(object):
                     self.function_index[index]._cxx_overload = value
 
         # Create additional functions needed for wrapping
-        
         # first expand functions that have template parameters
         tpt_expanded_functions = []
         for method in functions:
@@ -889,6 +888,8 @@ class GenFunctions(object):
                     method._overloaded = True
                 
                 self.template_function(method, tpt_expanded_functions)
+            else:
+                tpt_expanded_functions.append(method)
         
         # second create functions for methods with args that may or may not be 
         # present because they have a default val
@@ -899,8 +900,7 @@ class GenFunctions(object):
                 ordered_functions.extend(expanded_fn_nodes)
             else:
                 ordered_functions.append(method)
-                
-
+        
         # Look for overloaded functions
         overloaded_functions = {}
         for function in ordered_functions:
