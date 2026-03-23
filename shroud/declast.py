@@ -787,6 +787,19 @@ class Parser(ExprParser):
             value = value
         elif self.have("ID"):
             pass
+        elif self.token.typ == "LCURLY":
+            # Consume balanced braces, e.g. {} or {1, 2}
+            parts = [self.token.value]
+            self.next()
+            depth = 1
+            while depth > 0 and self.token.typ != "EOF":
+                if self.token.typ == "LCURLY":
+                    depth += 1
+                elif self.token.typ == "RCURLY":
+                    depth -= 1
+                parts.append(self.token.value)
+                self.next()
+            value = "".join(parts)
         else:
             value = None
         self.exit("initializer")
@@ -1598,6 +1611,31 @@ class Declaration(Node):
         # template_arguments is a list of Declarations
         return ",".join([targ.get_first_abstract_declarator()
                          for targ in self.template_arguments])
+
+    def gen_template_argument_cxx(self):
+        """Generate template arguments using typemap cxx_type for
+        namespace-qualified names.
+        ex  "krylava::intTypeLocal, double *"
+        """
+        parts = []
+        for targ in self.template_arguments:
+            out = []
+            if targ.const:
+                out.append("const ")
+            if targ.typemap is not None:
+                out.append(targ.typemap.cxx_type)
+            elif targ.specifier:
+                out.append(" ".join(targ.specifier))
+            else:
+                out.append("int")
+            if targ.template_arguments:
+                out.append(targ.gen_template_arguments())
+            declarator = targ.declarator.get_abstract_declarator()
+            if declarator:
+                out.append(" ")
+                out.append(declarator)
+            parts.append("".join(out))
+        return ",".join(parts)
         
     def gen_template_arguments(self):
         """Return string for template_arguments."""

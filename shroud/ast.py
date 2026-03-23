@@ -1734,8 +1734,10 @@ class FunctionNode(AstNode):
                     return True
                 if targ.template_argument:
                     return True
+                if targ.template_arguments:
+                    return True
             return False
-        
+
         ast = self.ast
         declarator = ast.declarator
         self.has_templated_signature = False

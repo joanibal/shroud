@@ -1067,7 +1067,7 @@ def set_template_fields(ast, fmt):
     """Set the format fields for template arguments.
     Accessed as "{targs[0].cxx_type}"
     """
-    fmt.cxx_T = ast.gen_template_argument()
+    fmt.cxx_T = ast.gen_template_argument_cxx()
     fmt.targs = [TemplateFormat(targ) for targ in ast.template_arguments]
 
 

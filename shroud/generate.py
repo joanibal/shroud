@@ -302,17 +302,28 @@ class GenFunctions(object):
         import copy
         from . import declast
 
-        # Build the instantiation string like "<int>" or "<double>"
+        # Build instantiation string and collect substituted template arguments.
         inst_parts = ["<"]
+        new_template_args = []
         for targ in arg.template_arguments:
             if targ.template_argument:
-                # This template argument is a template parameter (like T)
-                # Substitute it with the actual type from instantiate_scope
+                # This template argument is a template parameter (like T).
+                # Substitute it with the actual type from instantiate_scope.
                 iast = getattr(self.instantiate_scope, targ.template_argument)
                 inst_parts.append(iast.typemap.cxx_type)
+                new_targ = targ.instantiate(iast)
+                new_targ.template_argument = None
+                new_template_args.append(new_targ)
+            elif targ.template_arguments:
+                # Nested template type (e.g., std::vector<myType<T>>).
+                # Recursively substitute its template arguments.
+                resolved_targ = self.substitute_template_arguments(targ)
+                inst_parts.append(resolved_targ.typemap.cxx_type)
+                new_template_args.append(resolved_targ)
             else:
-                # Concrete type, use its type directly
+                # Concrete type, use its type directly.
                 inst_parts.append(targ.typemap.cxx_type)
+                new_template_args.append(targ)
             inst_parts.append(",")
         if inst_parts[-1] == ",":
             inst_parts[-1] = ">"
@@ -323,7 +334,7 @@ class GenFunctions(object):
         # Look up the instantiated typemap from the base template class
         base_typemap = arg.typemap
         if base_typemap.cxx_instantiation and instantiation in base_typemap.cxx_instantiation:
-            # Found the instantiated class typemap
+            # User-defined template class: use the registered instantiated typemap.
             inst_typemap = base_typemap.cxx_instantiation[instantiation]
 
             # Create a new Declaration with the instantiated typemap
@@ -343,9 +354,15 @@ class GenFunctions(object):
             newarg.template_arguments = []
 
             return newarg
+        elif base_typemap.ntemplate_args > 0:
+            # Standard library template type (e.g. std::span, std::vector).
+            # No registered instantiations; substitute template parameter values
+            # in-place while keeping the base typemap unchanged.
+            newarg = copy.copy(arg)
+            newarg.template_arguments = new_template_args
+            return newarg
         else:
-            # Fallback: couldn't find instantiation, return arg unchanged
-            # This might happen if typemap wasn't properly set up
+            # Fallback: couldn't find instantiation, return arg unchanged.
             error.get_cursor().warning(
                 f"Could not find instantiated typemap for {arg.typemap.name}{instantiation}")
             return arg
@@ -881,6 +898,7 @@ class GenFunctions(object):
         tpt_expanded_functions = []
         for method in functions:
             # has_templated_signature is True if result/argument is templated.
+            print(method.name, 'has_templated_signature', method.has_templated_signature)
             if method.has_templated_signature:
                 
                 # template_arguments parameters are specific to the method
@@ -890,6 +908,9 @@ class GenFunctions(object):
                 self.template_function(method, tpt_expanded_functions)
             else:
                 tpt_expanded_functions.append(method)
+                
+        for f in tpt_expanded_functions:
+            print(f.name, f.ast.declarator.params)
         
         # second create functions for methods with args that may or may not be 
         # present because they have a default val
@@ -988,6 +1009,7 @@ class GenFunctions(object):
             node - ast.FunctionNode
             ordered_functions - list to append generated functions to
         """
+        print('-----------------', node.name, '---------------------')
         has_function_template = bool(node.template_arguments)
         headers_typedef = {}
 
