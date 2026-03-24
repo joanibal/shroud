@@ -3657,6 +3657,60 @@
     },
     {
         "alias": [
+            "f_in_span<shadow*>_buf",
+            "f_in_span<shadow*>*_buf",
+            "f_in_span<shadow*>&_buf",
+            "c_in_span<shadow*>_buf",
+            "c_in_span<shadow*>*_buf",
+            "c_in_span<shadow*>&_buf"
+        ],
+        "c_arg_call": ["{c_local_span}"],
+        "f_dummy_arg": ["{f_var}"],
+        "f_dummy_decl": [
+            "type({targs[0].f_derived_type}), intent(IN) :: {f_var}(:)"
+        ],
+        "f_module": {
+            "{targs[0].f_module_name}": [
+                "{targs[0].f_derived_type}",
+                "{targs[0].f_capsule_data_type}"
+            ],
+            "iso_c_binding": ["C_SIZE_T"]
+        },
+        "f_need_wrapper": true,
+        "f_arg_call": [
+            "{f_var}(1)%{F_derived_member}",
+            "size({f_var}, kind=C_SIZE_T)"
+        ],
+        "i_dummy_arg": ["{i_var}", "{i_var_size}"],
+        "i_dummy_decl": [
+            "type({targs[0].f_capsule_data_type}), intent(IN) :: {i_var}",
+            "integer(C_SIZE_T), intent(IN), value :: {i_var_size}"
+        ],
+        "i_module": {
+            "{targs[0].f_module_name}": ["{targs[0].f_capsule_data_type}"],
+            "iso_c_binding": ["C_SIZE_T"]
+        },
+        "c_prototype": [
+            "{targs[0].c_type} *{c_var}",
+            "size_t {c_var_size}"
+        ],
+        "c_temps": ["size"],
+        "lang_cxx": {
+            "impl_header": [
+                "<vector>"
+            ]
+        },
+        "c_pre_call": [
+            "std::vector<{c_const}{targs[0].cxx_type} *> {c_local_cxx}({c_var_size});",
+            "for (size_t i=0; i < {c_var_size}; ++i) {{+",
+            "{c_local_cxx}[i] =\t static_cast<{c_const}{targs[0].cxx_type} *>\t({c_var}[i].addr);",
+            "-}}",
+            "{c_const}std::span<{cxx_T}> {c_local_span}({c_local_cxx}.data(), {c_var_size});"
+        ],
+        "c_local": ["cxx", "span"]
+    },
+    {
+        "alias": [
             "c_out_vector<native>_buf_copy",
             "c_out_vector<native>*_buf_copy",
             "c_out_vector<native>&_buf_copy"
