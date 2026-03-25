@@ -3664,6 +3664,10 @@
             "c_in_span<shadow*>*_buf",
             "c_in_span<shadow*>&_buf"
         ],
+        "notes": [
+            "Fortran builds an array of C_PTR addresses from the capsule objects",
+            "and passes it to C, which creates a span via reinterpret_cast."
+        ],
         "c_arg_call": ["{c_local_span}"],
         "f_dummy_arg": ["{f_var}"],
         "f_dummy_decl": [
@@ -3671,43 +3675,42 @@
         ],
         "f_module": {
             "{targs[0].f_module_name}": [
-                "{targs[0].f_derived_type}",
-                "{targs[0].f_capsule_data_type}"
+                "{targs[0].f_derived_type}"
             ],
-            "iso_c_binding": ["C_SIZE_T"]
+            "iso_c_binding": ["C_PTR", "C_SIZE_T"]
         },
+        "f_temps": ["addrs", "i"],
+        "f_local_decl": [
+            "type(C_PTR) :: {f_var_addrs}(size({f_var}))",
+            "integer :: {f_var_i}"
+        ],
+        "f_pre_call": [
+            "do {f_var_i} = 1, size({f_var})",
+            "+{f_var_addrs}({f_var_i}) = {f_var}({f_var_i})%{F_derived_member}%addr",
+            "-end do"
+        ],
         "f_need_wrapper": true,
         "f_arg_call": [
-            "{f_var}(1)%{F_derived_member}",
+            "{f_var_addrs}",
             "size({f_var}, kind=C_SIZE_T)"
         ],
         "i_dummy_arg": ["{i_var}", "{i_var_size}"],
         "i_dummy_decl": [
-            "type({targs[0].f_capsule_data_type}), intent(IN) :: {i_var}",
+            "type(C_PTR), intent(IN) :: {i_var}(*)",
             "integer(C_SIZE_T), intent(IN), value :: {i_var_size}"
         ],
         "i_module": {
-            "{targs[0].f_module_name}": ["{targs[0].f_capsule_data_type}"],
-            "iso_c_binding": ["C_SIZE_T"]
+            "iso_c_binding": ["C_PTR", "C_SIZE_T"]
         },
         "c_prototype": [
-            "{targs[0].c_type} *{c_var}",
+            "void **{c_var}",
             "size_t {c_var_size}"
         ],
         "c_temps": ["size"],
-        "lang_cxx": {
-            "impl_header": [
-                "<vector>"
-            ]
-        },
         "c_pre_call": [
-            "std::vector<{c_const}{targs[0].cxx_type} *> {c_local_cxx}({c_var_size});",
-            "for (size_t i=0; i < {c_var_size}; ++i) {{+",
-            "{c_local_cxx}[i] =\t static_cast<{c_const}{targs[0].cxx_type} *>\t({c_var}[i].addr);",
-            "-}}",
-            "{c_const}std::span<{cxx_T}> {c_local_span}({c_local_cxx}.data(), {c_var_size});"
+            "{c_const}std::span<{cxx_T}> {c_local_span}(\treinterpret_cast<{cxx_T} *>\t({c_var}), {c_var_size});"
         ],
-        "c_local": ["cxx", "span"]
+        "c_local": ["span"]
     },
     {
         "alias": [
@@ -4301,6 +4304,56 @@
             "c_mixin_arg-call-cxx",
             "c_mixin_shadow"
         ]
+    },
+    {
+        "alias": [
+            "f_in_shadow**",
+            "f_in_shadow**_pointer_library",
+            "c_in_shadow**",
+            "f_inout_shadow**",
+            "f_inout_shadow**_pointer_library",
+            "c_inout_shadow**"
+        ],
+        "notes": [
+            "Fortran builds an array of C_PTR addresses from the capsule objects",
+            "and passes it to C, which casts void** to the typed pointer.",
+            "this is useful for passing references to a collection of CXX objects"
+        ],
+        "c_arg_call": ["{c_local_cxx}"],
+        "c_prototype": [
+            "void **{c_var}"
+        ],
+        "c_pre_call": [
+            "{cxx_type} **{c_local_cxx} =\treinterpret_cast<{cxx_type} **>\t({c_var});"
+        ],
+        "c_local": ["cxx"],
+        "f_need_wrapper": true,
+        "f_dummy_arg": ["{f_var}"],
+        "f_dummy_decl": [
+            "type({f_derived_type}), intent({f_intent}) :: {f_var}(:)"
+        ],
+        "f_module": {
+            "{f_module_name}": ["{f_derived_type}"],
+            "iso_c_binding": ["C_PTR"]
+        },
+        "f_temps": ["addrs", "i"],
+        "f_local_decl": [
+            "type(C_PTR) :: {f_var_addrs}(size({f_var}))",
+            "integer :: {f_var_i}"
+        ],
+        "f_pre_call": [
+            "do {f_var_i} = 1, size({f_var})",
+            "+{f_var_addrs}({f_var_i}) = {f_var}({f_var_i})%{F_derived_member}%addr",
+            "-end do"
+        ],
+        "f_arg_call": ["{f_var_addrs}"],
+        "i_dummy_arg": ["{i_var}"],
+        "i_dummy_decl": [
+            "type(C_PTR), intent({i_intent}) :: {i_var}(*)"
+        ],
+        "i_module": {
+            "iso_c_binding": ["C_PTR"]
+        }
     },
     {
         "alias": [
