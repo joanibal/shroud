@@ -988,6 +988,7 @@ class FillMetaShare(FillMeta):
                 "len",
                 "len_trim",
                 "name",
+                "onebasedindex",
                 "owner",
                 "pass",
                 "rank",
@@ -1304,7 +1305,11 @@ class FillMetaFortran(FillMeta):
             # Add terminating NULL in Fortran wrapper.
             # Avoid a C wrapper just to do the NULL terminate.
             meta["ftrim_char_in"] = options.F_trim_char_in
-        
+
+        onebasedindex = attrs.get("onebasedindex", missing)
+        if onebasedindex is not missing:
+            meta["onebasedindex"] = True
+
 ######################################################################
 #
 

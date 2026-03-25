@@ -685,6 +685,9 @@ class Parser(ExprParser):
         # (int value = 1+size)
         if self.have("EQUALS"):
             declarator.init = self.initializer()
+            # Also parse attributes after default value
+            # (int idx = 0 +onebasedindex)
+            self.attribute(declarator.attrs)
 
         if declarator.ctor_dtor_name:
             declarator.ctor_dtor_name = declarator.attrs.get("name", declarator.default_name)
@@ -1687,6 +1690,7 @@ class CXXClass(Node):
                 type_name,
                 base="shadow",
                 sgroup="shadow",
+                ntemplate_args=symtab.find_ntemplate_args(),
             )
             symtab.register_typemap(type_name, ntypemap)
             self.newtypemap = ntypemap

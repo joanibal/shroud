@@ -1543,6 +1543,38 @@ rv = .false.
                 self.update_f_module(modules, f_arg.typemap.f_module, fmt_arg)
                 need_wrapper = True
 
+            if arg_meta["onebasedindex"]:
+                # Convert 1-based Fortran indices to 0-based C indices.
+                arg_stmt = util.Scope(arg_stmt)
+                need_wrapper = True
+                is_array = arg_meta["dimension"] is not None or arg_meta["rank"]
+                if is_array:
+                    # Array: create temp array, subtract 1 from all elements.
+                    fmt_arg.fc_var = f"SH_{fmt_arg.f_var}"
+                    # Get the element type for the local decl.
+                    # For containers (span, vector), use template arg type.
+                    # For plain arrays, use the argument's own type.
+                    if f_arg.template_arguments:
+                        elem_typemap = f_arg.template_arguments[0].typemap
+                    else:
+                        elem_typemap = f_arg.typemap
+                    elem_i_type = elem_typemap.i_type or elem_typemap.f_type
+                    fmt_arg.SH_decl_type = elem_i_type
+                    arg_stmt.f_local_decl = [
+                        "{SH_decl_type} :: {fc_var}(size({f_var}))"
+                    ]
+                    arg_stmt.f_pre_call = [
+                        "{fc_var} = {f_var} - 1"
+                    ]
+                    # Preserve any extra arguments (like size) from parent statement.
+                    if arg_stmt.f_arg_call and len(arg_stmt.f_arg_call) > 1:
+                        arg_stmt.f_arg_call = ["{fc_var}"] + list(arg_stmt.f_arg_call[1:])
+                    else:
+                        arg_stmt.f_arg_call = ["{fc_var}"]
+                else:
+                    # Scalar: inline subtraction.
+                    arg_stmt.f_arg_call = ["{f_var} - 1"]
+
             if arg_meta["optional"]:
                 fmt_arg.default_value = f_arg.declarator.init
                 optattr = True
