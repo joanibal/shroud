@@ -1086,7 +1086,7 @@ class FillMetaShare(FillMeta):
                 )
             self.parse_dim_attrs(dimension, meta)
         elif ntypemap:
-            if ntypemap.implied_array:
+            if ntypemap.implied_array and rank is missing:
                 # default to 1-d assumed shape
                 meta["rank"] = 1
 

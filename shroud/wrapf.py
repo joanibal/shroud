@@ -1571,6 +1571,13 @@ rv = .false.
                         arg_stmt.f_arg_call = ["{fc_var}"] + list(arg_stmt.f_arg_call[1:])
                     else:
                         arg_stmt.f_arg_call = ["{fc_var}"]
+                elif arg_meta["optional"]:
+                    # Optional scalar: the optional handling will create
+                    # SH_{f_var} with the default value. Subtract 1 from
+                    # it in pre_call so the correct local is passed to C.
+                    arg_stmt.f_pre_call = [
+                        "{fc_var} = {fc_var} - 1"
+                    ]
                 else:
                     # Scalar: inline subtraction.
                     arg_stmt.f_arg_call = ["{f_var} - 1"]
