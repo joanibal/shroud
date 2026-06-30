@@ -1167,6 +1167,46 @@ class CheckParse(unittest.TestCase):
         self.assertIsInstance(class2, declast.Declaration)
         self.assertIsInstance(class2.class_specifier, declast.CXXClass)
 
+    def test_inheritance_template(self):
+        """A templated base class must use the same template arguments
+        as the derived class."""
+        symtab = declast.SymbolTable()
+
+        declast.check_decl("template<typename T> class BMatrix", symtab)
+        symtab.pop_scope()
+
+        # Base templated on the same parameter as the derived class is allowed.
+        r = declast.check_decl(
+            "template<typename T> class PMatrix : public BMatrix<T>", symtab)
+        self.assertIsInstance(r, declast.Template)
+        cls = r.decl.class_specifier
+        self.assertEqual(
+            [("public", "BMatrix", "BMatrix")],
+            todict.stringify_baseclass(cls.baseclass),
+        )
+
+        # Different template arguments are rejected (here the base uses only
+        # one of the derived class's two parameters).
+        with self.assertRaises(ShroudParseError) as context:
+            declast.check_decl(
+                "template<typename T, typename U> class P2 "
+                ": public BMatrix<U>", symtab)
+        self.assertTrue(
+            "must match the class template parameters" in str(context.exception))
+
+        # A concrete argument is rejected.
+        with self.assertRaises(ShroudParseError) as context:
+            declast.check_decl(
+                "template<typename T> class P3 : public BMatrix<int>", symtab)
+        self.assertTrue(
+            "must match the class template parameters" in str(context.exception))
+
+        # A templated base on a non-templated class is rejected.
+        with self.assertRaises(ShroudParseError) as context:
+            declast.check_decl("class P4 : public BMatrix<int>", symtab)
+        self.assertTrue(
+            "requires the derived class to be templated" in str(context.exception))
+
     def test_decl09d(self):
         """Return pointer to Class instance
         """

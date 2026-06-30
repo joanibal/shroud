@@ -874,6 +874,14 @@ class Parser(ExprParser):
                 ns = self.symtab.current.unqualified_lookup(self.token.value)
                 if ns:
                     ns, ns_name = self.nested_namespace(ns)
+                    # Optional template arguments on the base class.
+                    # Only a base templated on the *same* parameters as the
+                    # derived class is supported, e.g.
+                    #   template<typename T> class P : public B<T>
+                    if self.token.typ == "LT":
+                        base_decl = Declaration(self.symtab)
+                        self.parse_template_arguments(base_decl)
+                        self.check_baseclass_template(ns_name, base_decl)
                     # XXX - make sure ns is a ast.ClassNode (and not a namespace)
                     clsnode.baseclass.append((access_specifier, ns_name, ns))
                 else:
@@ -893,6 +901,44 @@ class Parser(ExprParser):
                     
         self.exit("class_decl")
         return node
+
+    def check_baseclass_template(self, ns_name, base_decl):
+        """Validate the template arguments of a base class.
+
+        Only a base class templated on the *same* parameters as the derived
+        class is supported, e.g.
+            template<typename T> class P : public B<T>
+        Anything else (a base with different or concrete arguments, or a
+        templated base on a non-templated class) raises a parse error so that
+        unsupported forms do not silently produce incorrect wrappers.
+
+        Args:
+            ns_name   - name of the base class.
+            base_decl - Declaration whose template_arguments were parsed from
+                        the base class specifier.
+        """
+        # The derived class is parsed inside template_statement, so the parent
+        # of the freshly-pushed CXXClass scope is the enclosing Template.
+        stack = self.symtab.scope_stack
+        enclosing = stack[-2] if len(stack) >= 2 else None
+        if not isinstance(enclosing, Template):
+            self.error_msg(
+                "templated base class '{}' requires the derived class "
+                "to be templated", ns_name)
+        param_names = [param.name for param in enclosing.parameters]
+        base_arg_names = [arg.template_argument
+                          for arg in base_decl.template_arguments]
+        if base_arg_names != param_names:
+            def argstr(arg):
+                if arg.template_argument is not None:
+                    return arg.template_argument
+                return arg.typemap.name if arg.typemap else "?"
+            self.error_msg(
+                "base class '{}' template arguments <{}> must match the "
+                "class template parameters <{}>",
+                ns_name,
+                ", ".join(argstr(arg) for arg in base_decl.template_arguments),
+                ", ".join(param_names))
 
     def namespace_statement(self):
         """  namespace ID

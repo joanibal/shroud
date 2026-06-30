@@ -15,6 +15,9 @@
 
 // typemap
 #include "wrapdefaultarg.h"
+#ifndef __cplusplus
+#include <stdbool.h>
+#endif
 // shroud
 #include "typesdefaultarg.h"
 
@@ -69,6 +72,8 @@ void DEF_apply_optional_0(IndexType num_elems, IndexType offset,
 void DEF_apply_optional_1(DEF_TypeID type, IndexType num_elems,
     IndexType offset, IndexType stride);
 #endif
+
+void DEF_apply_optional_flag(IndexType num_elems, bool flag);
 
 #ifdef __cplusplus
 }

@@ -610,6 +610,30 @@ class GenFunctions(object):
             add_assign_operator(assign_operators, newcls, newcls)
             self.pop_instantiate_scope()
 
+            # Re-point a templated base class at the matching instantiation.
+            # Only the same-arguments case is supported (enforced by the parser),
+            # so the base shares this class's instantiation, e.g.
+            #   PMatrix<double> : public BMatrix<double>.
+            # cls.baseclass is shared by every clone; build a fresh list.
+            if cls.baseclass:
+                newbases = []
+                for (access, ns_name, base) in cls.baseclass:
+                    cxx_inst = base.typemap.cxx_instantiation
+                    inst_typemap = None
+                    if cxx_inst is not None:
+                        inst_typemap = cxx_inst.get(targs.instantiation)
+                    if inst_typemap is None:
+                        self.cursor.warning(
+                            "Base class {}{} is not instantiated; declare the "
+                            "base template (with this instantiation) before the "
+                            "derived class".format(ns_name, targs.instantiation))
+                        newbases.append((access, ns_name, base))
+                    else:
+                        inst_class = self.class_map.get(
+                            inst_typemap.flat_name, base)
+                        newbases.append((access, ns_name, inst_class))
+                newcls.baseclass = newbases
+
     def share_class(self, cls, smart):
         """Create additional classes for use with smart pointers like std::shared.
 

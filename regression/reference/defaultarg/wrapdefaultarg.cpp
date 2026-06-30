@@ -230,4 +230,20 @@ void DEF_apply_optional_1(DEF_TypeID type, IndexType num_elems,
 }
 #endif  // if INDETYPE_SIZE == 64
 
+// ----------------------------------------
+// Function:  void apply_optional_flag
+// Statement: c_subroutine
+// ----------------------------------------
+// Argument:  IndexType num_elems
+// Statement: c_in_native
+// ----------------------------------------
+// Argument:  bool flag=false
+// Statement: c_in_bool
+void DEF_apply_optional_flag(IndexType num_elems, bool flag)
+{
+    // splicer begin function.apply_optional_flag
+    apply_optional_flag(num_elems, flag);
+    // splicer end function.apply_optional_flag
+}
+
 }  // extern "C"

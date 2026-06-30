@@ -36,6 +36,10 @@ void apply_optional(TypeID type, IndexType num_elems, IndexType offset, IndexTyp
 {
 }
 
+void apply_optional_flag(IndexType num_elems, bool flag)
+{
+}
+
 //----------------------------------------------------------------------
 
 void Class1::DefaultArguments(int arg1, int arg2, int arg3)

@@ -1,0 +1,169 @@
+library: KryLAVA
+namespace: krylava
+cxx_header: ../vec.hpp
+
+format: 
+    F_filename_suffix: f90
+    C_header_filename_suffix: h
+    C_impl_filename_suffix: cpp
+
+options:
+    F_default_args: optional
+    F_API_case: preserve
+
+# Override the built-in MPI_Comm typemap so wrappers include "mpiMod.hpp"
+# instead of "mpi.h". mpiMod.hpp pulls in the real <mpi.h> when USE_MPI is
+# defined, otherwise it provides serial stubs (MPI_Comm, MPI_Comm_f2c, ...).
+typemap:
+- type: MPI_Comm
+  fields:
+    c_header: mpiMod.hpp
+    cxx_header: mpiMod.hpp
+
+declarations:
+  - decl: |
+      enum FileFormat
+      {
+        IO_BINARY = 0,
+        IO_ASCII  = 1
+      };
+  - decl: |
+      enum setInsertTypes
+      {
+        SET_TYPE,
+        ADD_TYPE,
+        MAX_TYPE
+      };
+  - decl: |
+      enum ScheduleType
+      {
+        P2P_TYPE     = 0,
+        BARRIER_TYPE = 1
+      };
+  - decl: typedef int32_t local_idx_t
+  - decl: typedef int32_t local_size_t
+  - decl: typedef int64_t global_idx_t
+  - decl: typedef int64_t global_size_t
+  - decl: |
+      template <typename VarType>
+      class PVector
+    cxx_template:
+      - instantiation: <double>
+      - instantiation: <float>
+      # - instantiation: <int32_t>
+      # - instantiation: <int64_t>
+    cxx_header: ../vec.hpp
+    declarations:
+      # Default constructor: wrapped ONLY so its C wrapper can allocate the
+      #  C++ object from inside create() below. 
+      # It is not meant to be called directly, but can not be hidden by shroud
+      - decl: PVector()
+      # Destructor renamed so the API is `call vec%destroy()`; no `dtor` binding.
+      - decl: ~PVector()
+        format:
+          F_name_function: destroy
+      - decl: void create(local_size_t a_nLocal, MPI_Comm a_comm, int32_t a_bs = 1, VarType a_init = 0.0, local_size_t a_ng = 0)
+        fstatements:
+          f:
+            f_module:
+              iso_c_binding: ["C_PTR", "C_INT64_T", "c_f_pointer"]
+            f_local_decl:
+            - "integer(kind=C_INT64_T) :: isize"
+            - "type(C_PTR) :: cxxArrPtr"
+            # this allocates the actual C++ object that has to exist to call create!
+            f_pre_call:
+            - "call c_{F_derived_name}_ctor_bufferify(obj%cxxmem)"
+            # these post call lines set up Fortran specific data
+            f_post_call:
+            - "obj%NLocal = a_nLocal"
+            - "if (present(a_bs)) obj%bs = a_bs"
+            - "if (present(a_ng)) obj%ng = a_ng"
+            - "isize = (obj%NLocal + obj%ng) * int(obj%bs, C_INT64_T)"
+            - "cxxArrPtr = c_{F_derived_name}_getCXXArrPointer_bufferify(obj%cxxmem)"
+            - "call c_f_pointer(cxxArrPtr, obj%arr, [isize])"
+            - "obj%B(1:obj%bs, 1:(obj%NLocal+obj%ng)) => obj%arr(1:isize)"
+      - decl: void createFrom(PVector<VarType> a_other, VarType a_init)
+      - decl: void copy(PVector<VarType> a_inVec)
+      - decl: void copyScale(const PVector<VarType>& a_inVec, VarType a_alpha)
+      - decl: void set(const VarType a_val)
+      - decl: void setGhost(const local_size_t a_nGhost)
+      - decl: void applyReordering(const std::span<const local_idx_t> a_perm +onebasedindex)
+      - decl: void reorderedCopy(PVector<VarType>& o_outVec, const std::span<const local_idx_t> a_perm +onebasedindex)
+      - decl: VarType dot(const PVector<VarType>& a_other_vec)
+      - decl: VarType norm()
+      - decl: void waxpy(VarType a_alpha, const PVector<VarType>& a_x, const PVector<VarType>& a_y)
+      - decl: void axpy(VarType a_alpha, const PVector<VarType>& a_x)
+      - decl: void initArray(const VarType a_init)
+      # Bind to the generic routines that takes pointers as for the fortran 'maxpy' and 'mdot' api.
+      - decl: void maxpy_impl_generic(const VarType* const a_alphas +dimension(size(a_x_pvecs)), const PVector<VarType>* const* a_x_pvecs, int a_num_vectors +implied(size(a_x_pvecs)))
+        format:
+          F_name_function: maxpy
+      - decl: void mdot_impl_generic(const PVector<VarType>* const* a_y_pvecs, int a_num_vectors +implied(size(a_y_pvecs)), VarType* const o_dot_products +intent(out) +dimension(size(a_y_pvecs)))
+        format:
+          F_name_function: mdot
+      - decl: void scale(VarType a_scale)
+      - decl: void normalize()
+      - decl: void aypx(VarType a_alpha, const PVector<VarType>& a_x)
+      - decl: void print(int a_precision = 6, local_idx_t a_idx_start = 1 +onebasedindex, local_idx_t a_idx_end = 0 +onebasedindex)
+      - decl: void read(const std::string& fileName, FileFormat format = IO_BINARY)
+      - decl: void write(const std::string& fileName, FileFormat format = IO_BINARY)
+      - decl: void formatted_print(const std::vector<std::string> &a_varNames, int a_precision = 6, local_idx_t a_idx_start = 1 +onebasedindex, local_idx_t a_idx_end = 0 +onebasedindex)
+      - decl: void mpi_formatted_print(const std::vector<std::string> &a_varNames, int a_precision = 6, local_idx_t a_idx_start = 1 +onebasedindex, local_idx_t a_idx_end = 0 +onebasedindex)
+      - decl: void addSetValuesLocal(const std::span<const local_idx_t> localIndices +onebasedindex, const std::span<const VarType>&  values, int insertType)
+      - decl: void setValues(const std::span<const global_idx_t> a_globalIndices +onebasedindex,    const std::span<const VarType>&  a_values +rank(2))
+      - decl: void addValues(const std::span<const global_idx_t> a_globalIndices +onebasedindex,    const std::span<const VarType>&  a_values +rank(2))
+      - decl: void setValuesMax(const std::span<const global_idx_t> a_globalIndices +onebasedindex, const std::span<const VarType>&  a_values +rank(2))
+      - decl: void hostToDevice()
+      - decl: void deviceToHost()
+      - decl: bool getHDSync()
+      - decl: void setHDSync(bool a_val)
+      - decl: VarType* getCXXArrPointer()
+  - decl: |
+      template <typename VarType>
+      class PMatrix
+    cxx_template:
+      - instantiation: <double>
+      - instantiation: <float>
+      # - instantiation: <int32_t>
+      # - instantiation: <int64_t>
+    cxx_header: ../pmat.hpp
+    declarations:
+      # Default constructor: wrapped ONLY so its C wrapper can allocate the
+      #  C++ object from inside create() below. 
+      # It is not meant to be called directly, but can not be hidden by shroud
+      - decl: PMatrix()
+      # Destructor renamed so the API is `call vec%destroy()`; no `dtor` binding.
+      - decl: ~PMatrix()
+        format:
+          F_name_function: destroy
+      - decl: void create(local_idx_t  a_nLocal, local_idx_t  a_mLocal, int32_t a_bs, std::span<const global_idx_t> a_glbRows +onebasedindex, std::span<const global_idx_t> a_glbCols +onebasedindex, MPI_Comm a_comm, ScheduleType a_schedule = P2P_TYPE, bool  a_trans    = false)
+        fstatements:
+          f:
+            # this allocates the actual C++ object that has to exist to call create!
+            f_pre_call:
+            - "call c_{F_derived_name}_ctor_bufferify(obj%cxxmem)"
+      - decl: void insertValues(std::span<const global_idx_t> a_rows +onebasedindex, std::span<const global_idx_t> a_cols +onebasedindex,const std::span<const VarType>& a_vals +rank(3), bool a_ignoreNeg = false, bool a_trans = false)
+      - decl: void addValues(std::span<const global_idx_t> a_rows +onebasedindex, std::span<const global_idx_t> a_cols +onebasedindex,const std::span<const VarType>& a_vals +rank(3), bool a_ignoreNeg = false, bool a_trans = false)
+      # exchange off-processor entries stashed during a transposed insert/add
+      - decl: void communicateInsert()
+      - decl: void communicateAdd()
+      - decl: void communicate(int a_addType)
+      # single-vector matrix-vector product y = A x
+      - decl: void matvec(const PVector<VarType>& a_x, PVector<VarType>& o_y)
+      - decl: void zeroEntries()
+      - decl: void setIdentity()
+      # IO functions
+      - decl: void print(int a_precision = 6, global_idx_t a_row_start = 1 +onebasedindex, global_idx_t a_row_end = 0 +onebasedindex, global_idx_t a_col_start = 1 +onebasedindex, global_idx_t a_col_end   = 0 +onebasedindex)
+      - decl: void write(const std::string& a_fileName, FileFormat a_format = IO_BINARY)
+      - decl: void read(const std::string& a_fileName, MPI_Comm a_comm, FileFormat a_format = IO_BINARY)
+        fstatements:
+          f:
+            # this allocates the actual C++ object that has to exist to call create!
+            f_pre_call:
+            - "call c_{F_derived_name}_ctor_bufferify(obj%cxxmem)"
+
+      
+splicer:
+  f:
+  - krylava_splicer.F90
+      

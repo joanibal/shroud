@@ -574,6 +574,26 @@ module defaultarg_mod
     end interface
 #endif
 
+    ! ----------------------------------------
+    ! Function:  void apply_optional_flag
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  IndexType num_elems
+    ! Statement: f_in_native
+    ! ----------------------------------------
+    ! Argument:  bool flag=false
+    ! Statement: f_in_bool
+    interface
+        subroutine c_apply_optional_flag(num_elems, flag) &
+                bind(C, name="DEF_apply_optional_flag")
+            use iso_c_binding, only : C_BOOL
+            import :: INDEXTYPE
+            implicit none
+            integer(INDEXTYPE), value, intent(IN) :: num_elems
+            logical(C_BOOL), value, intent(IN) :: flag
+        end subroutine c_apply_optional_flag
+    end interface
+
     interface apply_generic
         module procedure apply_generic_nelems
         module procedure apply_generic_nelems_offset
@@ -1086,6 +1106,30 @@ contains
         ! splicer end function.apply_optional_1
     end subroutine apply_optional_1
 #endif
+
+    ! ----------------------------------------
+    ! Function:  void apply_optional_flag
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  IndexType num_elems
+    ! Statement: f_in_native
+    ! ----------------------------------------
+    ! Argument:  bool flag=false
+    ! Statement: f_in_bool
+    subroutine apply_optional_flag(num_elems, flag)
+        use iso_c_binding, only : C_BOOL
+        integer(INDEXTYPE), value, intent(IN) :: num_elems
+        logical, value, intent(IN), optional :: flag
+        ! splicer begin function.apply_optional_flag
+        logical(C_BOOL) :: SHT_flag_cxx
+        if (present(flag)) then
+            SHT_flag_cxx = flag
+        else
+            SHT_flag_cxx = .false.
+        endif
+        call c_apply_optional_flag(num_elems, SHT_flag_cxx)
+        ! splicer end function.apply_optional_flag
+    end subroutine apply_optional_flag
 
     ! Statement: f_operator_assignment_shadow
     ! Class1 = Class1

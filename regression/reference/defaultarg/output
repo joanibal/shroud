@@ -1,3 +1,29 @@
+new has_templated_signature False
+delete has_templated_signature False
+DefaultArguments has_templated_signature False
+get_field1 has_templated_signature False
+get_field2 has_templated_signature False
+get_field3 has_templated_signature False
+new [<Declaration('int')>, <Declaration('int')>, <Declaration('int')>]
+delete []
+DefaultArguments [<Declaration('int')>, <Declaration('int')>, <Declaration('int')>]
+get_field1 []
+get_field2 []
+get_field3 []
+apply_generic has_templated_signature False
+apply_generic has_templated_signature False
+apply_require has_templated_signature False
+apply_require has_templated_signature False
+apply_optional has_templated_signature False
+apply_optional has_templated_signature False
+apply_optional_flag has_templated_signature False
+apply_generic [<Declaration('IndexType')>, <Declaration('IndexType')>, <Declaration('IndexType')>]
+apply_generic [<Declaration('TypeID')>, <Declaration('IndexType')>, <Declaration('IndexType')>, <Declaration('IndexType')>]
+apply_require [<Declaration('IndexType')>, <Declaration('IndexType')>, <Declaration('IndexType')>]
+apply_require [<Declaration('TypeID')>, <Declaration('IndexType')>, <Declaration('IndexType')>, <Declaration('IndexType')>]
+apply_optional [<Declaration('IndexType')>, <Declaration('IndexType')>, <Declaration('IndexType')>]
+apply_optional [<Declaration('TypeID')>, <Declaration('IndexType')>, <Declaration('IndexType')>, <Declaration('IndexType')>]
+apply_optional_flag [<Declaration('IndexType')>, <Declaration('bool')>]
 Wrote defaultarg_types.yaml
 Wrote wrapClass1.h
 Wrote wrapClass1.cpp

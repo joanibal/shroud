@@ -38,6 +38,11 @@ void apply_require(TypeID type, IndexType num_elems, IndexType offset = 0, Index
 void apply_optional(IndexType num_elems, IndexType offset = 0, IndexType stride = 1);
 void apply_optional(TypeID type, IndexType num_elems, IndexType offset = 0, IndexType stride = 1);
 
+// Optional bool argument with a default value.
+// Exercises the interaction of default-argument handling and the
+// logical->C_BOOL coercion in the Fortran wrapper.
+void apply_optional_flag(IndexType num_elems, bool flag = false);
+
 //----------------------------------------------------------------------
 class Class1
 {

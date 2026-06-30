@@ -2551,7 +2551,7 @@
         ],
         "functions": [
             {
-                "<FUNCTION>": "apply_generic  16 ****************************************",
+                "<FUNCTION>": "apply_generic  17 ****************************************",
                 "_generated": "has_default_arg",
                 "_generated_path": [
                     "has_default_arg"
@@ -2746,7 +2746,7 @@
                 }
             },
             {
-                "<FUNCTION>": "apply_generic  17 ****************************************",
+                "<FUNCTION>": "apply_generic  18 ****************************************",
                 "_generated": "has_default_arg",
                 "_generated_path": [
                     "has_default_arg"
@@ -3034,8 +3034,8 @@
             {
                 "<FUNCTION>": "apply_generic  10 ****************************************",
                 "_default_funcs": [
-                    16,
-                    17
+                    17,
+                    18
                 ],
                 "_has_default_arg": true,
                 "_nargs": [
@@ -3413,7 +3413,7 @@
                 }
             },
             {
-                "<FUNCTION>": "apply_generic  18 ****************************************",
+                "<FUNCTION>": "apply_generic  19 ****************************************",
                 "_generated": "has_default_arg",
                 "_generated_path": [
                     "has_default_arg"
@@ -3702,7 +3702,7 @@
                 }
             },
             {
-                "<FUNCTION>": "apply_generic  19 ****************************************",
+                "<FUNCTION>": "apply_generic  20 ****************************************",
                 "_generated": "has_default_arg",
                 "_generated_path": [
                     "has_default_arg"
@@ -4084,8 +4084,8 @@
             {
                 "<FUNCTION>": "apply_generic  11 ****************************************",
                 "_default_funcs": [
-                    18,
-                    19
+                    19,
+                    20
                 ],
                 "_has_default_arg": true,
                 "_nargs": [
@@ -6250,6 +6250,286 @@
                     ],
                     "function_name": "apply_optional",
                     "function_suffix": "_1"
+                }
+            },
+            {
+                "<FUNCTION>": "apply_optional_flag  16 ****************************************",
+                "_has_default_arg": true,
+                "ast": {
+                    "declarator": {
+                        "name": "apply_optional_flag",
+                        "params": [
+                            {
+                                "declarator": {
+                                    "name": "num_elems",
+                                    "typemap_name": "IndexType"
+                                },
+                                "specifier": [
+                                    "IndexType"
+                                ],
+                                "typemap_name": "IndexType"
+                            },
+                            {
+                                "declarator": {
+                                    "init": "false",
+                                    "name": "flag",
+                                    "typemap_name": "bool"
+                                },
+                                "specifier": [
+                                    "bool"
+                                ],
+                                "typemap_name": "bool"
+                            }
+                        ],
+                        "typemap_name": "void"
+                    },
+                    "specifier": [
+                        "void"
+                    ],
+                    "typemap_name": "void"
+                },
+                "decl": "void apply_optional_flag(IndexType num_elems, bool flag = false);",
+                "declgen": "void apply_optional_flag(IndexType num_elems, bool flag=false)",
+                "name": "apply_optional_flag",
+                "options": {
+                    "F_default_args": "optional"
+                },
+                "wrap": {
+                    "c": true,
+                    "fortran": true
+                },
+                "zz_bind": {
+                    "c": {
+                        "+result": {
+                            "fmtdict": {
+                                "C_call_function": "apply_optional_flag(\tnum_elems,\t flag)",
+                                "C_call_list": "num_elems,\t flag",
+                                "C_name": "DEF_apply_optional_flag",
+                                "C_prototype": "IndexType num_elems,\t bool flag",
+                                "C_return_type": "void",
+                                "i_name_function": "c_apply_optional_flag",
+                                "stmt_name": "c_subroutine",
+                                "typemap_name": "void"
+                            },
+                            "meta": {
+                                "abstract": "void",
+                                "intent": "subroutine"
+                            },
+                            "stmt": "c_subroutine"
+                        },
+                        "flag": {
+                            "fmtdict": {
+                                "c_abstract_decl": "bool",
+                                "c_addr": "&",
+                                "c_const": "",
+                                "c_deref": "",
+                                "c_member": ".",
+                                "c_type": "bool",
+                                "c_var": "flag",
+                                "cxx_abstract_decl": "bool",
+                                "cxx_addr": "&",
+                                "cxx_member": ".",
+                                "cxx_nonconst_ptr": "&flag",
+                                "cxx_type": "bool",
+                                "cxx_var": "flag",
+                                "f_intent": "IN",
+                                "f_intent_attr": ", intent(IN)",
+                                "f_optional_attr": ", optional",
+                                "f_value_attr": ", value",
+                                "i_intent": "IN",
+                                "i_intent_attr": ", intent(IN)",
+                                "idtor": "0",
+                                "stmt_name": "c_in_bool",
+                                "typemap_name": "bool"
+                            },
+                            "meta": {
+                                "abstract": "bool",
+                                "intent": "in",
+                                "optional": true,
+                                "value": true
+                            },
+                            "stmt": "c_in_bool"
+                        },
+                        "num_elems": {
+                            "fmtdict": {
+                                "c_abstract_decl": "IndexType",
+                                "c_addr": "&",
+                                "c_const": "",
+                                "c_deref": "",
+                                "c_member": ".",
+                                "c_type": "IndexType",
+                                "c_var": "num_elems",
+                                "cxx_abstract_decl": "IndexType",
+                                "cxx_addr": "&",
+                                "cxx_member": ".",
+                                "cxx_nonconst_ptr": "&num_elems",
+                                "cxx_type": "IndexType",
+                                "cxx_var": "num_elems",
+                                "f_intent": "IN",
+                                "f_intent_attr": ", intent(IN)",
+                                "f_value_attr": ", value",
+                                "i_intent": "IN",
+                                "i_intent_attr": ", intent(IN)",
+                                "idtor": "0",
+                                "stmt_name": "c_in_native",
+                                "typemap_name": "IndexType"
+                            },
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "in",
+                                "value": true
+                            },
+                            "stmt": "c_in_native"
+                        }
+                    },
+                    "f": {
+                        "+result": {
+                            "fmtdict": {
+                                "C_call_function": "apply_optional_flag(\tnum_elems,\t flag)",
+                                "C_call_list": "num_elems,\t flag",
+                                "C_name": "DEF_apply_optional_flag",
+                                "C_prototype": "IndexType num_elems,\t bool flag",
+                                "C_return_type": "void",
+                                "F_arg_c_call": "num_elems,\t SHT_flag_cxx",
+                                "F_arguments": "num_elems,\t flag",
+                                "F_subprogram": "subroutine",
+                                "f_call_function": "c_apply_optional_flag",
+                                "i_arguments": "num_elems,\t flag",
+                                "i_name_function": "c_apply_optional_flag",
+                                "i_subprogram": "subroutine",
+                                "stmt_name": "f_subroutine",
+                                "typemap_name": "void"
+                            },
+                            "meta": {
+                                "abstract": "void",
+                                "intent": "subroutine"
+                            },
+                            "stmt": "f_subroutine"
+                        },
+                        "flag": {
+                            "fmtdict": {
+                                "c_abstract_decl": "bool",
+                                "c_addr": "&",
+                                "c_const": "",
+                                "c_deref": "",
+                                "c_member": ".",
+                                "c_type": "bool",
+                                "c_var": "flag",
+                                "cxx_abstract_decl": "bool",
+                                "cxx_addr": "&",
+                                "cxx_member": ".",
+                                "cxx_nonconst_ptr": "&flag",
+                                "cxx_type": "bool",
+                                "cxx_var": "flag",
+                                "default_value": ".false.",
+                                "f_intent": "IN",
+                                "f_intent_attr": ", intent(IN)",
+                                "f_optional_attr": ", optional",
+                                "f_type": "logical",
+                                "f_value_attr": ", value",
+                                "f_var": "flag",
+                                "f_var_cxx": "SHT_flag_cxx",
+                                "fc_var": "SHT_flag_cxx",
+                                "i_intent": "IN",
+                                "i_intent_attr": ", intent(IN)",
+                                "i_kind": "C_BOOL",
+                                "i_module_name": "iso_c_binding",
+                                "i_type": "logical(C_BOOL)",
+                                "i_var": "flag",
+                                "idtor": "0",
+                                "stmt_name": "f_in_bool",
+                                "typemap_name": "bool"
+                            },
+                            "meta": {
+                                "abstract": "bool",
+                                "intent": "in",
+                                "optional": true,
+                                "value": true
+                            },
+                            "stmt": "f_in_bool"
+                        },
+                        "num_elems": {
+                            "fmtdict": {
+                                "c_abstract_decl": "IndexType",
+                                "c_addr": "&",
+                                "c_const": "",
+                                "c_deref": "",
+                                "c_member": ".",
+                                "c_type": "IndexType",
+                                "c_var": "num_elems",
+                                "cxx_abstract_decl": "IndexType",
+                                "cxx_addr": "&",
+                                "cxx_member": ".",
+                                "cxx_nonconst_ptr": "&num_elems",
+                                "cxx_type": "IndexType",
+                                "cxx_var": "num_elems",
+                                "f_intent": "IN",
+                                "f_intent_attr": ", intent(IN)",
+                                "f_kind": "INDEXTYPE",
+                                "f_module_name": "defaultarg_mod",
+                                "f_type": "integer(INDEXTYPE)",
+                                "f_value_attr": ", value",
+                                "f_var": "num_elems",
+                                "fc_var": "num_elems",
+                                "i_intent": "IN",
+                                "i_intent_attr": ", intent(IN)",
+                                "i_kind": "INDEXTYPE",
+                                "i_module_name": "defaultarg_mod",
+                                "i_type": "integer(INDEXTYPE)",
+                                "i_var": "num_elems",
+                                "idtor": "0",
+                                "stmt_name": "f_in_native",
+                                "typemap_name": "IndexType"
+                            },
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "in",
+                                "value": true
+                            },
+                            "stmt": "f_in_native"
+                        }
+                    },
+                    "share": {
+                        "+result": {
+                            "meta": {
+                                "abstract": "void",
+                                "intent": "subroutine"
+                            }
+                        },
+                        "flag": {
+                            "meta": {
+                                "abstract": "bool",
+                                "intent": "in",
+                                "optional": true,
+                                "value": true
+                            }
+                        },
+                        "num_elems": {
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "in",
+                                "value": true
+                            }
+                        }
+                    }
+                },
+                "zz_fmtdict": {
+                    "C_name_api": "apply_optional_flag",
+                    "F_name_api": "apply_optional_flag",
+                    "F_name_function": "apply_optional_flag",
+                    "F_name_generic": "apply_optional_flag",
+                    "F_name_impl": "apply_optional_flag",
+                    "c_arglist": [
+                        "c_var",
+                        "num_elems",
+                        "flag"
+                    ],
+                    "f_arglist": [
+                        "f_var",
+                        "num_elems",
+                        "flag"
+                    ],
+                    "function_name": "apply_optional_flag"
                 }
             }
         ],

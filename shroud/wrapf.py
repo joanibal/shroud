@@ -1583,7 +1583,14 @@ rv = .false.
                     arg_stmt.f_arg_call = ["{f_var} - 1"]
 
             if arg_meta["optional"]:
-                fmt_arg.default_value = f_arg.declarator.init
+                default_value = f_arg.declarator.init
+                if f_arg.typemap.sgroup == "bool":
+                    # Convert C++ boolean literals to Fortran logical syntax.
+                    if default_value == "true":
+                        default_value = ".true."
+                    elif default_value == "false":
+                        default_value = ".false."
+                fmt_arg.default_value = default_value
                 optattr = True
 
             # Explicit declarations from fc_statements.
@@ -1604,13 +1611,27 @@ rv = .false.
             arg_typemap = c_arg.typemap
 
             # Create a local variable for C if necessary.
-            # The local variable fc_var is used in fc_statements. 
+            # The local variable fc_var is used in fc_statements.
             if optattr:
-                fmt_arg.fc_var = f"SH_{fmt_arg.f_var}"
-                declare.append(
-                    f"{arg_typemap.i_type or arg_typemap.f_type} {fmt_arg.fc_var}"
-                )
-                # XXX - Reusing c_local_var logic, would have issues with bool
+                if arg_stmt.f_temps and "cxx" in arg_stmt.f_temps:
+                    # The statement already creates a coercion temp (f_var_cxx)
+                    # which it passes to C, reading {f_var} into it in f_pre_call
+                    # (for example bool, where {f_var} is a default logical and
+                    # the temp is logical(C_BOOL)).  Resolve the default value
+                    # directly into that temp -- the assignment also performs the
+                    # coercion -- instead of a separate SH_ local, and drop the
+                    # now-redundant f_pre_call coercion.  Otherwise the default
+                    # logic and the coercion logic do not compose: SH_{f_var}
+                    # would be computed but never passed, and the coercion would
+                    # read the (possibly not-present) optional {f_var} directly.
+                    fmt_arg.fc_var = fmt_arg.f_var_cxx
+                    arg_stmt = util.Scope(arg_stmt)
+                    arg_stmt.f_pre_call = []
+                else:
+                    fmt_arg.fc_var = f"SH_{fmt_arg.f_var}"
+                    declare.append(
+                        f"{arg_typemap.i_type or arg_typemap.f_type} {fmt_arg.fc_var}"
+                    )
                 append_format(optional, default_arg_template, fmt_arg)
 
             need_wrapper = self.build_arg_list_impl(

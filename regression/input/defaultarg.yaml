@@ -96,6 +96,14 @@ declarations:
     F_default_args: optional
   cpp_if: if INDETYPE_SIZE == 64
 
+# Optional bool argument with a default value.
+# The default-value handling and the logical->C_BOOL coercion must compose:
+# when 'flag' is absent the wrapper must pass the default (.false.) and must
+# not dereference the not-present optional.
+- decl: void apply_optional_flag(IndexType num_elems, bool flag = false);
+  options:
+    F_default_args: optional
+
 
 ######################################################################
 
