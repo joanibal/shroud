@@ -119,7 +119,13 @@ declarations:
 - decl: int useclass(const Class1 *arg)
   options:
     wrap_lua: False
-  
+
+- decl: int useclassPoly(const Class1 *arg +polymorphic)
+  doxygen:
+    brief:  Pass class argument as a polymorphic class(Foo) dummy.
+  options:
+    wrap_lua: False
+
 # parser does not recognized **
 #- decl: void getclass(const Class1 **arg1)
 #  doxygen:

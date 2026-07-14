@@ -8167,7 +8167,317 @@
                 }
             },
             {
-                "<FUNCTION>": "getclass2  38 ****************************************",
+                "<FUNCTION>": "useclassPoly  38 ****************************************",
+                "ast": {
+                    "declarator": {
+                        "name": "useclassPoly",
+                        "params": [
+                            {
+                                "const": true,
+                                "declarator": {
+                                    "attrs": {
+                                        "polymorphic": true
+                                    },
+                                    "name": "arg",
+                                    "pointer": [
+                                        {
+                                            "ptr": "*"
+                                        }
+                                    ],
+                                    "typemap_name": "classes::Class1"
+                                },
+                                "specifier": [
+                                    "Class1"
+                                ],
+                                "typemap_name": "classes::Class1"
+                            }
+                        ],
+                        "typemap_name": "int"
+                    },
+                    "specifier": [
+                        "int"
+                    ],
+                    "typemap_name": "int"
+                },
+                "decl": "int useclassPoly(const Class1 *arg +polymorphic)",
+                "declgen": "int useclassPoly(const Class1 *arg +polymorphic)",
+                "doxygen": {
+                    "brief": "Pass class argument as a polymorphic class(Foo) dummy."
+                },
+                "name": "useclassPoly",
+                "options": {
+                    "wrap_lua": false
+                },
+                "wrap": {
+                    "c": true,
+                    "fortran": true,
+                    "python": true
+                },
+                "zz_bind": {
+                    "c": {
+                        "+result": {
+                            "fmtdict": {
+                                "C_call_function": "classes::useclassPoly(\tSHC_arg_cxx)",
+                                "C_call_list": "SHC_arg_cxx",
+                                "C_name": "CLA_useclassPoly",
+                                "C_prototype": "CLA_Class1 *arg",
+                                "C_return_type": "int",
+                                "c_const": "",
+                                "c_get_value": "",
+                                "c_type": "int",
+                                "c_var": "SHC_rv",
+                                "cxx_addr": "&",
+                                "cxx_member": ".",
+                                "cxx_nonconst_ptr": "&SHC_rv",
+                                "cxx_type": "int",
+                                "cxx_var": "SHC_rv",
+                                "i_name_function": "c_useclass_poly",
+                                "idtor": "0",
+                                "stmt_name": "c_function_native",
+                                "typemap_name": "int"
+                            },
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "function"
+                            },
+                            "stmt": "c_function_native"
+                        },
+                        "arg": {
+                            "fmtdict": {
+                                "c_abstract_decl": "const CLA_Class1 *",
+                                "c_addr": "",
+                                "c_const": "const ",
+                                "c_deref": "*",
+                                "c_local_cxx": "SHC_arg_cxx",
+                                "c_member": "->",
+                                "c_type": "CLA_Class1",
+                                "c_var": "arg",
+                                "cxx_abstract_decl": "const classes::Class1 *",
+                                "cxx_addr": "",
+                                "cxx_member": "->",
+                                "cxx_nonconst_ptr": "const_cast<classes::Class1 *>\t(SHC_arg_cxx)",
+                                "cxx_type": "classes::Class1",
+                                "cxx_var": "SHC_arg_cxx",
+                                "f_intent": "IN",
+                                "f_intent_attr": ", intent(IN)",
+                                "i_intent": "IN",
+                                "i_intent_attr": ", intent(IN)",
+                                "idtor": "0",
+                                "stmt_name": "c_in_shadow*",
+                                "typemap_name": "classes::Class1"
+                            },
+                            "meta": {
+                                "abstract": "shadow*",
+                                "intent": "in"
+                            },
+                            "stmt": "c_in_shadow*"
+                        }
+                    },
+                    "f": {
+                        "+result": {
+                            "fmtdict": {
+                                "C_call_function": "classes::useclassPoly(\tSHC_arg_cxx)",
+                                "C_call_list": "SHC_arg_cxx",
+                                "C_name": "CLA_useclassPoly",
+                                "C_prototype": "CLA_Class1 *arg",
+                                "C_return_type": "int",
+                                "F_arg_c_call": "arg%cxxmem",
+                                "F_arguments": "arg",
+                                "F_subprogram": "function",
+                                "c_const": "",
+                                "c_get_value": "",
+                                "c_type": "int",
+                                "c_var": "SHC_rv",
+                                "cxx_addr": "&",
+                                "cxx_member": ".",
+                                "cxx_nonconst_ptr": "&SHC_rv",
+                                "cxx_type": "int",
+                                "cxx_var": "SHC_rv",
+                                "f_call_function": "c_useclass_poly",
+                                "f_kind": "C_INT",
+                                "f_module_name": "iso_c_binding",
+                                "f_result_clause": "\fresult(SHT_rv)",
+                                "f_type": "integer(C_INT)",
+                                "f_var": "SHT_rv",
+                                "fc_var": "SHT_rv",
+                                "i_arguments": "arg",
+                                "i_kind": "C_INT",
+                                "i_module_name": "iso_c_binding",
+                                "i_name_function": "c_useclass_poly",
+                                "i_result_clause": "\fresult(SHT_rv)",
+                                "i_subprogram": "function",
+                                "i_type": "integer(C_INT)",
+                                "i_var": "SHT_rv",
+                                "idtor": "0",
+                                "stmt_name": "f_function_native",
+                                "typemap_name": "int"
+                            },
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "function"
+                            },
+                            "stmt": "f_function_native"
+                        },
+                        "arg": {
+                            "fmtdict": {
+                                "c_abstract_decl": "const CLA_Class1 *",
+                                "c_addr": "",
+                                "c_const": "const ",
+                                "c_deref": "*",
+                                "c_local_cxx": "SHC_arg_cxx",
+                                "c_member": "->",
+                                "c_type": "CLA_Class1",
+                                "c_var": "arg",
+                                "cxx_abstract_decl": "const classes::Class1 *",
+                                "cxx_addr": "",
+                                "cxx_member": "->",
+                                "cxx_nonconst_ptr": "const_cast<classes::Class1 *>\t(SHC_arg_cxx)",
+                                "cxx_type": "classes::Class1",
+                                "cxx_var": "SHC_arg_cxx",
+                                "f_capsule_data_type": "CLA_SHROUD_capsule_data",
+                                "f_derived_type": "class1",
+                                "f_intent": "IN",
+                                "f_intent_attr": ", intent(IN)",
+                                "f_kind": "class1",
+                                "f_module_name": "classes_mod",
+                                "f_type": "type(class1)",
+                                "f_var": "arg",
+                                "fc_var": "arg",
+                                "i_intent": "IN",
+                                "i_intent_attr": ", intent(IN)",
+                                "i_kind": "class1",
+                                "i_module_name": "classes_mod",
+                                "i_type": "type(CLA_SHROUD_capsule_data)",
+                                "i_var": "arg",
+                                "idtor": "0",
+                                "stmt_name": "f_in_shadow*",
+                                "typemap_name": "classes::Class1"
+                            },
+                            "meta": {
+                                "abstract": "shadow*",
+                                "intent": "in"
+                            },
+                            "stmt": "f_in_shadow*"
+                        }
+                    },
+                    "lua": {
+                        "+result": {
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "function"
+                            }
+                        },
+                        "arg": {
+                            "meta": {
+                                "abstract": "shadow*",
+                                "intent": "in"
+                            }
+                        }
+                    },
+                    "py": {
+                        "+result": {
+                            "fmtdict": {
+                                "c_var": "SHCXX_rv",
+                                "ctor_expr": "SHCXX_rv",
+                                "cxx_addr": "&",
+                                "cxx_member": ".",
+                                "cxx_nonconst_ptr": "&SHCXX_rv",
+                                "cxx_type": "int",
+                                "cxx_var": "SHCXX_rv",
+                                "data_var": "SHData_rv",
+                                "numpy_type": "NPY_INT",
+                                "py_var": "SHTPy_rv",
+                                "size_var": "SHSize_rv",
+                                "stmt": "py_function_native",
+                                "value_var": "SHValue_rv"
+                            },
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "function"
+                            },
+                            "stmt": "py_function_native"
+                        },
+                        "arg": {
+                            "fmtdict": {
+                                "PY_to_object_idtor_func": "PP_Class1_to_Object_idtor",
+                                "PyObject": "PY_Class1",
+                                "PyTypeObject": "PY_Class1_Type",
+                                "array_size": "1",
+                                "c_const": "const ",
+                                "c_type": "CLA_Class1",
+                                "c_var": "arg",
+                                "ctor_expr": "*arg",
+                                "cxx_addr": "",
+                                "cxx_member": "->",
+                                "cxx_nonconst_ptr": "const_cast<classes::Class1 *>\t(arg)",
+                                "cxx_type": "classes::Class1",
+                                "cxx_var": "arg",
+                                "data_var": "SHData_arg",
+                                "numpy_type": null,
+                                "py_object": "PY_Class1",
+                                "py_var": "SHPy_arg",
+                                "size_var": "SHSize_arg",
+                                "stmt": "py_in_shadow*",
+                                "value_var": "SHValue_arg"
+                            },
+                            "meta": {
+                                "abstract": "shadow*",
+                                "intent": "in"
+                            },
+                            "stmt": "py_in_shadow*"
+                        }
+                    },
+                    "share": {
+                        "+result": {
+                            "meta": {
+                                "abstract": "native",
+                                "intent": "function"
+                            }
+                        },
+                        "arg": {
+                            "meta": {
+                                "abstract": "shadow*",
+                                "intent": "in"
+                            }
+                        }
+                    }
+                },
+                "zz_fmtdict": {
+                    "C_name_api": "useclassPoly",
+                    "F_name_api": "useclass_poly",
+                    "F_name_function": "useclass_poly",
+                    "F_name_generic": "useclass_poly",
+                    "F_name_impl": "useclass_poly",
+                    "PY_name_impl": "PY_useclassPoly",
+                    "c_arglist": [
+                        "SHC_rv",
+                        "arg"
+                    ],
+                    "f_arglist": [
+                        "SHT_rv",
+                        "arg"
+                    ],
+                    "function_name": "useclassPoly"
+                },
+                "zz_fmtlang": {
+                    "py": {
+                        "C_call_function": "classes::useclassPoly(arg)",
+                        "PY_array_arg": "numpy",
+                        "PY_call_list": "arg",
+                        "PY_doc_string": "documentation",
+                        "PY_error_return": "nullptr",
+                        "PY_ml_flags": "METH_VARARGS|METH_KEYWORDS",
+                        "PY_used_param_args": true,
+                        "PY_used_param_kwds": true,
+                        "PyArg_format": "O!:useclassPoly",
+                        "PyArg_kwlist": "const_cast<char **>(SHT_kwlist)",
+                        "PyArg_vargs": "&PY_Class1_Type,\t &SHPy_arg",
+                        "py_var": "SHTPy_rv"
+                    }
+                }
+            },
+            {
+                "<FUNCTION>": "getclass2  39 ****************************************",
                 "ast": {
                     "const": true,
                     "declarator": {
@@ -8327,7 +8637,7 @@
                 }
             },
             {
-                "<FUNCTION>": "getclass3  39 ****************************************",
+                "<FUNCTION>": "getclass3  40 ****************************************",
                 "ast": {
                     "declarator": {
                         "name": "getclass3",
@@ -8535,7 +8845,7 @@
                 }
             },
             {
-                "<FUNCTION>": "getclass2_void  40 ****************************************",
+                "<FUNCTION>": "getclass2_void  41 ****************************************",
                 "ast": {
                     "const": true,
                     "declarator": {
@@ -8679,7 +8989,7 @@
                 }
             },
             {
-                "<FUNCTION>": "getclass3_void  41 ****************************************",
+                "<FUNCTION>": "getclass3_void  42 ****************************************",
                 "ast": {
                     "declarator": {
                         "name": "getclass3_void",
@@ -8822,7 +9132,7 @@
                 }
             },
             {
-                "<FUNCTION>": "getConstClassReference  42 ****************************************",
+                "<FUNCTION>": "getConstClassReference  43 ****************************************",
                 "ast": {
                     "const": true,
                     "declarator": {
@@ -8982,7 +9292,7 @@
                 }
             },
             {
-                "<FUNCTION>": "getClassReference  43 ****************************************",
+                "<FUNCTION>": "getClassReference  44 ****************************************",
                 "ast": {
                     "declarator": {
                         "name": "getClassReference",
@@ -9187,7 +9497,7 @@
                 }
             },
             {
-                "<FUNCTION>": "getClass1Copy  44 ****************************************",
+                "<FUNCTION>": "getClass1Copy  45 ****************************************",
                 "ast": {
                     "declarator": {
                         "name": "getClass1Copy",
@@ -9445,7 +9755,7 @@
                 }
             },
             {
-                "<FUNCTION>": "set_global_flag  45 ****************************************",
+                "<FUNCTION>": "set_global_flag  46 ****************************************",
                 "ast": {
                     "declarator": {
                         "name": "set_global_flag",
@@ -9720,7 +10030,7 @@
                 }
             },
             {
-                "<FUNCTION>": "get_global_flag  46 ****************************************",
+                "<FUNCTION>": "get_global_flag  47 ****************************************",
                 "ast": {
                     "declarator": {
                         "name": "get_global_flag",
@@ -9903,7 +10213,7 @@
                 }
             },
             {
-                "<FUNCTION>": "LastFunctionCalled  47 ****************************************",
+                "<FUNCTION>": "LastFunctionCalled  48 ****************************************",
                 "ast": {
                     "const": true,
                     "declarator": {

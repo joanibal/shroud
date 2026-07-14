@@ -149,6 +149,49 @@ PY_useclass(
 }
 
 // ----------------------------------------
+// Function:  int useclassPoly
+// Statement: py_function_native
+// ----------------------------------------
+// Argument:  const Class1 *arg +polymorphic
+// Statement: py_in_shadow*
+static char PY_useclassPoly__doc__[] =
+"documentation"
+;
+
+/**
+ * \brief Pass class argument as a polymorphic class(Foo) dummy.
+ *
+ */
+static PyObject *
+PY_useclassPoly(
+  PyObject *SHROUD_UNUSED(self),
+  PyObject *args,
+  PyObject *kwds)
+{
+// splicer begin function.useclassPoly
+    PY_Class1 * SHPy_arg;
+    const char *SHT_kwlist[] = {
+        "arg",
+        nullptr };
+    PyObject * SHTPy_rv = nullptr;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O!:useclassPoly",
+        const_cast<char **>(SHT_kwlist), &PY_Class1_Type, &SHPy_arg))
+        return nullptr;
+
+    // post_declare
+    const classes::Class1 *arg = SHPy_arg ? SHPy_arg->obj : nullptr;
+
+    int SHCXX_rv = classes::useclassPoly(arg);
+
+    // post_call
+    SHTPy_rv = PyInt_FromLong(SHCXX_rv);
+
+    return (PyObject *) SHTPy_rv;
+// splicer end function.useclassPoly
+}
+
+// ----------------------------------------
 // Function:  Class1 *getclass3
 // Statement: py_function_shadow*
 static char PY_getclass3__doc__[] =
@@ -288,6 +331,8 @@ static PyMethodDef PY_methods[] = {
     METH_VARARGS|METH_KEYWORDS, PY_passClassByValue__doc__},
 {"useclass", (PyCFunction)PY_useclass, METH_VARARGS|METH_KEYWORDS,
     PY_useclass__doc__},
+{"useclassPoly", (PyCFunction)PY_useclassPoly,
+    METH_VARARGS|METH_KEYWORDS, PY_useclassPoly__doc__},
 {"getclass3", (PyCFunction)PY_getclass3, METH_NOARGS,
     PY_getclass3__doc__},
 {"getClassReference", (PyCFunction)PY_getClassReference, METH_NOARGS,

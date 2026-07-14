@@ -110,6 +110,26 @@ int CLA_useclass(CLA_Class1 *arg)
 }
 
 /**
+ * \brief Pass class argument as a polymorphic class(Foo) dummy.
+ *
+ */
+// ----------------------------------------
+// Function:  int useclassPoly
+// Statement: c_function_native
+// ----------------------------------------
+// Argument:  const Class1 *arg +polymorphic
+// Statement: c_in_shadow*
+int CLA_useclassPoly(CLA_Class1 *arg)
+{
+    // splicer begin function.useclassPoly
+    const classes::Class1 *SHC_arg_cxx =
+        static_cast<const classes::Class1 *>(arg->addr);
+    int SHC_rv = classes::useclassPoly(SHC_arg_cxx);
+    return SHC_rv;
+    // splicer end function.useclassPoly
+}
+
+/**
  * \brief Return const class pointer
  *
  */

@@ -1020,6 +1020,22 @@ class CheckParse(unittest.TestCase):
         )
         self.assertEqual("foo", declarator.name)
 
+    def test_decl08_polymorphic(self):
+        """Test the +polymorphic argument attribute parses as a boolean.
+        """
+        symtab = declast.SymbolTable()
+        declast.check_decl("class Class1", symtab)
+
+        r = declast.check_decl(
+            "int useclass(const Class1 *arg +polymorphic)",
+            symtab)
+        params = r.declarator.params
+        self.assertEqual(1, len(params))
+        self.assertEqual(
+            {"polymorphic": True},
+            params[0].declarator.attrs,
+        )
+
     def test_decl09a(self):
         """Test constructor
         """

@@ -1,3 +1,101 @@
+ctor has_templated_signature False
+ctor has_templated_signature False
+delete has_templated_signature False
+Method1 has_templated_signature False
+equivalent has_templated_signature False
+returnThis has_templated_signature False
+returnThisBuffer has_templated_signature False
+getclass3 has_templated_signature False
+getName has_templated_signature False
+getPath has_templated_signature False
+directionFunc has_templated_signature False
+get_m_flag has_templated_signature False
+get_test has_templated_signature False
+set_test has_templated_signature False
+get_m_bool has_templated_signature False
+set_m_bool has_templated_signature False
+get_m_name has_templated_signature False
+set_m_name has_templated_signature False
+get_m_name_ptr has_templated_signature False
+get_m_name_copy has_templated_signature False
+ctor []
+ctor [<Declaration('int')>]
+delete []
+Method1 []
+equivalent [<Declaration('const Class1')>]
+returnThis []
+returnThisBuffer [<Declaration('std::string')>, <Declaration('bool')>]
+getclass3 []
+getName []
+getPath []
+directionFunc [<Declaration('DIRECTION')>]
+get_m_flag []
+get_test []
+set_test [<Declaration('int')>]
+get_m_bool []
+set_m_bool [<Declaration('bool')>]
+get_m_name []
+set_m_name [<Declaration('std::string')>]
+get_m_name_ptr []
+get_m_name_copy []
+getName has_templated_signature False
+getName []
+getReference has_templated_signature False
+getReference []
+ctor has_templated_signature False
+dtor has_templated_signature False
+get_ivar has_templated_signature False
+ctor []
+dtor []
+get_ivar []
+ctor has_templated_signature False
+dtor has_templated_signature False
+ctor []
+dtor []
+allocate has_templated_signature False
+free has_templated_signature False
+ctor has_templated_signature False
+dtor has_templated_signature False
+get_nitems has_templated_signature False
+set_nitems has_templated_signature False
+get_items has_templated_signature False
+set_items has_templated_signature False
+allocate [<Declaration('int')>]
+free []
+ctor []
+dtor []
+get_nitems []
+set_nitems [<Declaration('int')>]
+get_items []
+set_items [<Declaration('int')>]
+directionFunc has_templated_signature False
+passClassByValue has_templated_signature False
+useclass has_templated_signature False
+useclassPoly has_templated_signature False
+getclass2 has_templated_signature False
+getclass3 has_templated_signature False
+getclass2_void has_templated_signature False
+getclass3_void has_templated_signature False
+getConstClassReference has_templated_signature False
+getClassReference has_templated_signature False
+getClass1Copy has_templated_signature False
+set_global_flag has_templated_signature False
+get_global_flag has_templated_signature False
+LastFunctionCalled has_templated_signature False
+directionFunc [<Declaration('Class1::DIRECTION')>]
+passClassByValue [<Declaration('Class1')>]
+useclass [<Declaration('const Class1')>]
+useclassPoly [<Declaration('const Class1')>]
+getclass2 []
+getclass3 []
+getclass2_void []
+getclass3_void []
+getConstClassReference []
+getClassReference []
+getClass1Copy [<Declaration('int')>]
+set_global_flag [<Declaration('int')>]
+get_global_flag []
+LastFunctionCalled []
 Wrote classes_types.yaml
 Wrote wrapClass1.h
 Wrote wrapClass1.cpp

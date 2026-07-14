@@ -655,6 +655,9 @@ class FillFormat(object):
             if "pass" in c_attrs:
                 # Used with wrap_struct_as=class for passed-object dummy argument.
                 fmt.f_type = ntypemap.f_class
+            elif "polymorphic" in c_attrs and ntypemap.f_class:
+                # User-requested polymorphic dummy: class(Foo) instead of type(Foo).
+                fmt.f_type = ntypemap.f_class
         return ntypemap
 
     def set_fmt_fields_dimension(self, cls, fcn, f_ast, bind):

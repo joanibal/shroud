@@ -1,0 +1,77 @@
+Read yaml templateinherit.yaml
+Close templateinherit_types.yaml
+library C wrappers
+namespace templateinherit
+class BaseMatrix<int>
+C c BaseMatrix(void)
+C f BaseMatrix(void)
+C c void set_base(int v)
+C f void set_base(int v)
+C c int get_base(void)
+C f int get_base(void)
+Close wrapBaseMatrix_int.h
+Close wrapBaseMatrix_int.cpp
+class BaseMatrix<double>
+C c BaseMatrix(void)
+C f BaseMatrix(void)
+C c void set_base(double v)
+C f void set_base(double v)
+C c double get_base(void)
+C f double get_base(void)
+Close wrapBaseMatrix_double.h
+Close wrapBaseMatrix_double.cpp
+class DerivedMatrix<int>
+C c DerivedMatrix(void)
+C f DerivedMatrix(void)
+C c void set_derived(int v)
+C f void set_derived(int v)
+C c int get_derived(void)
+C f int get_derived(void)
+Close wrapDerivedMatrix_int.h
+Close wrapDerivedMatrix_int.cpp
+class DerivedMatrix<double>
+C c DerivedMatrix(void)
+C f DerivedMatrix(void)
+C c void set_derived(double v)
+C f void set_derived(double v)
+C c double get_derived(void)
+C f double get_derived(void)
+Close wrapDerivedMatrix_double.h
+Close wrapDerivedMatrix_double.cpp
+library Fortran wrappers
+namespace templateinherit
+class BaseMatrix<int>
+Fortran BaseMatrix(void)
+Fortran void set_base(int v)
+Fortran int get_base(void)
+C-interface c BaseMatrix(void)
+C-interface f BaseMatrix(void)
+C-interface f void set_base(int v)
+C-interface f int get_base(void)
+class BaseMatrix<double>
+Fortran BaseMatrix(void)
+Fortran void set_base(double v)
+Fortran double get_base(void)
+C-interface c BaseMatrix(void)
+C-interface f BaseMatrix(void)
+C-interface f void set_base(double v)
+C-interface f double get_base(void)
+class DerivedMatrix<int>
+Fortran DerivedMatrix(void)
+Fortran void set_derived(int v)
+Fortran int get_derived(void)
+C-interface c DerivedMatrix(void)
+C-interface f DerivedMatrix(void)
+C-interface f void set_derived(int v)
+C-interface f int get_derived(void)
+class DerivedMatrix<double>
+Fortran DerivedMatrix(void)
+Fortran void set_derived(double v)
+Fortran double get_derived(void)
+C-interface c DerivedMatrix(void)
+C-interface f DerivedMatrix(void)
+C-interface f void set_derived(double v)
+C-interface f double get_derived(void)
+Close wrapftemplateinherit.f
+Close utiltemplateinherit.cpp
+Close typestemplateinherit.h

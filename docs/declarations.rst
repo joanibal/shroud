@@ -435,3 +435,31 @@ Struct
 See example :ref:`passStruct1 <example_passStruct1>`.
 
 See example :ref:`passStructByValue <example_passStructByValue>`.
+
+Classes
+-------
+
+A wrapped C++ class argument is declared in the Fortran wrapper using the
+non-polymorphic derived type, ``type(Foo)``.  This requires the actual
+argument to be exactly that type.
+
+When the wrapped library uses inheritance (Shroud generates
+``type, extends(base) :: derived`` for derived classes), it is often
+desirable to accept any extending type for an argument.  Adding the
+*polymorphic* attribute declares the Fortran dummy argument as
+``class(Foo)`` instead of ``type(Foo)``:
+
+.. code-block:: yaml
+
+    - decl: int useclass(const Class1 *arg +polymorphic)
+
+generates the dummy argument as
+
+.. code-block:: fortran
+
+    class(class1), intent(IN) :: arg
+
+so any type that ``extends`` ``class1`` may be passed.  The attribute only
+affects the Fortran implementation wrapper; the ``bind(C)`` interface is
+unchanged and still passes the type's capsule.  The *polymorphic* attribute
+is only valid on class/derived-type (shadow) arguments.

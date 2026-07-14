@@ -1,0 +1,38 @@
+#
+#  Test a templated derived class whose base class is templated on the
+#  same parameter, e.g.
+#      template<typename T> class DerivedMatrix : public BaseMatrix<T>
+#  The Fortran derived type preserves the inheritance via 'type, extends'.
+#
+copyright:
+- Copyright Shroud Project Developers. See LICENSE file for details.
+-
+- "SPDX-License-Identifier: (BSD-3-Clause)"
+-
+
+library: templateinherit
+cxx_header: templateinherit.hpp
+
+options:
+  debug: True
+
+declarations:
+- decl: template<typename T> class BaseMatrix
+  cxx_template:
+  - instantiation: <int>
+  - instantiation: <double>
+  declarations:
+  - decl: BaseMatrix()
+  - decl: void set_base(T v)
+  - decl: T get_base()
+
+- decl: |
+    template<typename T>
+    class DerivedMatrix : public BaseMatrix<T>
+  cxx_template:
+  - instantiation: <int>
+  - instantiation: <double>
+  declarations:
+  - decl: DerivedMatrix()
+  - decl: void set_derived(T v)
+  - decl: T get_derived()

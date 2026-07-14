@@ -37,6 +37,8 @@ void CLA_passClassByValue(CLA_Class1 arg);
 
 int CLA_useclass(CLA_Class1 *arg);
 
+int CLA_useclassPoly(CLA_Class1 *arg);
+
 CLA_Class1 * CLA_getclass2(CLA_Class1 *SHC_rv);
 
 void CLA_getclass2_bufferify(CLA_Class1 *SHC_rv);

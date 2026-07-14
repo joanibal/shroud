@@ -991,6 +991,7 @@ class FillMetaShare(FillMeta):
                 "onebasedindex",
                 "owner",
                 "pass",
+                "polymorphic",   # Declare class argument as polymorphic class(Foo).
                 "rank",
                 "size",
                 "value",
@@ -1024,7 +1025,15 @@ class FillMetaShare(FillMeta):
         charlen = attrs.get("charlen", missing)
         if charlen is not missing:
             meta["charlen"] = charlen
-            
+
+        # polymorphic - declare the Fortran dummy as class(Foo) instead of
+        # type(Foo).  Only meaningful for class/derived-type (shadow) arguments.
+        if "polymorphic" in attrs and arg_typemap.f_class is None:
+            cursor.generate(
+                "argument '{}' has the polymorphic attribute "
+                "but is not a class/derived-type argument.".format(argname)
+            )
+
     def check_common_attrs(self, ast, meta):
         """Check attributes which are common to function and argument AST
         This includes: destructor_name, dimension, owner, rank

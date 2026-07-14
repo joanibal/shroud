@@ -1089,6 +1089,24 @@ module classes_mod
     end interface
 
     ! ----------------------------------------
+    ! Function:  int useclassPoly
+    ! Statement: f_function_native
+    ! ----------------------------------------
+    ! Argument:  const Class1 *arg +polymorphic
+    ! Statement: f_in_shadow*
+    interface
+        function c_useclass_poly(arg) &
+                result(SHT_rv) &
+                bind(C, name="CLA_useclassPoly")
+            use iso_c_binding, only : C_INT
+            import :: CLA_SHROUD_capsule_data
+            implicit none
+            type(CLA_SHROUD_capsule_data), intent(IN) :: arg
+            integer(C_INT) :: SHT_rv
+        end function c_useclass_poly
+    end interface
+
+    ! ----------------------------------------
     ! Function:  const Class1 *getclass2
     ! Statement: c_function_shadow*_capptr
     interface
@@ -2086,6 +2104,26 @@ contains
         SHT_rv = c_useclass(arg%cxxmem)
         ! splicer end function.useclass
     end function useclass
+
+    ! ----------------------------------------
+    ! Function:  int useclassPoly
+    ! Statement: f_function_native
+    ! ----------------------------------------
+    ! Argument:  const Class1 *arg +polymorphic
+    ! Statement: f_in_shadow*
+    !>
+    !! \brief Pass class argument as a polymorphic class(Foo) dummy.
+    !!
+    !<
+    function useclass_poly(arg) &
+            result(SHT_rv)
+        use iso_c_binding, only : C_INT
+        class(class1), intent(IN) :: arg
+        integer(C_INT) :: SHT_rv
+        ! splicer begin function.useclass_poly
+        SHT_rv = c_useclass_poly(arg%cxxmem)
+        ! splicer end function.useclass_poly
+    end function useclass_poly
 
     ! ----------------------------------------
     ! Function:  const Class1 *getclass2

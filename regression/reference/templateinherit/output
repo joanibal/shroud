@@ -1,0 +1,44 @@
+ctor has_templated_signature False
+set_base has_templated_signature True
+----------------- set_base ---------------------
+get_base has_templated_signature True
+----------------- get_base ---------------------
+ctor []
+set_base [<Declaration('int')>]
+get_base []
+ctor has_templated_signature False
+set_base has_templated_signature True
+----------------- set_base ---------------------
+get_base has_templated_signature True
+----------------- get_base ---------------------
+ctor []
+set_base [<Declaration('double')>]
+get_base []
+ctor has_templated_signature False
+set_derived has_templated_signature True
+----------------- set_derived ---------------------
+get_derived has_templated_signature True
+----------------- get_derived ---------------------
+ctor []
+set_derived [<Declaration('int')>]
+get_derived []
+ctor has_templated_signature False
+set_derived has_templated_signature True
+----------------- set_derived ---------------------
+get_derived has_templated_signature True
+----------------- get_derived ---------------------
+ctor []
+set_derived [<Declaration('double')>]
+get_derived []
+Wrote templateinherit_types.yaml
+Wrote wrapBaseMatrix_int.h
+Wrote wrapBaseMatrix_int.cpp
+Wrote wrapBaseMatrix_double.h
+Wrote wrapBaseMatrix_double.cpp
+Wrote wrapDerivedMatrix_int.h
+Wrote wrapDerivedMatrix_int.cpp
+Wrote wrapDerivedMatrix_double.h
+Wrote wrapDerivedMatrix_double.cpp
+Wrote wrapftemplateinherit.f
+Wrote utiltemplateinherit.cpp
+Wrote typestemplateinherit.h
