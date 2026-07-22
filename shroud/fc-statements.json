@@ -4330,7 +4330,7 @@
         "f_need_wrapper": true,
         "f_dummy_arg": ["{f_var}"],
         "f_dummy_decl": [
-            "type({f_derived_type}), intent({f_intent}) :: {f_var}(:)"
+            "{f_type}, intent({f_intent}) :: {f_var}(:)"
         ],
         "f_module": {
             "{f_module_name}": ["{f_derived_type}"],
