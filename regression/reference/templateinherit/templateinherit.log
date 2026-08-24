@@ -38,6 +38,46 @@ C c double get_derived(void)
 C f double get_derived(void)
 Close wrapDerivedMatrix_double.h
 Close wrapDerivedMatrix_double.cpp
+class MixedMatrix<int, double>
+C c MixedMatrix(void)
+C f MixedMatrix(void)
+C c void set_mixed(int v, double w)
+C f void set_mixed(int v, double w)
+C c double get_mixed(void)
+C f double get_mixed(void)
+C c void convert(int value)
+C f void convert(int value)
+C c void convert(double value)
+C f void convert(double value)
+Close wrapMixedMatrix_int_double.h
+Close wrapMixedMatrix_int_double.cpp
+class MixedMatrix<double, int>
+C c MixedMatrix(void)
+C f MixedMatrix(void)
+C c void set_mixed(double v, int w)
+C f void set_mixed(double v, int w)
+C c int get_mixed(void)
+C f int get_mixed(void)
+C c void convert(int value)
+C f void convert(int value)
+C c void convert(double value)
+C f void convert(double value)
+Close wrapMixedMatrix_double_int.h
+Close wrapMixedMatrix_double_int.cpp
+class ConcreteMatrix<int>
+C c ConcreteMatrix(void)
+C f ConcreteMatrix(void)
+C c void set_concrete(int v)
+C f void set_concrete(int v)
+Close wrapConcreteMatrix_int.h
+Close wrapConcreteMatrix_int.cpp
+class ConcreteMatrix<double>
+C c ConcreteMatrix(void)
+C f ConcreteMatrix(void)
+C c void set_concrete(double v)
+C f void set_concrete(double v)
+Close wrapConcreteMatrix_double.h
+Close wrapConcreteMatrix_double.cpp
 library Fortran wrappers
 namespace templateinherit
 class BaseMatrix<int>
@@ -72,6 +112,42 @@ C-interface c DerivedMatrix(void)
 C-interface f DerivedMatrix(void)
 C-interface f void set_derived(double v)
 C-interface f double get_derived(void)
+class MixedMatrix<int, double>
+Fortran MixedMatrix(void)
+Fortran void set_mixed(int v, double w)
+Fortran double get_mixed(void)
+Fortran void convert(int value)
+Fortran void convert(double value)
+C-interface c MixedMatrix(void)
+C-interface f MixedMatrix(void)
+C-interface f void set_mixed(int v, double w)
+C-interface f double get_mixed(void)
+C-interface f void convert(int value)
+C-interface f void convert(double value)
+class MixedMatrix<double, int>
+Fortran MixedMatrix(void)
+Fortran void set_mixed(double v, int w)
+Fortran int get_mixed(void)
+Fortran void convert(int value)
+Fortran void convert(double value)
+C-interface c MixedMatrix(void)
+C-interface f MixedMatrix(void)
+C-interface f void set_mixed(double v, int w)
+C-interface f int get_mixed(void)
+C-interface f void convert(int value)
+C-interface f void convert(double value)
+class ConcreteMatrix<int>
+Fortran ConcreteMatrix(void)
+Fortran void set_concrete(int v)
+C-interface c ConcreteMatrix(void)
+C-interface f ConcreteMatrix(void)
+C-interface f void set_concrete(int v)
+class ConcreteMatrix<double>
+Fortran ConcreteMatrix(void)
+Fortran void set_concrete(double v)
+C-interface c ConcreteMatrix(void)
+C-interface f ConcreteMatrix(void)
+C-interface f void set_concrete(double v)
 Close wrapftemplateinherit.f
 Close utiltemplateinherit.cpp
 Close typestemplateinherit.h

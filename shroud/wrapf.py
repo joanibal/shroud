@@ -1549,7 +1549,7 @@ rv = .false.
                 need_wrapper = True
                 is_array = arg_meta["dimension"] is not None or arg_meta["rank"]
                 if is_array:
-                    # Array: create temp array, subtract 1 from all elements.
+                    # Array: create temp array, convert all elements.
                     fmt_arg.fc_var = f"SH_{fmt_arg.f_var}"
                     # Get the element type for the local decl.
                     # For containers (span, vector), use template arg type.
@@ -1563,9 +1563,20 @@ rv = .false.
                     arg_stmt.f_local_decl = [
                         "{SH_decl_type} :: {fc_var}(size({f_var}))"
                     ]
-                    arg_stmt.f_pre_call = [
-                        "{fc_var} = {f_var} - 1"
-                    ]
+                    # Values flowing into C are converted before the call,
+                    # values coming back from C are converted after it.
+                    if arg_meta["intent"] in ["out", "inout"]:
+                        if arg_meta["intent"] == "inout":
+                            arg_stmt.f_pre_call = [
+                                "{fc_var} = {f_var} - 1"
+                            ]
+                        arg_stmt.f_post_call = [
+                            "{f_var} = {fc_var} + 1"
+                        ]
+                    else:
+                        arg_stmt.f_pre_call = [
+                            "{fc_var} = {f_var} - 1"
+                        ]
                     # Preserve any extra arguments (like size) from parent statement.
                     if arg_stmt.f_arg_call and len(arg_stmt.f_arg_call) > 1:
                         arg_stmt.f_arg_call = ["{fc_var}"] + list(arg_stmt.f_arg_call[1:])

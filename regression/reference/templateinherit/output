@@ -30,6 +30,40 @@ get_derived has_templated_signature True
 ctor []
 set_derived [<Declaration('double')>]
 get_derived []
+ctor has_templated_signature False
+set_mixed has_templated_signature True
+----------------- set_mixed ---------------------
+get_mixed has_templated_signature True
+----------------- get_mixed ---------------------
+convert has_templated_signature True
+----------------- convert ---------------------
+ctor []
+set_mixed [<Declaration('int')>, <Declaration('double')>]
+get_mixed []
+convert [<Declaration('int')>]
+convert [<Declaration('double')>]
+ctor has_templated_signature False
+set_mixed has_templated_signature True
+----------------- set_mixed ---------------------
+get_mixed has_templated_signature True
+----------------- get_mixed ---------------------
+convert has_templated_signature True
+----------------- convert ---------------------
+ctor []
+set_mixed [<Declaration('double')>, <Declaration('int')>]
+get_mixed []
+convert [<Declaration('int')>]
+convert [<Declaration('double')>]
+ctor has_templated_signature False
+set_concrete has_templated_signature True
+----------------- set_concrete ---------------------
+ctor []
+set_concrete [<Declaration('int')>]
+ctor has_templated_signature False
+set_concrete has_templated_signature True
+----------------- set_concrete ---------------------
+ctor []
+set_concrete [<Declaration('double')>]
 Wrote templateinherit_types.yaml
 Wrote wrapBaseMatrix_int.h
 Wrote wrapBaseMatrix_int.cpp
@@ -39,6 +73,14 @@ Wrote wrapDerivedMatrix_int.h
 Wrote wrapDerivedMatrix_int.cpp
 Wrote wrapDerivedMatrix_double.h
 Wrote wrapDerivedMatrix_double.cpp
+Wrote wrapMixedMatrix_int_double.h
+Wrote wrapMixedMatrix_int_double.cpp
+Wrote wrapMixedMatrix_double_int.h
+Wrote wrapMixedMatrix_double_int.cpp
+Wrote wrapConcreteMatrix_int.h
+Wrote wrapConcreteMatrix_int.cpp
+Wrote wrapConcreteMatrix_double.h
+Wrote wrapConcreteMatrix_double.cpp
 Wrote wrapftemplateinherit.f
 Wrote utiltemplateinherit.cpp
 Wrote typestemplateinherit.h

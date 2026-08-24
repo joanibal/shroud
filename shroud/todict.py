@@ -17,8 +17,8 @@ def stringify_baseclass(baseclass):
     # Replace typename instance with its name.
     pbase = []
     for basetuple in baseclass:
-        (access_specifier, ns_name, baseclass) = basetuple
-        pbase.append((access_specifier, ns_name, baseclass.typemap.name))
+        access_specifier, ns_name, base = basetuple[0], basetuple[1], basetuple[2]
+        pbase.append((access_specifier, ns_name, base.typemap.name))
     return pbase
 
 def add_comment(dct, label, name=None):

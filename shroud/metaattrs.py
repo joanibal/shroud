@@ -65,6 +65,13 @@ class FillMeta(object):
         cursor = self.cursor
         
         for cls in node.classes:
+            cursor.push_phase("FillMeta class typedef")
+            for typ in cls.typedefs:
+                cursor.push_node(typ)
+                self.meta_typedef(cls, typ)
+                cursor.pop_node(typ)
+            cursor.pop_phase("FillMeta class typedef")
+
             cursor.push_phase("FillMeta class function")
             for var in cls.variables:
                 cursor.push_node(var)
@@ -274,8 +281,11 @@ class FillMeta(object):
                 self.cursor.generate("Bad value for argument {} intent: {}"
                                      .format(arg.declarator.user_name, intent))
                 intent = "inout"
-            elif intent != "in" and not arg.declarator.is_indirect():
+            elif (intent != "in" and not arg.declarator.is_indirect()
+                  and arg.typemap.sgroup != "span"):
                 # Nonpointers can only be intent(in).
+                # A span is passed by value but refers to the caller's
+                # memory, so it may be written by the callee.
                 self.cursor.generate("Only pointer arguments may have intent of 'out' or 'inout'")
         return intent
 
@@ -490,6 +500,10 @@ class FillMeta(object):
             pass
         elif intent not in ["out", "inout"]:
             pass
+        elif ntypemap.sgroup == "span":
+            # A span refers to memory allocated by the caller.
+            # The callee fills it in place, nothing is copied back.
+            pass
         elif ntypemap.implied_array:
             meta["deref"] = "copy"
 #        elif spointer in ["**", "*&"]:
@@ -557,6 +571,10 @@ class FillMeta(object):
             # void cannot be dereferenced.
             pass
         elif intent not in ["out", "inout"]:
+            pass
+        elif ntypemap.sgroup == "span":
+            # A span refers to memory allocated by the caller.
+            # The callee fills it in place, nothing is copied back.
             pass
         elif ntypemap.implied_array:
             meta["deref"] = options.F_deref_arg_implied_array
@@ -777,6 +795,11 @@ class FillMeta(object):
                     has_buf_arg = "cdesc"
                 else:
                     has_buf_arg = "buf"
+        elif ntypemap.sgroup == "span":
+            # Unlike a vector, the callee cannot resize a span, so there
+            # is nothing to describe on return.  Pass address and SIZE
+            # for every intent.
+            has_buf_arg = "buf"
         elif ntypemap.implied_array:
             if meta["intent"] == "in":
                 # Pass SIZE.

@@ -70,6 +70,38 @@ struct s_TEM_DerivedMatrix_double {
     int cmemflags;  // memory flags
 };
 typedef struct s_TEM_DerivedMatrix_double TEM_DerivedMatrix_double;
+
+// C++ capsule TEM_MixedMatrix_int_double
+struct s_TEM_MixedMatrix_int_double {
+    MixedMatrix<int, double> *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_MixedMatrix_int_double TEM_MixedMatrix_int_double;
+
+// C++ capsule TEM_MixedMatrix_double_int
+struct s_TEM_MixedMatrix_double_int {
+    MixedMatrix<double, int> *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_MixedMatrix_double_int TEM_MixedMatrix_double_int;
+
+// C++ capsule TEM_ConcreteMatrix_int
+struct s_TEM_ConcreteMatrix_int {
+    ConcreteMatrix<int> *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_ConcreteMatrix_int TEM_ConcreteMatrix_int;
+
+// C++ capsule TEM_ConcreteMatrix_double
+struct s_TEM_ConcreteMatrix_double {
+    ConcreteMatrix<double> *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_ConcreteMatrix_double TEM_ConcreteMatrix_double;
 #endif
 
 // C capsule TEM_BaseMatrix_int
@@ -103,6 +135,38 @@ struct s_TEM_DerivedMatrix_double {
     int cmemflags;  // memory flags
 };
 typedef struct s_TEM_DerivedMatrix_double TEM_DerivedMatrix_double;
+
+// C capsule TEM_MixedMatrix_int_double
+struct s_TEM_MixedMatrix_int_double {
+    void *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_MixedMatrix_int_double TEM_MixedMatrix_int_double;
+
+// C capsule TEM_MixedMatrix_double_int
+struct s_TEM_MixedMatrix_double_int {
+    void *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_MixedMatrix_double_int TEM_MixedMatrix_double_int;
+
+// C capsule TEM_ConcreteMatrix_int
+struct s_TEM_ConcreteMatrix_int {
+    void *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_ConcreteMatrix_int TEM_ConcreteMatrix_int;
+
+// C capsule TEM_ConcreteMatrix_double
+struct s_TEM_ConcreteMatrix_double {
+    void *addr;     // address of C++ memory
+    int idtor;      // index of destructor
+    int cmemflags;  // memory flags
+};
+typedef struct s_TEM_ConcreteMatrix_double TEM_ConcreteMatrix_double;
 
 void TEM_SHROUD_memory_destructor(TEM_SHROUD_capsule_data *cap);
 

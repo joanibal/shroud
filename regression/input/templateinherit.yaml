@@ -1,7 +1,9 @@
 #
-#  Test a templated derived class whose base class is templated on the
-#  same parameter, e.g.
+#  Test a templated derived class whose base class is templated, e.g.
 #      template<typename T> class DerivedMatrix : public BaseMatrix<T>
+#  The base may use a subset of the derived class's parameters or a
+#  concrete type; each instantiation of the derived class extends the
+#  matching instantiation of the base.
 #  The Fortran derived type preserves the inheritance via 'type, extends'.
 #
 copyright:
@@ -36,3 +38,38 @@ declarations:
   - decl: DerivedMatrix()
   - decl: void set_derived(T v)
   - decl: T get_derived()
+
+# The base class may be templated on a subset of the derived class's
+# parameters,   MixedMatrix<int,double> : public BaseMatrix<int>
+- decl: |
+    template<typename T, typename U>
+    class MixedMatrix : public BaseMatrix<T>
+  cxx_template:
+  - instantiation: <int, double>
+    format:
+      template_suffix: _int_double
+  - instantiation: <double, int>
+    format:
+      template_suffix: _double_int
+  declarations:
+  - decl: MixedMatrix()
+  - decl: void set_mixed(T v, U w)
+  - decl: U get_mixed()
+  # A member template.  The class carries an explicit template_suffix, which
+  # must not name the methods; only this function's own instantiation does,
+  # giving convert_int and convert_double.
+  - decl: template<typename V> void convert(V value)
+    cxx_template:
+    - instantiation: <int>
+    - instantiation: <double>
+
+# The base class may also be templated on a concrete type.
+- decl: |
+    template<typename T>
+    class ConcreteMatrix : public BaseMatrix<double>
+  cxx_template:
+  - instantiation: <int>
+  - instantiation: <double>
+  declarations:
+  - decl: ConcreteMatrix()
+  - decl: void set_concrete(T v)

@@ -767,7 +767,7 @@ typedef struct s_{C_type_name} {C_type_name};{cpp_endif}""",
         for method in node.functions:
             if method.wrap.c:
                 self.wrap_function("c", node, method, fileinfo)
-            if method.wrap.fortran:
+            if method.wrap.fortran and method.options.F_create_bufferify_function:
                 self.wrap_function("f", node, method, fileinfo)
         self._pop_splicer("method")
         cursor.pop_node(node)

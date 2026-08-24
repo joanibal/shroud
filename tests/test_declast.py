@@ -1184,8 +1184,8 @@ class CheckParse(unittest.TestCase):
         self.assertIsInstance(class2.class_specifier, declast.CXXClass)
 
     def test_inheritance_template(self):
-        """A templated base class must use the same template arguments
-        as the derived class."""
+        """A templated base class uses the derived class's template
+        parameters (possibly a subset) or concrete types."""
         symtab = declast.SymbolTable()
 
         declast.check_decl("template<typename T> class BMatrix", symtab)
@@ -1201,21 +1201,33 @@ class CheckParse(unittest.TestCase):
             todict.stringify_baseclass(cls.baseclass),
         )
 
-        # Different template arguments are rejected (here the base uses only
-        # one of the derived class's two parameters).
-        with self.assertRaises(ShroudParseError) as context:
-            declast.check_decl(
-                "template<typename T, typename U> class P2 "
-                ": public BMatrix<U>", symtab)
-        self.assertTrue(
-            "must match the class template parameters" in str(context.exception))
+        # The base may use a subset of the derived class's parameters.
+        r = declast.check_decl(
+            "template<typename T, typename U> class P2 "
+            ": public BMatrix<U>", symtab)
+        cls = r.decl.class_specifier
+        self.assertEqual(
+            [("public", "BMatrix", "BMatrix")],
+            todict.stringify_baseclass(cls.baseclass),
+        )
+        self.assertEqual(
+            ["U"],
+            [arg.template_argument for arg in cls.baseclass[0][3]],
+        )
 
-        # A concrete argument is rejected.
+        # A concrete argument is accepted.
+        r = declast.check_decl(
+            "template<typename T> class P3 : public BMatrix<int>", symtab)
+        cls = r.decl.class_specifier
+        self.assertEqual(
+            [None], [arg.template_argument for arg in cls.baseclass[0][3]])
+        self.assertEqual("int", cls.baseclass[0][3][0].typemap.name)
+
+        # An unknown argument is rejected.
         with self.assertRaises(ShroudParseError) as context:
             declast.check_decl(
-                "template<typename T> class P3 : public BMatrix<int>", symtab)
-        self.assertTrue(
-            "must match the class template parameters" in str(context.exception))
+                "template<typename T> class P5 : public BMatrix<V>", symtab)
+        self.assertTrue("Expected TYPE_SPECIFIER" in str(context.exception))
 
         # A templated base on a non-templated class is rejected.
         with self.assertRaises(ShroudParseError) as context:

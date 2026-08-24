@@ -1134,7 +1134,13 @@ class ClassNode(AstNode, NamespaceMixin):
         cxx_template - list of TemplateArgument instances
 
         Args:
-            base - list of tuples ('public|private|protected', qualified-name (aa:bb), declast.CXXClass)
+            base - list of tuples ('public|private|protected', qualified-name (aa:bb),
+                   declast.CXXClass, base template arguments).
+                   The template arguments are a list of declast.Declaration
+                   parsed from the base class specifier (ex. B<T>), or None
+                   when the base class is not templated.
+                   generate.instantiate_classes replaces the third member with
+                   the ast.ClassNode of the matching base instantiation.
             parse_keyword - keyword from decl - "class" or "struct".
         """
         # From arguments
@@ -1275,6 +1281,14 @@ class ClassNode(AstNode, NamespaceMixin):
 
         if self.user_fmt:
             self.fmtdict.update(self.user_fmt, replace=True)
+        # template_suffix names the class itself (instantiate_classes uses it
+        # to build name_api).  Format scopes chain, so leaving it in the class
+        # scope would append it to the name of every method -- where
+        # {C_name_scope}/{F_name_scope} already carry the instantiated class
+        # name -- and would suppress a member template's own suffix in
+        # template_function.  Remove it rather than assigning "" so the
+        # class scope does not gain a field it never had.
+        self.fmtdict.delattrs(["template_suffix"])
         self.expand_format_templates()
 
     def expand_format_templates(self):

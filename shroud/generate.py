@@ -231,6 +231,8 @@ class GenFunctions(object):
         self.newlibrary = newlibrary
         self.config = config
         self.instantiate_scope = None
+        # typemap -> {instantiation string: [typemap of each argument]}
+        self.instantiation_args = {}
         self.language = newlibrary.language
         self.cursor = error.get_cursor()
         self.namespace_list = []
@@ -558,6 +560,13 @@ class GenFunctions(object):
             self.append_function_index(function)
         assign_operators = self.current_namespace().assign_operators
         # Replace class with new class for each template instantiation.
+        # This is done in two passes.  The first creates and registers the
+        # typemap of every instantiation, the second processes the methods.
+        # A method may name another instantiation of its own class, ex.
+        #     template<typename U> void createFrom(const Vec<U>& other)
+        # so every typemap has to be in typemap.cxx_instantiation before any
+        # method is expanded.
+        newclasses = []
         # targs -> ast.TemplateArgument
         for i, targs in enumerate(cls.template_arguments):
             newcls = cls.clone()
@@ -603,6 +612,9 @@ class GenFunctions(object):
                       "typemap.cxx_instantiation".format(targs.instantiation))
             orig_typemap.cxx_instantiation[targs.instantiation] = newcls.typemap
 
+            newclasses.append((newcls, targs))
+
+        for newcls, targs in newclasses:
             self.template_typedef(newcls, targs)
 
             self.push_instantiate_scope(newcls, targs)
@@ -611,28 +623,85 @@ class GenFunctions(object):
             self.pop_instantiate_scope()
 
             # Re-point a templated base class at the matching instantiation.
-            # Only the same-arguments case is supported (enforced by the parser),
-            # so the base shares this class's instantiation, e.g.
-            #   PMatrix<double> : public BMatrix<double>.
+            # The base may be templated on a subset of this class's parameters
+            # (or on concrete types), so project this instantiation's arguments
+            # through the base's argument list, e.g.
+            #   MatFreeMatrix<float,double> : public BMatrix<VarType>
+            # looks for the BMatrix instantiation <float>.
             # cls.baseclass is shared by every clone; build a fresh list.
             if cls.baseclass:
                 newbases = []
-                for (access, ns_name, base) in cls.baseclass:
-                    cxx_inst = base.typemap.cxx_instantiation
-                    inst_typemap = None
-                    if cxx_inst is not None:
-                        inst_typemap = cxx_inst.get(targs.instantiation)
-                    if inst_typemap is None:
-                        self.cursor.warning(
-                            "Base class {}{} is not instantiated; declare the "
-                            "base template (with this instantiation) before the "
-                            "derived class".format(ns_name, targs.instantiation))
-                        newbases.append((access, ns_name, base))
-                    else:
-                        inst_class = self.class_map.get(
-                            inst_typemap.flat_name, base)
-                        newbases.append((access, ns_name, inst_class))
+                for basetuple in cls.baseclass:
+                    newbases.append(
+                        self.instantiate_baseclass(cls, targs, basetuple))
                 newcls.baseclass = newbases
+
+    def instantiate_baseclass(self, cls, targs, basetuple):
+        """Return the base class tuple for one instantiation of cls.
+
+        Parameters
+        ----------
+          cls       - ast.ClassNode, the template being instantiated.
+          targs     - ast.TemplateArgument for this instantiation.
+          basetuple - (access, name, node, base template arguments) from
+                      declast.CXXClass.baseclass.
+        """
+        access, ns_name, base = basetuple[0], basetuple[1], basetuple[2]
+        base_targs = basetuple[3] if len(basetuple) > 3 else None
+        if base_targs is None:
+            # Base class is not templated, nothing to re-point.
+            return basetuple
+
+        # Project this instantiation's arguments onto the base's arguments.
+        want = []
+        for arg in base_targs:
+            if arg.template_argument in cls.template_parameters:
+                idx = cls.template_parameters.index(arg.template_argument)
+                want.append(targs.asts[idx].typemap)
+            else:
+                # A concrete argument, ex. B<double>.
+                want.append(arg.typemap)
+
+        inst_typemap = self.find_class_instantiation(
+            base.typemap, want, cls.symtab)
+        if inst_typemap is None:
+            self.cursor.warning(
+                "Base class {}<{}> is not instantiated; declare the "
+                "base template (with this instantiation) before the "
+                "derived class".format(
+                    ns_name, ",".join(ntypemap.name for ntypemap in want)))
+            return (access, ns_name, base, base_targs)
+        inst_class = self.class_map.get(inst_typemap.flat_name, base)
+        return (access, ns_name, inst_class, base_targs)
+
+    def find_class_instantiation(self, ntypemap, want, symtab):
+        """Find the instantiation of ntypemap whose arguments are want.
+
+        cxx_instantiation is keyed by the instantiation string from the YAML
+        file (ex. "<int, double>").  Parse each key and compare typemaps
+        instead of comparing strings so that spelling differences such as
+        "<double>" and "< double >" still match.
+
+        Parameters
+        ----------
+          ntypemap - typemap.Typemap of the class template.
+          want     - list of typemap.Typemap, the desired arguments.
+          symtab   - declast.SymbolTable used to parse the keys.
+        """
+        cxx_inst = ntypemap.cxx_instantiation
+        if not cxx_inst:
+            return None
+        cache = self.instantiation_args.setdefault(ntypemap, {})
+        for instantiation, inst_typemap in cxx_inst.items():
+            args = cache.get(instantiation)
+            if args is None:
+                asts = declast.Parser(
+                    instantiation, symtab).template_argument_list()
+                args = [argast.typemap for argast in asts]
+                cache[instantiation] = args
+            if args == want:
+                return inst_typemap
+        return None
 
     def share_class(self, cls, smart):
         """Create additional classes for use with smart pointers like std::shared.
@@ -1062,7 +1131,10 @@ class GenFunctions(object):
                 # If single template argument, use type's template_suffix
                 # or the unqualified flat_name.
                 # Multiple template arguments, use sequence number.
-                if fmt.template_suffix:
+                # Only this function's own instantiation counts; a value from
+                # an enclosing scope must not suppress the suffix which
+                # distinguishes this instantiation from its siblings.
+                if targs.fmtdict and "template_suffix" in targs.fmtdict:
                     pass
                 elif len(targs.asts) == 1:
                     ntypemap = targs.asts[0].typemap

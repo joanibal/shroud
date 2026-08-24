@@ -117,13 +117,133 @@
                     "stmt": "f_operator_assignment_shadow"
                 },
                 "name": "DerivedMatrix_double = DerivedMatrix_double"
+            },
+            {
+                "bind": {
+                    "fmtdict": {
+                        "C_name_api": "assign",
+                        "C_name_assign_api": "TEM_MixedMatrix_int_double_assign_MixedMatrix_int_double",
+                        "F_name_api": "assign",
+                        "F_name_assign_api": "mixed_matrix_int_double_assign_MixedMatrix_int_double",
+                        "alias_code": "// Aliasing another class; clear ownership.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_OWN;",
+                        "c_type_lhs": "TEM_MixedMatrix_int_double",
+                        "c_type_rhs": "TEM_MixedMatrix_int_double",
+                        "capture_code": "// Capture pointer from RHS, clear 'moving' flag.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "copy_alias_code": "// RHS shouldn't be deleted, alias to LHS.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "cxx_type_lhs": "MixedMatrix<int, double>",
+                        "cxx_type_rhs": "MixedMatrix<int, double>",
+                        "destroy_code": "// Replace LHS with a null pointer.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = nullptr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = 0;",
+                        "f_capsule_data_type_lhs": "TEM_SHROUD_capsule_data",
+                        "f_capsule_data_type_rhs": "TEM_SHROUD_capsule_data",
+                        "f_derived_type_lhs": "mixed_matrix_int_double",
+                        "f_derived_type_rhs": "mixed_matrix_int_double",
+                        "f_interface_import": "TEM_SHROUD_capsule_data",
+                        "function_suffix": "_MixedMatrix_int_double",
+                        "move_alias_code": "// Transferred ownership from a variable that's about to be lost.\n// Move-assign and delete the transient data.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "typemap_lhs": "MixedMatrix_int_double",
+                        "typemap_rhs": "MixedMatrix_int_double"
+                    },
+                    "stmt": "f_operator_assignment_shadow"
+                },
+                "name": "MixedMatrix_int_double = MixedMatrix_int_double"
+            },
+            {
+                "bind": {
+                    "fmtdict": {
+                        "C_name_api": "assign",
+                        "C_name_assign_api": "TEM_MixedMatrix_double_int_assign_MixedMatrix_double_int",
+                        "F_name_api": "assign",
+                        "F_name_assign_api": "mixed_matrix_double_int_assign_MixedMatrix_double_int",
+                        "alias_code": "// Aliasing another class; clear ownership.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_OWN;",
+                        "c_type_lhs": "TEM_MixedMatrix_double_int",
+                        "c_type_rhs": "TEM_MixedMatrix_double_int",
+                        "capture_code": "// Capture pointer from RHS, clear 'moving' flag.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "copy_alias_code": "// RHS shouldn't be deleted, alias to LHS.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "cxx_type_lhs": "MixedMatrix<double, int>",
+                        "cxx_type_rhs": "MixedMatrix<double, int>",
+                        "destroy_code": "// Replace LHS with a null pointer.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = nullptr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = 0;",
+                        "f_capsule_data_type_lhs": "TEM_SHROUD_capsule_data",
+                        "f_capsule_data_type_rhs": "TEM_SHROUD_capsule_data",
+                        "f_derived_type_lhs": "mixed_matrix_double_int",
+                        "f_derived_type_rhs": "mixed_matrix_double_int",
+                        "f_interface_import": "TEM_SHROUD_capsule_data",
+                        "function_suffix": "_MixedMatrix_double_int",
+                        "move_alias_code": "// Transferred ownership from a variable that's about to be lost.\n// Move-assign and delete the transient data.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "typemap_lhs": "MixedMatrix_double_int",
+                        "typemap_rhs": "MixedMatrix_double_int"
+                    },
+                    "stmt": "f_operator_assignment_shadow"
+                },
+                "name": "MixedMatrix_double_int = MixedMatrix_double_int"
+            },
+            {
+                "bind": {
+                    "fmtdict": {
+                        "C_name_api": "assign",
+                        "C_name_assign_api": "TEM_ConcreteMatrix_int_assign_ConcreteMatrix_int",
+                        "F_name_api": "assign",
+                        "F_name_assign_api": "concrete_matrix_int_assign_ConcreteMatrix_int",
+                        "alias_code": "// Aliasing another class; clear ownership.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_OWN;",
+                        "c_type_lhs": "TEM_ConcreteMatrix_int",
+                        "c_type_rhs": "TEM_ConcreteMatrix_int",
+                        "capture_code": "// Capture pointer from RHS, clear 'moving' flag.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "copy_alias_code": "// RHS shouldn't be deleted, alias to LHS.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "cxx_type_lhs": "ConcreteMatrix<int>",
+                        "cxx_type_rhs": "ConcreteMatrix<int>",
+                        "destroy_code": "// Replace LHS with a null pointer.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = nullptr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = 0;",
+                        "f_capsule_data_type_lhs": "TEM_SHROUD_capsule_data",
+                        "f_capsule_data_type_rhs": "TEM_SHROUD_capsule_data",
+                        "f_derived_type_lhs": "concrete_matrix_int",
+                        "f_derived_type_rhs": "concrete_matrix_int",
+                        "f_interface_import": "TEM_SHROUD_capsule_data",
+                        "function_suffix": "_ConcreteMatrix_int",
+                        "move_alias_code": "// Transferred ownership from a variable that's about to be lost.\n// Move-assign and delete the transient data.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "typemap_lhs": "ConcreteMatrix_int",
+                        "typemap_rhs": "ConcreteMatrix_int"
+                    },
+                    "stmt": "f_operator_assignment_shadow"
+                },
+                "name": "ConcreteMatrix_int = ConcreteMatrix_int"
+            },
+            {
+                "bind": {
+                    "fmtdict": {
+                        "C_name_api": "assign",
+                        "C_name_assign_api": "TEM_ConcreteMatrix_double_assign_ConcreteMatrix_double",
+                        "F_name_api": "assign",
+                        "F_name_assign_api": "concrete_matrix_double_assign_ConcreteMatrix_double",
+                        "alias_code": "// Aliasing another class; clear ownership.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_OWN;",
+                        "c_type_lhs": "TEM_ConcreteMatrix_double",
+                        "c_type_rhs": "TEM_ConcreteMatrix_double",
+                        "capture_code": "// Capture pointer from RHS, clear 'moving' flag.\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "copy_alias_code": "// RHS shouldn't be deleted, alias to LHS.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "cxx_type_lhs": "ConcreteMatrix<double>",
+                        "cxx_type_rhs": "ConcreteMatrix<double>",
+                        "destroy_code": "// Replace LHS with a null pointer.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = nullptr;\nlhs_capsule->idtor = 0;\nlhs_capsule->cmemflags = 0;",
+                        "f_capsule_data_type_lhs": "TEM_SHROUD_capsule_data",
+                        "f_capsule_data_type_rhs": "TEM_SHROUD_capsule_data",
+                        "f_derived_type_lhs": "concrete_matrix_double",
+                        "f_derived_type_rhs": "concrete_matrix_double",
+                        "f_interface_import": "TEM_SHROUD_capsule_data",
+                        "function_suffix": "_ConcreteMatrix_double",
+                        "move_alias_code": "// Transferred ownership from a variable that's about to be lost.\n// Move-assign and delete the transient data.\nif (lhs_capsule->cmemflags & SWIG_MEM_OWN) {+\nTEM_SHROUD_memory_destructor(\t(TEM_SHROUD_capsule_data *) lhs_capsule);\n-}\nlhs_capsule->addr = rhs_capsule->addr;\nlhs_capsule->idtor = rhs_capsule->idtor;\nlhs_capsule->cmemflags = rhs_capsule->cmemflags & ~SWIG_MEM_RVALUE;",
+                        "typemap_lhs": "ConcreteMatrix_double",
+                        "typemap_rhs": "ConcreteMatrix_double"
+                    },
+                    "stmt": "f_operator_assignment_shadow"
+                },
+                "name": "ConcreteMatrix_double = ConcreteMatrix_double"
             }
         ],
         "class_map": [
             "BaseMatrix_double",
             "BaseMatrix_int",
+            "ConcreteMatrix_double",
+            "ConcreteMatrix_int",
             "DerivedMatrix_double",
-            "DerivedMatrix_int"
+            "DerivedMatrix_int",
+            "MixedMatrix_double,_int",
+            "MixedMatrix_int,_double"
         ],
         "classes": [
             {
@@ -2299,6 +2419,3058 @@
                     "f_helper_capsule_data": "TEM_SHROUD_capsule_data",
                     "file_scope": "DerivedMatrix_double"
                 }
+            },
+            {
+                "<CLASS>": "MixedMatrix ****************************************",
+                "baseclass": [
+                    [
+                        "public",
+                        "BaseMatrix",
+                        "BaseMatrix_int"
+                    ]
+                ],
+                "cxx_header": [],
+                "functions": [
+                    {
+                        "<FUNCTION>": "ctor  30 ****************************************",
+                        "_orig_node_index": 26,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "default_name": "ctor",
+                                "is_ctor": true,
+                                "params": [],
+                                "typemap_name": "MixedMatrix"
+                            },
+                            "is_ctor": true,
+                            "specifier": [
+                                "MixedMatrix"
+                            ],
+                            "typemap_name": "MixedMatrix_int_double"
+                        },
+                        "decl": "MixedMatrix()",
+                        "declgen": "MixedMatrix(void)",
+                        "name": "ctor",
+                        "options": {
+                            "F_create_generic": true
+                        },
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_MixedMatrix_int_double_ctor",
+                                        "C_prototype": "TEM_MixedMatrix_int_double *SHC_rv",
+                                        "C_return_type": "TEM_MixedMatrix_int_double *",
+                                        "c_abstract_decl": "TEM_MixedMatrix_int_double *",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "TEM_MixedMatrix_int_double",
+                                        "c_var": "SHC_rv",
+                                        "c_var_ptr": "SHT_rv_ptr",
+                                        "cxx_abstract_decl": "MixedMatrix<int, double>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "MixedMatrix<int, double>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "mixed_matrix_int_double",
+                                        "f_kind": "mixed_matrix_int_double",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_type": "type(mixed_matrix_int_double)",
+                                        "f_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "mixed_matrix_int_double",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_mixed_matrix_int_double_ctor",
+                                        "i_result_clause": "\fresult(SHT_rv_ptr)",
+                                        "i_result_var": "SHT_rv_ptr",
+                                        "i_subprogram": "function",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "i_var_ptr": "SHT_rv_ptr",
+                                        "idtor": "5",
+                                        "stmt_name": "c_ctor_shadow_capptr",
+                                        "typemap_name": "MixedMatrix_int_double"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capptr",
+                                        "intent": "ctor"
+                                    },
+                                    "stmt": "c_ctor_shadow_capptr"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_MixedMatrix_int_double_ctor_bufferify",
+                                        "C_prototype": "TEM_MixedMatrix_int_double *SHC_rv",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "SHT_rv%cxxmem",
+                                        "F_arguments": "",
+                                        "F_subprogram": "function",
+                                        "c_abstract_decl": "TEM_MixedMatrix_int_double *",
+                                        "c_cmemflags": "SWIG_MEM_OWN",
+                                        "c_cmemflags_or": "SWIG_MEM_OWN | ",
+                                        "c_const": "",
+                                        "c_type": "TEM_MixedMatrix_int_double",
+                                        "c_var": "SHC_rv",
+                                        "cxx_abstract_decl": "MixedMatrix<int, double>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "MixedMatrix<int, double>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_call_function": "c_mixed_matrix_int_double_ctor_bufferify",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "mixed_matrix_int_double",
+                                        "f_intent": "OUT",
+                                        "f_intent_attr": ", intent(OUT)",
+                                        "f_kind": "mixed_matrix_int_double",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_result_clause": "\fresult(SHT_rv)",
+                                        "f_type": "type(mixed_matrix_int_double)",
+                                        "f_var": "SHT_rv",
+                                        "fc_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "mixed_matrix_int_double",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_mixed_matrix_int_double_ctor_bufferify",
+                                        "i_subprogram": "subroutine",
+                                        "i_suffix": "_bufferify",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "idtor": "5",
+                                        "stmt_name": "f_ctor_shadow_capsule_caller",
+                                        "typemap_name": "MixedMatrix_int_double"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capsule",
+                                        "intent": "ctor",
+                                        "owner": "caller"
+                                    },
+                                    "stmt": "f_ctor_shadow_capsule_caller"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "intent": "ctor"
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "ctor",
+                            "F_name_api": "ctor",
+                            "F_name_function": "ctor",
+                            "F_name_generic": "mixed_matrix_int_double",
+                            "F_name_impl": "mixed_matrix_int_double_ctor",
+                            "c_arglist": [
+                                "SHC_rv"
+                            ],
+                            "f_arglist": [
+                                "SHT_rv"
+                            ],
+                            "function_name": "ctor"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "set_mixed  34 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 27,
+                        "ast": {
+                            "declarator": {
+                                "name": "set_mixed",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "v",
+                                            "typemap_name": "int"
+                                        },
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "template_argument": "T",
+                                        "typemap_name": "int"
+                                    },
+                                    {
+                                        "declarator": {
+                                            "name": "w",
+                                            "typemap_name": "double"
+                                        },
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "template_argument": "U",
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "void set_mixed(T v, U w)",
+                        "declgen": "void set_mixed(int v, double w)",
+                        "has_templated_signature": true,
+                        "name": "set_mixed",
+                        "options": {},
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_mixed(\tv,\t w)",
+                                        "C_call_list": "v,\t w",
+                                        "C_name": "TEM_MixedMatrix_int_double_set_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self,\t int v,\t double w",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_mixed_matrix_int_double_set_mixed",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "int",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                },
+                                "w": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "w",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&w",
+                                        "cxx_type": "double",
+                                        "cxx_var": "w",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_mixed(\tv,\t w)",
+                                        "C_call_list": "v,\t w",
+                                        "C_name": "TEM_MixedMatrix_int_double_set_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self,\t int v,\t double w",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t v,\t w",
+                                        "F_arguments": "obj,\t v,\t w",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_mixed_matrix_int_double_set_mixed",
+                                        "i_arguments": "self,\t v,\t w",
+                                        "i_name_function": "c_mixed_matrix_int_double_set_mixed",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "int",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_INT",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "integer(C_INT)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "v",
+                                        "fc_var": "v",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_INT",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "integer(C_INT)",
+                                        "i_var": "v",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                },
+                                "w": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "w",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&w",
+                                        "cxx_type": "double",
+                                        "cxx_var": "w",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_DOUBLE",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "real(C_DOUBLE)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "w",
+                                        "fc_var": "w",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_DOUBLE",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "real(C_DOUBLE)",
+                                        "i_var": "w",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "v": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                },
+                                "w": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "set_mixed",
+                            "F_name_api": "set_mixed",
+                            "F_name_function": "set_mixed",
+                            "F_name_generic": "set_mixed",
+                            "F_name_impl": "mixed_matrix_int_double_set_mixed",
+                            "c_arglist": [
+                                "self",
+                                "v",
+                                "w"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "v",
+                                "w"
+                            ],
+                            "function_name": "set_mixed"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "get_mixed  35 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 28,
+                        "ast": {
+                            "declarator": {
+                                "name": "get_mixed",
+                                "params": [],
+                                "typemap_name": "double"
+                            },
+                            "specifier": [
+                                "double"
+                            ],
+                            "template_argument": "U",
+                            "typemap_name": "double"
+                        },
+                        "decl": "U get_mixed()",
+                        "declgen": "double get_mixed(void)",
+                        "has_templated_signature": true,
+                        "name": "get_mixed",
+                        "options": {
+                            "F_create_generic": false
+                        },
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->get_mixed(\t)",
+                                        "C_name": "TEM_MixedMatrix_int_double_get_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self",
+                                        "C_return_type": "double",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "double",
+                                        "c_var": "SHC_rv",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&SHC_rv",
+                                        "cxx_type": "double",
+                                        "cxx_var": "SHC_rv",
+                                        "i_name_function": "c_mixed_matrix_int_double_get_mixed",
+                                        "idtor": "0",
+                                        "stmt_name": "c_function_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "function"
+                                    },
+                                    "stmt": "c_function_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->get_mixed(\t)",
+                                        "C_name": "TEM_MixedMatrix_int_double_get_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self",
+                                        "C_return_type": "double",
+                                        "F_arg_c_call": "obj%cxxmem",
+                                        "F_arguments": "obj",
+                                        "F_subprogram": "function",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "double",
+                                        "c_var": "SHC_rv",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&SHC_rv",
+                                        "cxx_type": "double",
+                                        "cxx_var": "SHC_rv",
+                                        "f_call_function": "c_mixed_matrix_int_double_get_mixed",
+                                        "f_kind": "C_DOUBLE",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_result_clause": "\fresult(SHT_rv)",
+                                        "f_type": "real(C_DOUBLE)",
+                                        "f_var": "SHT_rv",
+                                        "fc_var": "SHT_rv",
+                                        "i_arguments": "self",
+                                        "i_kind": "C_DOUBLE",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_name_function": "c_mixed_matrix_int_double_get_mixed",
+                                        "i_result_clause": "\fresult(SHT_rv)",
+                                        "i_subprogram": "function",
+                                        "i_type": "real(C_DOUBLE)",
+                                        "i_var": "SHT_rv",
+                                        "idtor": "0",
+                                        "stmt_name": "f_function_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "function"
+                                    },
+                                    "stmt": "f_function_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "function"
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "get_mixed",
+                            "F_name_api": "get_mixed",
+                            "F_name_function": "get_mixed",
+                            "F_name_impl": "mixed_matrix_int_double_get_mixed",
+                            "c_arglist": [
+                                "SHC_rv"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "SHT_rv"
+                            ],
+                            "function_name": "get_mixed"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "convert  36 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 29,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "name": "convert",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "value",
+                                            "typemap_name": "int"
+                                        },
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "template_argument": "V",
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "template<typename V> void convert(V value)",
+                        "declgen": "void convert(int value)",
+                        "has_templated_signature": true,
+                        "name": "convert",
+                        "options": {},
+                        "template_arguments": [
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "instantiation": "<int>"
+                            },
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "instantiation": "<double>"
+                            }
+                        ],
+                        "template_parameters": [
+                            "V"
+                        ],
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<int>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_int_double_convert_int",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self,\t int value",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_mixed_matrix_int_double_convert_int",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "int",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<int>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_int_double_convert_int",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self,\t int value",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t value",
+                                        "F_arguments": "obj,\t value",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_mixed_matrix_int_double_convert_int",
+                                        "i_arguments": "self,\t value",
+                                        "i_name_function": "c_mixed_matrix_int_double_convert_int",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "int",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_INT",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "integer(C_INT)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "value",
+                                        "fc_var": "value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_INT",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "integer(C_INT)",
+                                        "i_var": "value",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "value": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "CXX_template": "<int>",
+                            "C_name_api": "convert",
+                            "F_name_api": "convert",
+                            "F_name_function": "convert_int",
+                            "F_name_generic": "convert",
+                            "F_name_impl": "mixed_matrix_int_double_convert_int",
+                            "c_arglist": [
+                                "self",
+                                "value"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "value"
+                            ],
+                            "function_name": "convert",
+                            "template_suffix": "_int"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "convert  37 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 29,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "name": "convert",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "value",
+                                            "typemap_name": "double"
+                                        },
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "template_argument": "V",
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "template<typename V> void convert(V value)",
+                        "declgen": "void convert(double value)",
+                        "gen_headers_typedef": [
+                            "int",
+                            "double"
+                        ],
+                        "has_templated_signature": true,
+                        "name": "convert",
+                        "options": {},
+                        "template_arguments": [
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "instantiation": "<int>"
+                            },
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "instantiation": "<double>"
+                            }
+                        ],
+                        "template_parameters": [
+                            "V"
+                        ],
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<double>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_int_double_convert_double",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self,\t double value",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_mixed_matrix_int_double_convert_double",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "double",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<double>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_int_double_convert_double",
+                                        "C_prototype": "TEM_MixedMatrix_int_double * self,\t double value",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t value",
+                                        "F_arguments": "obj,\t value",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_mixed_matrix_int_double_convert_double",
+                                        "i_arguments": "self,\t value",
+                                        "i_name_function": "c_mixed_matrix_int_double_convert_double",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "double",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_DOUBLE",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "real(C_DOUBLE)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "value",
+                                        "fc_var": "value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_DOUBLE",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "real(C_DOUBLE)",
+                                        "i_var": "value",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "value": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "CXX_template": "<double>",
+                            "C_name_api": "convert",
+                            "F_name_api": "convert",
+                            "F_name_function": "convert_double",
+                            "F_name_generic": "convert",
+                            "F_name_impl": "mixed_matrix_int_double_convert_double",
+                            "c_arglist": [
+                                "self",
+                                "value"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "value"
+                            ],
+                            "function_name": "convert",
+                            "template_suffix": "_double"
+                        }
+                    }
+                ],
+                "name": "MixedMatrix",
+                "name_api": "MixedMatrix_int_double",
+                "name_instantiation": "MixedMatrix<int, double>",
+                "options": {},
+                "parse_keyword": "class",
+                "scope": "MixedMatrix::",
+                "template_arguments": [
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "int"
+                                ],
+                                "typemap_name": "int"
+                            },
+                            {
+                                "specifier": [
+                                    "double"
+                                ],
+                                "typemap_name": "double"
+                            }
+                        ],
+                        "fmtdict": {
+                            "template_suffix": "_int_double"
+                        },
+                        "instantiation": "<int, double>"
+                    },
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "double"
+                                ],
+                                "typemap_name": "double"
+                            },
+                            {
+                                "specifier": [
+                                    "int"
+                                ],
+                                "typemap_name": "int"
+                            }
+                        ],
+                        "fmtdict": {
+                            "template_suffix": "_double_int"
+                        },
+                        "instantiation": "<double, int>"
+                    }
+                ],
+                "template_parameters": [
+                    "T",
+                    "U"
+                ],
+                "typemap_name": "MixedMatrix_int_double",
+                "user_fmt": {
+                    "template_suffix": "_int_double"
+                },
+                "wrap": {
+                    "c": true,
+                    "fortran": true
+                },
+                "zz_fmtdict": {
+                    "CXX_this_call": "SH_this->",
+                    "C_header_filename": "wrapMixedMatrix_int_double.h",
+                    "C_impl_filename": "wrapMixedMatrix_int_double.cpp",
+                    "C_name_api": "MixedMatrix_int_double",
+                    "C_name_scope": "MixedMatrix_int_double_",
+                    "C_type_name": "TEM_MixedMatrix_int_double",
+                    "F_derived_member_base": "base_matrix_int",
+                    "F_derived_name": "mixed_matrix_int_double",
+                    "F_name_api": "mixed_matrix_int_double",
+                    "F_name_scope": "mixed_matrix_int_double_",
+                    "baseclass": "<BasesClassFormat BaseMatrix_int>",
+                    "class_scope": "MixedMatrix<int, double>::",
+                    "cxx_class": "MixedMatrix_int_double",
+                    "cxx_type": "MixedMatrix<int, double>",
+                    "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                    "f_helper_capsule_data": "TEM_SHROUD_capsule_data",
+                    "file_scope": "MixedMatrix_int_double"
+                }
+            },
+            {
+                "<CLASS>": "MixedMatrix ****************************************",
+                "baseclass": [
+                    [
+                        "public",
+                        "BaseMatrix",
+                        "BaseMatrix_double"
+                    ]
+                ],
+                "cxx_header": [],
+                "functions": [
+                    {
+                        "<FUNCTION>": "ctor  38 ****************************************",
+                        "_orig_node_index": 26,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "default_name": "ctor",
+                                "is_ctor": true,
+                                "params": [],
+                                "typemap_name": "MixedMatrix"
+                            },
+                            "is_ctor": true,
+                            "specifier": [
+                                "MixedMatrix"
+                            ],
+                            "typemap_name": "MixedMatrix_double_int"
+                        },
+                        "decl": "MixedMatrix()",
+                        "declgen": "MixedMatrix(void)",
+                        "name": "ctor",
+                        "options": {
+                            "F_create_generic": true
+                        },
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_MixedMatrix_double_int_ctor",
+                                        "C_prototype": "TEM_MixedMatrix_double_int *SHC_rv",
+                                        "C_return_type": "TEM_MixedMatrix_double_int *",
+                                        "c_abstract_decl": "TEM_MixedMatrix_double_int *",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "TEM_MixedMatrix_double_int",
+                                        "c_var": "SHC_rv",
+                                        "c_var_ptr": "SHT_rv_ptr",
+                                        "cxx_abstract_decl": "MixedMatrix<double, int>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "MixedMatrix<double, int>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "mixed_matrix_double_int",
+                                        "f_kind": "mixed_matrix_double_int",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_type": "type(mixed_matrix_double_int)",
+                                        "f_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "mixed_matrix_double_int",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_mixed_matrix_double_int_ctor",
+                                        "i_result_clause": "\fresult(SHT_rv_ptr)",
+                                        "i_result_var": "SHT_rv_ptr",
+                                        "i_subprogram": "function",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "i_var_ptr": "SHT_rv_ptr",
+                                        "idtor": "6",
+                                        "stmt_name": "c_ctor_shadow_capptr",
+                                        "typemap_name": "MixedMatrix_double_int"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capptr",
+                                        "intent": "ctor"
+                                    },
+                                    "stmt": "c_ctor_shadow_capptr"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_MixedMatrix_double_int_ctor_bufferify",
+                                        "C_prototype": "TEM_MixedMatrix_double_int *SHC_rv",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "SHT_rv%cxxmem",
+                                        "F_arguments": "",
+                                        "F_subprogram": "function",
+                                        "c_abstract_decl": "TEM_MixedMatrix_double_int *",
+                                        "c_cmemflags": "SWIG_MEM_OWN",
+                                        "c_cmemflags_or": "SWIG_MEM_OWN | ",
+                                        "c_const": "",
+                                        "c_type": "TEM_MixedMatrix_double_int",
+                                        "c_var": "SHC_rv",
+                                        "cxx_abstract_decl": "MixedMatrix<double, int>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "MixedMatrix<double, int>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_call_function": "c_mixed_matrix_double_int_ctor_bufferify",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "mixed_matrix_double_int",
+                                        "f_intent": "OUT",
+                                        "f_intent_attr": ", intent(OUT)",
+                                        "f_kind": "mixed_matrix_double_int",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_result_clause": "\fresult(SHT_rv)",
+                                        "f_type": "type(mixed_matrix_double_int)",
+                                        "f_var": "SHT_rv",
+                                        "fc_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "mixed_matrix_double_int",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_mixed_matrix_double_int_ctor_bufferify",
+                                        "i_subprogram": "subroutine",
+                                        "i_suffix": "_bufferify",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "idtor": "6",
+                                        "stmt_name": "f_ctor_shadow_capsule_caller",
+                                        "typemap_name": "MixedMatrix_double_int"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capsule",
+                                        "intent": "ctor",
+                                        "owner": "caller"
+                                    },
+                                    "stmt": "f_ctor_shadow_capsule_caller"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "intent": "ctor"
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "ctor",
+                            "F_name_api": "ctor",
+                            "F_name_function": "ctor",
+                            "F_name_generic": "mixed_matrix_double_int",
+                            "F_name_impl": "mixed_matrix_double_int_ctor",
+                            "c_arglist": [
+                                "SHC_rv"
+                            ],
+                            "f_arglist": [
+                                "SHT_rv"
+                            ],
+                            "function_name": "ctor"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "set_mixed  42 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 27,
+                        "ast": {
+                            "declarator": {
+                                "name": "set_mixed",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "v",
+                                            "typemap_name": "double"
+                                        },
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "template_argument": "T",
+                                        "typemap_name": "double"
+                                    },
+                                    {
+                                        "declarator": {
+                                            "name": "w",
+                                            "typemap_name": "int"
+                                        },
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "template_argument": "U",
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "void set_mixed(T v, U w)",
+                        "declgen": "void set_mixed(double v, int w)",
+                        "has_templated_signature": true,
+                        "name": "set_mixed",
+                        "options": {},
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_mixed(\tv,\t w)",
+                                        "C_call_list": "v,\t w",
+                                        "C_name": "TEM_MixedMatrix_double_int_set_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self,\t double v,\t int w",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_mixed_matrix_double_int_set_mixed",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "double",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                },
+                                "w": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "w",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&w",
+                                        "cxx_type": "int",
+                                        "cxx_var": "w",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_mixed(\tv,\t w)",
+                                        "C_call_list": "v,\t w",
+                                        "C_name": "TEM_MixedMatrix_double_int_set_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self,\t double v,\t int w",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t v,\t w",
+                                        "F_arguments": "obj,\t v,\t w",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_mixed_matrix_double_int_set_mixed",
+                                        "i_arguments": "self,\t v,\t w",
+                                        "i_name_function": "c_mixed_matrix_double_int_set_mixed",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "double",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_DOUBLE",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "real(C_DOUBLE)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "v",
+                                        "fc_var": "v",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_DOUBLE",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "real(C_DOUBLE)",
+                                        "i_var": "v",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                },
+                                "w": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "w",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&w",
+                                        "cxx_type": "int",
+                                        "cxx_var": "w",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_INT",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "integer(C_INT)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "w",
+                                        "fc_var": "w",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_INT",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "integer(C_INT)",
+                                        "i_var": "w",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "v": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                },
+                                "w": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "set_mixed",
+                            "F_name_api": "set_mixed",
+                            "F_name_function": "set_mixed",
+                            "F_name_generic": "set_mixed",
+                            "F_name_impl": "mixed_matrix_double_int_set_mixed",
+                            "c_arglist": [
+                                "self",
+                                "v",
+                                "w"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "v",
+                                "w"
+                            ],
+                            "function_name": "set_mixed"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "get_mixed  43 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 28,
+                        "ast": {
+                            "declarator": {
+                                "name": "get_mixed",
+                                "params": [],
+                                "typemap_name": "int"
+                            },
+                            "specifier": [
+                                "int"
+                            ],
+                            "template_argument": "U",
+                            "typemap_name": "int"
+                        },
+                        "decl": "U get_mixed()",
+                        "declgen": "int get_mixed(void)",
+                        "has_templated_signature": true,
+                        "name": "get_mixed",
+                        "options": {
+                            "F_create_generic": false
+                        },
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->get_mixed(\t)",
+                                        "C_name": "TEM_MixedMatrix_double_int_get_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self",
+                                        "C_return_type": "int",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "int",
+                                        "c_var": "SHC_rv",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&SHC_rv",
+                                        "cxx_type": "int",
+                                        "cxx_var": "SHC_rv",
+                                        "i_name_function": "c_mixed_matrix_double_int_get_mixed",
+                                        "idtor": "0",
+                                        "stmt_name": "c_function_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "function"
+                                    },
+                                    "stmt": "c_function_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->get_mixed(\t)",
+                                        "C_name": "TEM_MixedMatrix_double_int_get_mixed",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self",
+                                        "C_return_type": "int",
+                                        "F_arg_c_call": "obj%cxxmem",
+                                        "F_arguments": "obj",
+                                        "F_subprogram": "function",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "int",
+                                        "c_var": "SHC_rv",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&SHC_rv",
+                                        "cxx_type": "int",
+                                        "cxx_var": "SHC_rv",
+                                        "f_call_function": "c_mixed_matrix_double_int_get_mixed",
+                                        "f_kind": "C_INT",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_result_clause": "\fresult(SHT_rv)",
+                                        "f_type": "integer(C_INT)",
+                                        "f_var": "SHT_rv",
+                                        "fc_var": "SHT_rv",
+                                        "i_arguments": "self",
+                                        "i_kind": "C_INT",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_name_function": "c_mixed_matrix_double_int_get_mixed",
+                                        "i_result_clause": "\fresult(SHT_rv)",
+                                        "i_subprogram": "function",
+                                        "i_type": "integer(C_INT)",
+                                        "i_var": "SHT_rv",
+                                        "idtor": "0",
+                                        "stmt_name": "f_function_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "function"
+                                    },
+                                    "stmt": "f_function_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "function"
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "get_mixed",
+                            "F_name_api": "get_mixed",
+                            "F_name_function": "get_mixed",
+                            "F_name_impl": "mixed_matrix_double_int_get_mixed",
+                            "c_arglist": [
+                                "SHC_rv"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "SHT_rv"
+                            ],
+                            "function_name": "get_mixed"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "convert  44 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 29,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "name": "convert",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "value",
+                                            "typemap_name": "int"
+                                        },
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "template_argument": "V",
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "template<typename V> void convert(V value)",
+                        "declgen": "void convert(int value)",
+                        "has_templated_signature": true,
+                        "name": "convert",
+                        "options": {},
+                        "template_arguments": [
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "instantiation": "<int>"
+                            },
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "instantiation": "<double>"
+                            }
+                        ],
+                        "template_parameters": [
+                            "V"
+                        ],
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<int>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_double_int_convert_int",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self,\t int value",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_mixed_matrix_double_int_convert_int",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "int",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<int>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_double_int_convert_int",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self,\t int value",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t value",
+                                        "F_arguments": "obj,\t value",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_mixed_matrix_double_int_convert_int",
+                                        "i_arguments": "self,\t value",
+                                        "i_name_function": "c_mixed_matrix_double_int_convert_int",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "int",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_INT",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "integer(C_INT)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "value",
+                                        "fc_var": "value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_INT",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "integer(C_INT)",
+                                        "i_var": "value",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "value": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "CXX_template": "<int>",
+                            "C_name_api": "convert",
+                            "F_name_api": "convert",
+                            "F_name_function": "convert_int",
+                            "F_name_generic": "convert",
+                            "F_name_impl": "mixed_matrix_double_int_convert_int",
+                            "c_arglist": [
+                                "self",
+                                "value"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "value"
+                            ],
+                            "function_name": "convert",
+                            "template_suffix": "_int"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "convert  45 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 29,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "name": "convert",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "value",
+                                            "typemap_name": "double"
+                                        },
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "template_argument": "V",
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "template<typename V> void convert(V value)",
+                        "declgen": "void convert(double value)",
+                        "gen_headers_typedef": [
+                            "int",
+                            "double"
+                        ],
+                        "has_templated_signature": true,
+                        "name": "convert",
+                        "options": {},
+                        "template_arguments": [
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "instantiation": "<int>"
+                            },
+                            {
+                                "asts": [
+                                    {
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "instantiation": "<double>"
+                            }
+                        ],
+                        "template_parameters": [
+                            "V"
+                        ],
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<double>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_double_int_convert_double",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self,\t double value",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_mixed_matrix_double_int_convert_double",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "double",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->convert<double>(\tvalue)",
+                                        "C_call_list": "value",
+                                        "C_name": "TEM_MixedMatrix_double_int_convert_double",
+                                        "C_prototype": "TEM_MixedMatrix_double_int * self,\t double value",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t value",
+                                        "F_arguments": "obj,\t value",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_mixed_matrix_double_int_convert_double",
+                                        "i_arguments": "self,\t value",
+                                        "i_name_function": "c_mixed_matrix_double_int_convert_double",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "value": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "value",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&value",
+                                        "cxx_type": "double",
+                                        "cxx_var": "value",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_DOUBLE",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "real(C_DOUBLE)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "value",
+                                        "fc_var": "value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_DOUBLE",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "real(C_DOUBLE)",
+                                        "i_var": "value",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "value": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "CXX_template": "<double>",
+                            "C_name_api": "convert",
+                            "F_name_api": "convert",
+                            "F_name_function": "convert_double",
+                            "F_name_generic": "convert",
+                            "F_name_impl": "mixed_matrix_double_int_convert_double",
+                            "c_arglist": [
+                                "self",
+                                "value"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "value"
+                            ],
+                            "function_name": "convert",
+                            "template_suffix": "_double"
+                        }
+                    }
+                ],
+                "name": "MixedMatrix",
+                "name_api": "MixedMatrix_double_int",
+                "name_instantiation": "MixedMatrix<double, int>",
+                "options": {},
+                "parse_keyword": "class",
+                "scope": "MixedMatrix::",
+                "template_arguments": [
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "int"
+                                ],
+                                "typemap_name": "int"
+                            },
+                            {
+                                "specifier": [
+                                    "double"
+                                ],
+                                "typemap_name": "double"
+                            }
+                        ],
+                        "fmtdict": {
+                            "template_suffix": "_int_double"
+                        },
+                        "instantiation": "<int, double>"
+                    },
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "double"
+                                ],
+                                "typemap_name": "double"
+                            },
+                            {
+                                "specifier": [
+                                    "int"
+                                ],
+                                "typemap_name": "int"
+                            }
+                        ],
+                        "fmtdict": {
+                            "template_suffix": "_double_int"
+                        },
+                        "instantiation": "<double, int>"
+                    }
+                ],
+                "template_parameters": [
+                    "T",
+                    "U"
+                ],
+                "typemap_name": "MixedMatrix_double_int",
+                "user_fmt": {
+                    "template_suffix": "_double_int"
+                },
+                "wrap": {
+                    "c": true,
+                    "fortran": true
+                },
+                "zz_fmtdict": {
+                    "CXX_this_call": "SH_this->",
+                    "C_header_filename": "wrapMixedMatrix_double_int.h",
+                    "C_impl_filename": "wrapMixedMatrix_double_int.cpp",
+                    "C_name_api": "MixedMatrix_double_int",
+                    "C_name_scope": "MixedMatrix_double_int_",
+                    "C_type_name": "TEM_MixedMatrix_double_int",
+                    "F_derived_member_base": "base_matrix_double",
+                    "F_derived_name": "mixed_matrix_double_int",
+                    "F_name_api": "mixed_matrix_double_int",
+                    "F_name_scope": "mixed_matrix_double_int_",
+                    "baseclass": "<BasesClassFormat BaseMatrix_double>",
+                    "class_scope": "MixedMatrix<double, int>::",
+                    "cxx_class": "MixedMatrix_double_int",
+                    "cxx_type": "MixedMatrix<double, int>",
+                    "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                    "f_helper_capsule_data": "TEM_SHROUD_capsule_data",
+                    "file_scope": "MixedMatrix_double_int"
+                }
+            },
+            {
+                "<CLASS>": "ConcreteMatrix ****************************************",
+                "baseclass": [
+                    [
+                        "public",
+                        "BaseMatrix",
+                        "BaseMatrix_double"
+                    ]
+                ],
+                "cxx_header": [],
+                "functions": [
+                    {
+                        "<FUNCTION>": "ctor  48 ****************************************",
+                        "_orig_node_index": 46,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "default_name": "ctor",
+                                "is_ctor": true,
+                                "params": [],
+                                "typemap_name": "ConcreteMatrix"
+                            },
+                            "is_ctor": true,
+                            "specifier": [
+                                "ConcreteMatrix"
+                            ],
+                            "typemap_name": "ConcreteMatrix_int"
+                        },
+                        "decl": "ConcreteMatrix()",
+                        "declgen": "ConcreteMatrix(void)",
+                        "name": "ctor",
+                        "options": {
+                            "F_create_generic": true
+                        },
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_ConcreteMatrix_int_ctor",
+                                        "C_prototype": "TEM_ConcreteMatrix_int *SHC_rv",
+                                        "C_return_type": "TEM_ConcreteMatrix_int *",
+                                        "c_abstract_decl": "TEM_ConcreteMatrix_int *",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "TEM_ConcreteMatrix_int",
+                                        "c_var": "SHC_rv",
+                                        "c_var_ptr": "SHT_rv_ptr",
+                                        "cxx_abstract_decl": "ConcreteMatrix<int>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "ConcreteMatrix<int>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "concrete_matrix_int",
+                                        "f_kind": "concrete_matrix_int",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_type": "type(concrete_matrix_int)",
+                                        "f_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "concrete_matrix_int",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_concrete_matrix_int_ctor",
+                                        "i_result_clause": "\fresult(SHT_rv_ptr)",
+                                        "i_result_var": "SHT_rv_ptr",
+                                        "i_subprogram": "function",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "i_var_ptr": "SHT_rv_ptr",
+                                        "idtor": "7",
+                                        "stmt_name": "c_ctor_shadow_capptr",
+                                        "typemap_name": "ConcreteMatrix_int"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capptr",
+                                        "intent": "ctor"
+                                    },
+                                    "stmt": "c_ctor_shadow_capptr"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_ConcreteMatrix_int_ctor_bufferify",
+                                        "C_prototype": "TEM_ConcreteMatrix_int *SHC_rv",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "SHT_rv%cxxmem",
+                                        "F_arguments": "",
+                                        "F_subprogram": "function",
+                                        "c_abstract_decl": "TEM_ConcreteMatrix_int *",
+                                        "c_cmemflags": "SWIG_MEM_OWN",
+                                        "c_cmemflags_or": "SWIG_MEM_OWN | ",
+                                        "c_const": "",
+                                        "c_type": "TEM_ConcreteMatrix_int",
+                                        "c_var": "SHC_rv",
+                                        "cxx_abstract_decl": "ConcreteMatrix<int>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "ConcreteMatrix<int>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_call_function": "c_concrete_matrix_int_ctor_bufferify",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "concrete_matrix_int",
+                                        "f_intent": "OUT",
+                                        "f_intent_attr": ", intent(OUT)",
+                                        "f_kind": "concrete_matrix_int",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_result_clause": "\fresult(SHT_rv)",
+                                        "f_type": "type(concrete_matrix_int)",
+                                        "f_var": "SHT_rv",
+                                        "fc_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "concrete_matrix_int",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_concrete_matrix_int_ctor_bufferify",
+                                        "i_subprogram": "subroutine",
+                                        "i_suffix": "_bufferify",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "idtor": "7",
+                                        "stmt_name": "f_ctor_shadow_capsule_caller",
+                                        "typemap_name": "ConcreteMatrix_int"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capsule",
+                                        "intent": "ctor",
+                                        "owner": "caller"
+                                    },
+                                    "stmt": "f_ctor_shadow_capsule_caller"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "intent": "ctor"
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "ctor",
+                            "F_name_api": "ctor",
+                            "F_name_function": "ctor",
+                            "F_name_generic": "concrete_matrix_int",
+                            "F_name_impl": "concrete_matrix_int_ctor",
+                            "c_arglist": [
+                                "SHC_rv"
+                            ],
+                            "f_arglist": [
+                                "SHT_rv"
+                            ],
+                            "function_name": "ctor"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "set_concrete  50 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 47,
+                        "ast": {
+                            "declarator": {
+                                "name": "set_concrete",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "v",
+                                            "typemap_name": "int"
+                                        },
+                                        "specifier": [
+                                            "int"
+                                        ],
+                                        "template_argument": "T",
+                                        "typemap_name": "int"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "void set_concrete(T v)",
+                        "declgen": "void set_concrete(int v)",
+                        "has_templated_signature": true,
+                        "name": "set_concrete",
+                        "options": {},
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_concrete(\tv)",
+                                        "C_call_list": "v",
+                                        "C_name": "TEM_ConcreteMatrix_int_set_concrete",
+                                        "C_prototype": "TEM_ConcreteMatrix_int * self,\t int v",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_concrete_matrix_int_set_concrete",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "int",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_concrete(\tv)",
+                                        "C_call_list": "v",
+                                        "C_name": "TEM_ConcreteMatrix_int_set_concrete",
+                                        "C_prototype": "TEM_ConcreteMatrix_int * self,\t int v",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t v",
+                                        "F_arguments": "obj,\t v",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_concrete_matrix_int_set_concrete",
+                                        "i_arguments": "self,\t v",
+                                        "i_name_function": "c_concrete_matrix_int_set_concrete",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "int",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "int",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "int",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "int",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_INT",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "integer(C_INT)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "v",
+                                        "fc_var": "v",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_INT",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "integer(C_INT)",
+                                        "i_var": "v",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "int"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "v": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "set_concrete",
+                            "F_name_api": "set_concrete",
+                            "F_name_function": "set_concrete",
+                            "F_name_generic": "set_concrete",
+                            "F_name_impl": "concrete_matrix_int_set_concrete",
+                            "c_arglist": [
+                                "self",
+                                "v"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "v"
+                            ],
+                            "function_name": "set_concrete"
+                        }
+                    }
+                ],
+                "name": "ConcreteMatrix",
+                "name_api": "ConcreteMatrix_int",
+                "name_instantiation": "ConcreteMatrix<int>",
+                "options": {},
+                "parse_keyword": "class",
+                "scope": "ConcreteMatrix::",
+                "template_arguments": [
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "int"
+                                ],
+                                "typemap_name": "int"
+                            }
+                        ],
+                        "instantiation": "<int>"
+                    },
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "double"
+                                ],
+                                "typemap_name": "double"
+                            }
+                        ],
+                        "instantiation": "<double>"
+                    }
+                ],
+                "template_parameters": [
+                    "T"
+                ],
+                "typemap_name": "ConcreteMatrix_int",
+                "wrap": {
+                    "c": true,
+                    "fortran": true
+                },
+                "zz_fmtdict": {
+                    "CXX_this_call": "SH_this->",
+                    "C_header_filename": "wrapConcreteMatrix_int.h",
+                    "C_impl_filename": "wrapConcreteMatrix_int.cpp",
+                    "C_name_api": "ConcreteMatrix_int",
+                    "C_name_scope": "ConcreteMatrix_int_",
+                    "C_type_name": "TEM_ConcreteMatrix_int",
+                    "F_derived_member_base": "base_matrix_double",
+                    "F_derived_name": "concrete_matrix_int",
+                    "F_name_api": "concrete_matrix_int",
+                    "F_name_scope": "concrete_matrix_int_",
+                    "baseclass": "<BasesClassFormat BaseMatrix_double>",
+                    "class_scope": "ConcreteMatrix<int>::",
+                    "cxx_class": "ConcreteMatrix_int",
+                    "cxx_type": "ConcreteMatrix<int>",
+                    "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                    "f_helper_capsule_data": "TEM_SHROUD_capsule_data",
+                    "file_scope": "ConcreteMatrix_int"
+                }
+            },
+            {
+                "<CLASS>": "ConcreteMatrix ****************************************",
+                "baseclass": [
+                    [
+                        "public",
+                        "BaseMatrix",
+                        "BaseMatrix_double"
+                    ]
+                ],
+                "cxx_header": [],
+                "functions": [
+                    {
+                        "<FUNCTION>": "ctor  51 ****************************************",
+                        "_orig_node_index": 46,
+                        "_overloaded": true,
+                        "ast": {
+                            "declarator": {
+                                "default_name": "ctor",
+                                "is_ctor": true,
+                                "params": [],
+                                "typemap_name": "ConcreteMatrix"
+                            },
+                            "is_ctor": true,
+                            "specifier": [
+                                "ConcreteMatrix"
+                            ],
+                            "typemap_name": "ConcreteMatrix_double"
+                        },
+                        "decl": "ConcreteMatrix()",
+                        "declgen": "ConcreteMatrix(void)",
+                        "name": "ctor",
+                        "options": {
+                            "F_create_generic": true
+                        },
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_ConcreteMatrix_double_ctor",
+                                        "C_prototype": "TEM_ConcreteMatrix_double *SHC_rv",
+                                        "C_return_type": "TEM_ConcreteMatrix_double *",
+                                        "c_abstract_decl": "TEM_ConcreteMatrix_double *",
+                                        "c_const": "",
+                                        "c_get_value": "",
+                                        "c_type": "TEM_ConcreteMatrix_double",
+                                        "c_var": "SHC_rv",
+                                        "c_var_ptr": "SHT_rv_ptr",
+                                        "cxx_abstract_decl": "ConcreteMatrix<double>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "ConcreteMatrix<double>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "concrete_matrix_double",
+                                        "f_kind": "concrete_matrix_double",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_type": "type(concrete_matrix_double)",
+                                        "f_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "concrete_matrix_double",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_concrete_matrix_double_ctor",
+                                        "i_result_clause": "\fresult(SHT_rv_ptr)",
+                                        "i_result_var": "SHT_rv_ptr",
+                                        "i_subprogram": "function",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "i_var_ptr": "SHT_rv_ptr",
+                                        "idtor": "8",
+                                        "stmt_name": "c_ctor_shadow_capptr",
+                                        "typemap_name": "ConcreteMatrix_double"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capptr",
+                                        "intent": "ctor"
+                                    },
+                                    "stmt": "c_ctor_shadow_capptr"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->ctor(\t)",
+                                        "C_name": "TEM_ConcreteMatrix_double_ctor_bufferify",
+                                        "C_prototype": "TEM_ConcreteMatrix_double *SHC_rv",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "SHT_rv%cxxmem",
+                                        "F_arguments": "",
+                                        "F_subprogram": "function",
+                                        "c_abstract_decl": "TEM_ConcreteMatrix_double *",
+                                        "c_cmemflags": "SWIG_MEM_OWN",
+                                        "c_cmemflags_or": "SWIG_MEM_OWN | ",
+                                        "c_const": "",
+                                        "c_type": "TEM_ConcreteMatrix_double",
+                                        "c_var": "SHC_rv",
+                                        "cxx_abstract_decl": "ConcreteMatrix<double>",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_type": "ConcreteMatrix<double>",
+                                        "cxx_var": "SHCXX_rv",
+                                        "f_call_function": "c_concrete_matrix_double_ctor_bufferify",
+                                        "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                                        "f_derived_type": "concrete_matrix_double",
+                                        "f_intent": "OUT",
+                                        "f_intent_attr": ", intent(OUT)",
+                                        "f_kind": "concrete_matrix_double",
+                                        "f_module_name": "templateinherit_mod",
+                                        "f_result_clause": "\fresult(SHT_rv)",
+                                        "f_type": "type(concrete_matrix_double)",
+                                        "f_var": "SHT_rv",
+                                        "fc_var": "SHT_rv",
+                                        "i_arguments": "SHT_rv",
+                                        "i_intent": "OUT",
+                                        "i_intent_attr": ", intent(OUT)",
+                                        "i_kind": "concrete_matrix_double",
+                                        "i_module_name": "templateinherit_mod",
+                                        "i_name_function": "c_concrete_matrix_double_ctor_bufferify",
+                                        "i_subprogram": "subroutine",
+                                        "i_suffix": "_bufferify",
+                                        "i_type": "type(TEM_SHROUD_capsule_data)",
+                                        "i_var": "SHT_rv",
+                                        "idtor": "8",
+                                        "stmt_name": "f_ctor_shadow_capsule_caller",
+                                        "typemap_name": "ConcreteMatrix_double"
+                                    },
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "api": "capsule",
+                                        "intent": "ctor",
+                                        "owner": "caller"
+                                    },
+                                    "stmt": "f_ctor_shadow_capsule_caller"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "shadow",
+                                        "intent": "ctor"
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "ctor",
+                            "F_name_api": "ctor",
+                            "F_name_function": "ctor",
+                            "F_name_generic": "concrete_matrix_double",
+                            "F_name_impl": "concrete_matrix_double_ctor",
+                            "c_arglist": [
+                                "SHC_rv"
+                            ],
+                            "f_arglist": [
+                                "SHT_rv"
+                            ],
+                            "function_name": "ctor"
+                        }
+                    },
+                    {
+                        "<FUNCTION>": "set_concrete  53 ****************************************",
+                        "_generated": "cxx_template",
+                        "_generated_path": [
+                            "cxx_template"
+                        ],
+                        "_orig_node_index": 47,
+                        "ast": {
+                            "declarator": {
+                                "name": "set_concrete",
+                                "params": [
+                                    {
+                                        "declarator": {
+                                            "name": "v",
+                                            "typemap_name": "double"
+                                        },
+                                        "specifier": [
+                                            "double"
+                                        ],
+                                        "template_argument": "T",
+                                        "typemap_name": "double"
+                                    }
+                                ],
+                                "typemap_name": "void"
+                            },
+                            "specifier": [
+                                "void"
+                            ],
+                            "typemap_name": "void"
+                        },
+                        "decl": "void set_concrete(T v)",
+                        "declgen": "void set_concrete(double v)",
+                        "has_templated_signature": true,
+                        "name": "set_concrete",
+                        "options": {},
+                        "wrap": {
+                            "c": true,
+                            "fortran": true
+                        },
+                        "zz_bind": {
+                            "c": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_concrete(\tv)",
+                                        "C_call_list": "v",
+                                        "C_name": "TEM_ConcreteMatrix_double_set_concrete",
+                                        "C_prototype": "TEM_ConcreteMatrix_double * self,\t double v",
+                                        "C_return_type": "void",
+                                        "i_name_function": "c_concrete_matrix_double_set_concrete",
+                                        "stmt_name": "c_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "c_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "double",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_value_attr": ", value",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "idtor": "0",
+                                        "stmt_name": "c_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "c_in_native"
+                                }
+                            },
+                            "f": {
+                                "+result": {
+                                    "fmtdict": {
+                                        "C_call_function": "SH_this->set_concrete(\tv)",
+                                        "C_call_list": "v",
+                                        "C_name": "TEM_ConcreteMatrix_double_set_concrete",
+                                        "C_prototype": "TEM_ConcreteMatrix_double * self,\t double v",
+                                        "C_return_type": "void",
+                                        "F_arg_c_call": "obj%cxxmem,\t v",
+                                        "F_arguments": "obj,\t v",
+                                        "F_subprogram": "subroutine",
+                                        "f_call_function": "c_concrete_matrix_double_set_concrete",
+                                        "i_arguments": "self,\t v",
+                                        "i_name_function": "c_concrete_matrix_double_set_concrete",
+                                        "i_subprogram": "subroutine",
+                                        "stmt_name": "f_subroutine",
+                                        "typemap_name": "void"
+                                    },
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    },
+                                    "stmt": "f_subroutine"
+                                },
+                                "v": {
+                                    "fmtdict": {
+                                        "c_abstract_decl": "double",
+                                        "c_addr": "&",
+                                        "c_const": "",
+                                        "c_deref": "",
+                                        "c_member": ".",
+                                        "c_type": "double",
+                                        "c_var": "v",
+                                        "cxx_abstract_decl": "double",
+                                        "cxx_addr": "&",
+                                        "cxx_member": ".",
+                                        "cxx_nonconst_ptr": "&v",
+                                        "cxx_type": "double",
+                                        "cxx_var": "v",
+                                        "f_intent": "IN",
+                                        "f_intent_attr": ", intent(IN)",
+                                        "f_kind": "C_DOUBLE",
+                                        "f_module_name": "iso_c_binding",
+                                        "f_type": "real(C_DOUBLE)",
+                                        "f_value_attr": ", value",
+                                        "f_var": "v",
+                                        "fc_var": "v",
+                                        "i_intent": "IN",
+                                        "i_intent_attr": ", intent(IN)",
+                                        "i_kind": "C_DOUBLE",
+                                        "i_module_name": "iso_c_binding",
+                                        "i_type": "real(C_DOUBLE)",
+                                        "i_var": "v",
+                                        "idtor": "0",
+                                        "stmt_name": "f_in_native",
+                                        "typemap_name": "double"
+                                    },
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    },
+                                    "stmt": "f_in_native"
+                                }
+                            },
+                            "share": {
+                                "+result": {
+                                    "meta": {
+                                        "abstract": "void",
+                                        "intent": "subroutine"
+                                    }
+                                },
+                                "v": {
+                                    "meta": {
+                                        "abstract": "native",
+                                        "intent": "in",
+                                        "value": true
+                                    }
+                                }
+                            }
+                        },
+                        "zz_fmtdict": {
+                            "C_name_api": "set_concrete",
+                            "F_name_api": "set_concrete",
+                            "F_name_function": "set_concrete",
+                            "F_name_generic": "set_concrete",
+                            "F_name_impl": "concrete_matrix_double_set_concrete",
+                            "c_arglist": [
+                                "self",
+                                "v"
+                            ],
+                            "c_const": "",
+                            "c_deref": "*",
+                            "c_member": "->",
+                            "c_var": "self",
+                            "f_arglist": [
+                                "f_var",
+                                "v"
+                            ],
+                            "function_name": "set_concrete"
+                        }
+                    }
+                ],
+                "name": "ConcreteMatrix",
+                "name_api": "ConcreteMatrix_double",
+                "name_instantiation": "ConcreteMatrix<double>",
+                "options": {},
+                "parse_keyword": "class",
+                "scope": "ConcreteMatrix::",
+                "template_arguments": [
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "int"
+                                ],
+                                "typemap_name": "int"
+                            }
+                        ],
+                        "instantiation": "<int>"
+                    },
+                    {
+                        "asts": [
+                            {
+                                "specifier": [
+                                    "double"
+                                ],
+                                "typemap_name": "double"
+                            }
+                        ],
+                        "instantiation": "<double>"
+                    }
+                ],
+                "template_parameters": [
+                    "T"
+                ],
+                "typemap_name": "ConcreteMatrix_double",
+                "wrap": {
+                    "c": true,
+                    "fortran": true
+                },
+                "zz_fmtdict": {
+                    "CXX_this_call": "SH_this->",
+                    "C_header_filename": "wrapConcreteMatrix_double.h",
+                    "C_impl_filename": "wrapConcreteMatrix_double.cpp",
+                    "C_name_api": "ConcreteMatrix_double",
+                    "C_name_scope": "ConcreteMatrix_double_",
+                    "C_type_name": "TEM_ConcreteMatrix_double",
+                    "F_derived_member_base": "base_matrix_double",
+                    "F_derived_name": "concrete_matrix_double",
+                    "F_name_api": "concrete_matrix_double",
+                    "F_name_scope": "concrete_matrix_double_",
+                    "baseclass": "<BasesClassFormat BaseMatrix_double>",
+                    "class_scope": "ConcreteMatrix<double>::",
+                    "cxx_class": "ConcreteMatrix_double",
+                    "cxx_type": "ConcreteMatrix<double>",
+                    "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+                    "f_helper_capsule_data": "TEM_SHROUD_capsule_data",
+                    "file_scope": "ConcreteMatrix_double"
+                }
             }
         ],
         "copyright": [
@@ -2321,7 +5493,9 @@
     },
     "symtab": {
         "BaseMatrix": "BaseMatrix",
-        "DerivedMatrix": "DerivedMatrix"
+        "ConcreteMatrix": "ConcreteMatrix",
+        "DerivedMatrix": "DerivedMatrix",
+        "MixedMatrix": "MixedMatrix"
     },
     "types": {
         "BaseMatrix": {
@@ -2436,6 +5610,118 @@
                 "typestemplateinherit.h"
             ]
         },
+        "ConcreteMatrix": {
+            "LUA_pop": "\t({LUA_userdata_type} *)\t luaL_checkudata(\t{LUA_state_var}, 1, \"{LUA_metadata}\")",
+            "LUA_type": "LUA_TUSERDATA",
+            "base": "shadow",
+            "c_to_cxx": "static_cast<{c_const}ConcreteMatrix *>\t({c_var}->addr)",
+            "c_type": "TEM_ConcreteMatrix",
+            "cxx_instantiation": {
+                "<double>": "ConcreteMatrix_double",
+                "<int>": "ConcreteMatrix_int"
+            },
+            "cxx_to_c": "static_cast<{c_const}void *>(\t{cxx_addr}{cxx_var})",
+            "cxx_type": "ConcreteMatrix",
+            "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+            "f_class": "class(concrete_matrix)",
+            "f_derived_type": "concrete_matrix",
+            "f_kind": "concrete_matrix",
+            "f_module": {
+                "templateinherit_mod": [
+                    "concrete_matrix"
+                ]
+            },
+            "f_module_name": "templateinherit_mod",
+            "f_to_c": "{f_var}%cxxmem",
+            "f_type": "type(concrete_matrix)",
+            "flat_name": "ConcreteMatrix",
+            "i_module": {
+                "templateinherit_mod": [
+                    "TEM_SHROUD_capsule_data"
+                ]
+            },
+            "i_type": "type(TEM_SHROUD_capsule_data)",
+            "impl_header": [
+                "templateinherit.hpp"
+            ],
+            "ntemplate_args": 1,
+            "sgroup": "shadow",
+            "wrap_header": [
+                "typestemplateinherit.h"
+            ]
+        },
+        "ConcreteMatrix_double": {
+            "LUA_pop": "\t({LUA_userdata_type} *)\t luaL_checkudata(\t{LUA_state_var}, 1, \"{LUA_metadata}\")",
+            "LUA_type": "LUA_TUSERDATA",
+            "base": "shadow",
+            "c_to_cxx": "static_cast<{c_const}ConcreteMatrix<double> *>\t({c_var}->addr)",
+            "c_type": "TEM_ConcreteMatrix_double",
+            "cxx_to_c": "static_cast<{c_const}void *>(\t{cxx_addr}{cxx_var})",
+            "cxx_type": "ConcreteMatrix<double>",
+            "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+            "f_class": "class(concrete_matrix_double)",
+            "f_derived_type": "concrete_matrix_double",
+            "f_kind": "concrete_matrix_double",
+            "f_module": {
+                "templateinherit_mod": [
+                    "concrete_matrix_double"
+                ]
+            },
+            "f_module_name": "templateinherit_mod",
+            "f_to_c": "{f_var}%cxxmem",
+            "f_type": "type(concrete_matrix_double)",
+            "flat_name": "ConcreteMatrix_double",
+            "i_module": {
+                "templateinherit_mod": [
+                    "TEM_SHROUD_capsule_data"
+                ]
+            },
+            "i_type": "type(TEM_SHROUD_capsule_data)",
+            "idtor": "8",
+            "impl_header": [
+                "templateinherit.hpp"
+            ],
+            "sgroup": "shadow",
+            "wrap_header": [
+                "typestemplateinherit.h"
+            ]
+        },
+        "ConcreteMatrix_int": {
+            "LUA_pop": "\t({LUA_userdata_type} *)\t luaL_checkudata(\t{LUA_state_var}, 1, \"{LUA_metadata}\")",
+            "LUA_type": "LUA_TUSERDATA",
+            "base": "shadow",
+            "c_to_cxx": "static_cast<{c_const}ConcreteMatrix<int> *>\t({c_var}->addr)",
+            "c_type": "TEM_ConcreteMatrix_int",
+            "cxx_to_c": "static_cast<{c_const}void *>(\t{cxx_addr}{cxx_var})",
+            "cxx_type": "ConcreteMatrix<int>",
+            "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+            "f_class": "class(concrete_matrix_int)",
+            "f_derived_type": "concrete_matrix_int",
+            "f_kind": "concrete_matrix_int",
+            "f_module": {
+                "templateinherit_mod": [
+                    "concrete_matrix_int"
+                ]
+            },
+            "f_module_name": "templateinherit_mod",
+            "f_to_c": "{f_var}%cxxmem",
+            "f_type": "type(concrete_matrix_int)",
+            "flat_name": "ConcreteMatrix_int",
+            "i_module": {
+                "templateinherit_mod": [
+                    "TEM_SHROUD_capsule_data"
+                ]
+            },
+            "i_type": "type(TEM_SHROUD_capsule_data)",
+            "idtor": "7",
+            "impl_header": [
+                "templateinherit.hpp"
+            ],
+            "sgroup": "shadow",
+            "wrap_header": [
+                "typestemplateinherit.h"
+            ]
+        },
         "DerivedMatrix": {
             "LUA_pop": "\t({LUA_userdata_type} *)\t luaL_checkudata(\t{LUA_state_var}, 1, \"{LUA_metadata}\")",
             "LUA_type": "LUA_TUSERDATA",
@@ -2540,6 +5826,118 @@
             },
             "i_type": "type(TEM_SHROUD_capsule_data)",
             "idtor": "3",
+            "impl_header": [
+                "templateinherit.hpp"
+            ],
+            "sgroup": "shadow",
+            "wrap_header": [
+                "typestemplateinherit.h"
+            ]
+        },
+        "MixedMatrix": {
+            "LUA_pop": "\t({LUA_userdata_type} *)\t luaL_checkudata(\t{LUA_state_var}, 1, \"{LUA_metadata}\")",
+            "LUA_type": "LUA_TUSERDATA",
+            "base": "shadow",
+            "c_to_cxx": "static_cast<{c_const}MixedMatrix *>\t({c_var}->addr)",
+            "c_type": "TEM_MixedMatrix",
+            "cxx_instantiation": {
+                "<double, int>": "MixedMatrix_double_int",
+                "<int, double>": "MixedMatrix_int_double"
+            },
+            "cxx_to_c": "static_cast<{c_const}void *>(\t{cxx_addr}{cxx_var})",
+            "cxx_type": "MixedMatrix",
+            "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+            "f_class": "class(mixed_matrix)",
+            "f_derived_type": "mixed_matrix",
+            "f_kind": "mixed_matrix",
+            "f_module": {
+                "templateinherit_mod": [
+                    "mixed_matrix"
+                ]
+            },
+            "f_module_name": "templateinherit_mod",
+            "f_to_c": "{f_var}%cxxmem",
+            "f_type": "type(mixed_matrix)",
+            "flat_name": "MixedMatrix",
+            "i_module": {
+                "templateinherit_mod": [
+                    "TEM_SHROUD_capsule_data"
+                ]
+            },
+            "i_type": "type(TEM_SHROUD_capsule_data)",
+            "impl_header": [
+                "templateinherit.hpp"
+            ],
+            "ntemplate_args": 2,
+            "sgroup": "shadow",
+            "wrap_header": [
+                "typestemplateinherit.h"
+            ]
+        },
+        "MixedMatrix_double_int": {
+            "LUA_pop": "\t({LUA_userdata_type} *)\t luaL_checkudata(\t{LUA_state_var}, 1, \"{LUA_metadata}\")",
+            "LUA_type": "LUA_TUSERDATA",
+            "base": "shadow",
+            "c_to_cxx": "static_cast<{c_const}MixedMatrix<double, int> *>\t({c_var}->addr)",
+            "c_type": "TEM_MixedMatrix_double_int",
+            "cxx_to_c": "static_cast<{c_const}void *>(\t{cxx_addr}{cxx_var})",
+            "cxx_type": "MixedMatrix<double, int>",
+            "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+            "f_class": "class(mixed_matrix_double_int)",
+            "f_derived_type": "mixed_matrix_double_int",
+            "f_kind": "mixed_matrix_double_int",
+            "f_module": {
+                "templateinherit_mod": [
+                    "mixed_matrix_double_int"
+                ]
+            },
+            "f_module_name": "templateinherit_mod",
+            "f_to_c": "{f_var}%cxxmem",
+            "f_type": "type(mixed_matrix_double_int)",
+            "flat_name": "MixedMatrix_double,_int",
+            "i_module": {
+                "templateinherit_mod": [
+                    "TEM_SHROUD_capsule_data"
+                ]
+            },
+            "i_type": "type(TEM_SHROUD_capsule_data)",
+            "idtor": "6",
+            "impl_header": [
+                "templateinherit.hpp"
+            ],
+            "sgroup": "shadow",
+            "wrap_header": [
+                "typestemplateinherit.h"
+            ]
+        },
+        "MixedMatrix_int_double": {
+            "LUA_pop": "\t({LUA_userdata_type} *)\t luaL_checkudata(\t{LUA_state_var}, 1, \"{LUA_metadata}\")",
+            "LUA_type": "LUA_TUSERDATA",
+            "base": "shadow",
+            "c_to_cxx": "static_cast<{c_const}MixedMatrix<int, double> *>\t({c_var}->addr)",
+            "c_type": "TEM_MixedMatrix_int_double",
+            "cxx_to_c": "static_cast<{c_const}void *>(\t{cxx_addr}{cxx_var})",
+            "cxx_type": "MixedMatrix<int, double>",
+            "f_capsule_data_type": "TEM_SHROUD_capsule_data",
+            "f_class": "class(mixed_matrix_int_double)",
+            "f_derived_type": "mixed_matrix_int_double",
+            "f_kind": "mixed_matrix_int_double",
+            "f_module": {
+                "templateinherit_mod": [
+                    "mixed_matrix_int_double"
+                ]
+            },
+            "f_module_name": "templateinherit_mod",
+            "f_to_c": "{f_var}%cxxmem",
+            "f_type": "type(mixed_matrix_int_double)",
+            "flat_name": "MixedMatrix_int,_double",
+            "i_module": {
+                "templateinherit_mod": [
+                    "TEM_SHROUD_capsule_data"
+                ]
+            },
+            "i_type": "type(TEM_SHROUD_capsule_data)",
+            "idtor": "5",
             "impl_header": [
                 "templateinherit.hpp"
             ],

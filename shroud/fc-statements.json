@@ -1302,6 +1302,59 @@
         ]
     },
     {
+        "name": "f_mixin_span_buf",
+        "comments": [
+            "Pass argument and size by value to C.",
+            "Like f_mixin_in_vector_buf, but the intent of the interface",
+            "dummy argument follows the intent of the span so the callee",
+            "may write into the caller's memory.",
+            "The size is always intent(IN) since the callee cannot",
+            "resize a span."
+        ],
+        "f_dummy_arg": [
+            "{f_var}"
+        ],
+        "f_dummy_decl": [
+            "{targs[0].f_type}{f_intent_attr} :: {f_var}{f_assumed_shape}"
+        ],
+        "f_arg_call": [
+            "{f_var}",
+            "size({f_var}, kind=C_SIZE_T)"
+        ],
+        "f_module": {
+            "{targs[0].f_module_name}": [
+                "{targs[0].f_kind}"
+            ],
+            "iso_c_binding": [
+                "C_SIZE_T"
+            ]
+        },
+        "f_need_wrapper": true,
+        "i_dummy_arg": [
+            "{i_var}",
+            "{i_var_size}"
+        ],
+        "i_dummy_decl": [
+            "{targs[0].f_type}{i_intent_attr} :: {i_var}(*)",
+            "integer(C_SIZE_T), intent(IN), value :: {i_var_size}"
+        ],
+        "i_module": {
+            "{targs[0].f_module_name}": [
+                "{targs[0].f_kind}"
+            ],
+            "iso_c_binding": [
+                "C_SIZE_T"
+            ]
+        },
+        "c_prototype": [
+            "{targs[0].cxx_type} *{c_var}",
+            "size_t {c_var_size}"
+        ],
+        "c_temps": [
+            "size"
+        ]
+    },
+    {
         "name": "f_mixin_out_vector_buf",
         "comments": [
             "Pass argument and size by reference to C."
@@ -1941,7 +1994,7 @@
     {
         "alias": [
             "f_out_bool*",
-            "c_out_bool_*",
+            "c_out_bool*",
             "f_none_bool*"
         ],
         "mixin": [
@@ -1956,11 +2009,68 @@
     {
         "alias": [
             "f_inout_bool*",
-            "c_inout_bool_*"
+            "c_inout_bool*"
         ],
         "mixin": [
             "c_mixin_declare-arg",
             "c_mixin_arg-call-cvar",
+            "f_mixin_declare-fortran-arg",
+            "f_mixin_declare-interface-arg",
+            "f_mixin_logical-local-var",
+            "f_mixin_logical-in",
+            "f_mixin_logical-out"
+        ]
+    },
+    {
+        "alias": [
+            "f_in_bool&",
+            "c_in_bool&"
+        ],
+        "usage": [
+            "void getFlag(const bool &flag +intent(in))"
+        ],
+        "mixin": [
+            "c_mixin_declare-arg",
+            "c_mixin_arg-call-cvar-deref",
+            "f_mixin_declare-fortran-arg",
+            "f_mixin_declare-interface-arg",
+            "f_mixin_logical-local-var",
+            "f_mixin_logical-in"
+        ]
+    },
+    {
+        "alias": [
+            "f_out_bool&",
+            "c_out_bool&"
+        ],
+        "usage": [
+            "void getSymmetricPatternSize(bool &isSymmetric +intent(out))"
+        ],
+        "notes": [
+            "The Fortran wrapper passes the address of a logical(C_BOOL) temporary,",
+            "so the C wrapper always receives a bool* and dereferences it",
+            "to bind the C++ reference."
+        ],
+        "mixin": [
+            "c_mixin_declare-arg",
+            "c_mixin_arg-call-cvar-deref",
+            "f_mixin_declare-fortran-arg",
+            "f_mixin_declare-interface-arg",
+            "f_mixin_logical-local-var",
+            "f_mixin_logical-out"
+        ]
+    },
+    {
+        "alias": [
+            "f_inout_bool&",
+            "c_inout_bool&"
+        ],
+        "usage": [
+            "void toggleFlag(bool &flag +intent(inout))"
+        ],
+        "mixin": [
+            "c_mixin_declare-arg",
+            "c_mixin_arg-call-cvar-deref",
             "f_mixin_declare-fortran-arg",
             "f_mixin_declare-interface-arg",
             "f_mixin_logical-local-var",
@@ -3596,10 +3706,27 @@
             "f_in_span<native>&_buf",
             "c_in_span<native>_buf",
             "c_in_span<native>*_buf",
-            "c_in_span<native>&_buf"
+            "c_in_span<native>&_buf",
+            "f_out_span<native>_buf",
+            "f_out_span<native>*_buf",
+            "f_out_span<native>&_buf",
+            "c_out_span<native>_buf",
+            "c_out_span<native>*_buf",
+            "c_out_span<native>&_buf",
+            "f_inout_span<native>_buf",
+            "f_inout_span<native>*_buf",
+            "f_inout_span<native>&_buf",
+            "c_inout_span<native>_buf",
+            "c_inout_span<native>*_buf",
+            "c_inout_span<native>&_buf"
+        ],
+        "notes": [
+            "The caller owns the memory for every intent; the span is",
+            "built over it so intent(out) and intent(inout) only differ",
+            "from intent(in) in the declared intent of the dummy argument."
         ],
         "mixin": [
-            "f_mixin_in_vector_buf",
+            "f_mixin_span_buf",
             "c_mixin_arg-call-cxx"
         ],
         "c_pre_call": [

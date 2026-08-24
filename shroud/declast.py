@@ -875,15 +875,19 @@ class Parser(ExprParser):
                 if ns:
                     ns, ns_name = self.nested_namespace(ns)
                     # Optional template arguments on the base class.
-                    # Only a base templated on the *same* parameters as the
-                    # derived class is supported, e.g.
-                    #   template<typename T> class P : public B<T>
+                    # Each argument is either one of the derived class's
+                    # template parameters or a concrete type, e.g.
+                    #   template<typename T, typename U>
+                    #   class P : public B<T>
+                    base_targs = None
                     if self.token.typ == "LT":
                         base_decl = Declaration(self.symtab)
                         self.parse_template_arguments(base_decl)
                         self.check_baseclass_template(ns_name, base_decl)
+                        base_targs = base_decl.template_arguments
                     # XXX - make sure ns is a ast.ClassNode (and not a namespace)
-                    clsnode.baseclass.append((access_specifier, ns_name, ns))
+                    clsnode.baseclass.append(
+                        (access_specifier, ns_name, ns, base_targs))
                 else:
                     self.error_msg("unknown class '{}'", self.token.value)
             else:
@@ -905,12 +909,15 @@ class Parser(ExprParser):
     def check_baseclass_template(self, ns_name, base_decl):
         """Validate the template arguments of a base class.
 
-        Only a base class templated on the *same* parameters as the derived
-        class is supported, e.g.
+        The derived class must be templated, and every argument of the base
+        class must be either one of the derived class's template parameters
+        or a concrete type.  The base may use a subset of the parameters (in
+        any order), for example
             template<typename T> class P : public B<T>
-        Anything else (a base with different or concrete arguments, or a
-        templated base on a non-templated class) raises a parse error so that
-        unsupported forms do not silently produce incorrect wrappers.
+            template<typename T, typename U> class P : public B<T>
+            template<typename T> class P : public B<double>
+        An argument naming a template parameter which the derived class does
+        not declare raises a parse error.
 
         Args:
             ns_name   - name of the base class.
@@ -926,19 +933,16 @@ class Parser(ExprParser):
                 "templated base class '{}' requires the derived class "
                 "to be templated", ns_name)
         param_names = [param.name for param in enclosing.parameters]
-        base_arg_names = [arg.template_argument
-                          for arg in base_decl.template_arguments]
-        if base_arg_names != param_names:
-            def argstr(arg):
-                if arg.template_argument is not None:
-                    return arg.template_argument
-                return arg.typemap.name if arg.typemap else "?"
-            self.error_msg(
-                "base class '{}' template arguments <{}> must match the "
-                "class template parameters <{}>",
-                ns_name,
-                ", ".join(argstr(arg) for arg in base_decl.template_arguments),
-                ", ".join(param_names))
+        for arg in base_decl.template_arguments:
+            # template_argument is set when the argument names a template
+            # parameter; it is None for a concrete type such as <double>.
+            if arg.template_argument is None:
+                continue
+            if arg.template_argument not in param_names:
+                self.error_msg(
+                    "base class '{}' template argument '{}' is not a template "
+                    "parameter of the derived class <{}>",
+                    ns_name, arg.template_argument, ", ".join(param_names))
 
     def namespace_statement(self):
         """  namespace ID

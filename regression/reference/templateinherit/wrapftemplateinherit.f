@@ -76,11 +76,59 @@ module templateinherit_mod
         ! splicer end class.DerivedMatrix_double.type_bound_procedure_part
     end type derived_matrix_double
 
+    type, extends(base_matrix_int) :: mixed_matrix_int_double
+        ! splicer begin class.MixedMatrix_int_double.component_part
+        ! splicer end class.MixedMatrix_int_double.component_part
+    contains
+        procedure :: set_mixed => mixed_matrix_int_double_set_mixed
+        procedure :: get_mixed => mixed_matrix_int_double_get_mixed
+        procedure :: convert_int => mixed_matrix_int_double_convert_int
+        procedure :: convert_double => mixed_matrix_int_double_convert_double
+        generic :: convert => convert_int, convert_double
+        ! splicer begin class.MixedMatrix_int_double.type_bound_procedure_part
+        ! splicer end class.MixedMatrix_int_double.type_bound_procedure_part
+    end type mixed_matrix_int_double
+
+    type, extends(base_matrix_double) :: mixed_matrix_double_int
+        ! splicer begin class.MixedMatrix_double_int.component_part
+        ! splicer end class.MixedMatrix_double_int.component_part
+    contains
+        procedure :: set_mixed => mixed_matrix_double_int_set_mixed
+        procedure :: get_mixed => mixed_matrix_double_int_get_mixed
+        procedure :: convert_int => mixed_matrix_double_int_convert_int
+        procedure :: convert_double => mixed_matrix_double_int_convert_double
+        generic :: convert => convert_int, convert_double
+        ! splicer begin class.MixedMatrix_double_int.type_bound_procedure_part
+        ! splicer end class.MixedMatrix_double_int.type_bound_procedure_part
+    end type mixed_matrix_double_int
+
+    type, extends(base_matrix_double) :: concrete_matrix_int
+        ! splicer begin class.ConcreteMatrix_int.component_part
+        ! splicer end class.ConcreteMatrix_int.component_part
+    contains
+        procedure :: set_concrete => concrete_matrix_int_set_concrete
+        ! splicer begin class.ConcreteMatrix_int.type_bound_procedure_part
+        ! splicer end class.ConcreteMatrix_int.type_bound_procedure_part
+    end type concrete_matrix_int
+
+    type, extends(base_matrix_double) :: concrete_matrix_double
+        ! splicer begin class.ConcreteMatrix_double.component_part
+        ! splicer end class.ConcreteMatrix_double.component_part
+    contains
+        procedure :: set_concrete => concrete_matrix_double_set_concrete
+        ! splicer begin class.ConcreteMatrix_double.type_bound_procedure_part
+        ! splicer end class.ConcreteMatrix_double.type_bound_procedure_part
+    end type concrete_matrix_double
+
     interface operator (.eq.)
         module procedure base_matrix_int_eq
         module procedure base_matrix_double_eq
         module procedure derived_matrix_int_eq
         module procedure derived_matrix_double_eq
+        module procedure mixed_matrix_int_double_eq
+        module procedure mixed_matrix_double_int_eq
+        module procedure concrete_matrix_int_eq
+        module procedure concrete_matrix_double_eq
     end interface
 
     interface operator (.ne.)
@@ -88,6 +136,10 @@ module templateinherit_mod
         module procedure base_matrix_double_ne
         module procedure derived_matrix_int_ne
         module procedure derived_matrix_double_ne
+        module procedure mixed_matrix_int_double_ne
+        module procedure mixed_matrix_double_int_ne
+        module procedure concrete_matrix_int_ne
+        module procedure concrete_matrix_double_ne
     end interface
 
     interface assignment (=)
@@ -95,6 +147,10 @@ module templateinherit_mod
         module procedure base_matrix_double_assign_BaseMatrix_double
         module procedure derived_matrix_int_assign_DerivedMatrix_int
         module procedure derived_matrix_double_assign_DerivedMatrix_double
+        module procedure mixed_matrix_int_double_assign_MixedMatrix_int_double
+        module procedure mixed_matrix_double_int_assign_MixedMatrix_double_int
+        module procedure concrete_matrix_int_assign_ConcreteMatrix_int
+        module procedure concrete_matrix_double_assign_ConcreteMatrix_double
     end interface
 
     interface
@@ -310,6 +366,262 @@ module templateinherit_mod
             type(TEM_SHROUD_capsule_data), intent(IN) :: self
             real(C_DOUBLE) :: SHT_rv
         end function c_derived_matrix_double_get_derived
+
+        ! ----------------------------------------
+        ! Function:  MixedMatrix
+        ! Statement: c_ctor_shadow_capptr
+        function c_mixed_matrix_int_double_ctor(SHT_rv) &
+                result(SHT_rv_ptr) &
+                bind(C, name="TEM_MixedMatrix_int_double_ctor")
+            use iso_c_binding, only : C_PTR
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+            type(C_PTR) :: SHT_rv_ptr
+        end function c_mixed_matrix_int_double_ctor
+
+        ! ----------------------------------------
+        ! Function:  MixedMatrix
+        ! Statement: f_ctor_shadow_capsule_caller
+        subroutine c_mixed_matrix_int_double_ctor_bufferify(SHT_rv) &
+                bind(C, name="TEM_MixedMatrix_int_double_ctor_bufferify")
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+        end subroutine c_mixed_matrix_int_double_ctor_bufferify
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void set_mixed
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  int v
+        ! Statement: f_in_native
+        ! ----------------------------------------
+        ! Argument:  double w
+        ! Statement: f_in_native
+        subroutine c_mixed_matrix_int_double_set_mixed(self, v, w) &
+                bind(C, name="TEM_MixedMatrix_int_double_set_mixed")
+            use iso_c_binding, only : C_DOUBLE, C_INT
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            integer(C_INT), value, intent(IN) :: v
+            real(C_DOUBLE), value, intent(IN) :: w
+        end subroutine c_mixed_matrix_int_double_set_mixed
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  double get_mixed
+        ! Statement: f_function_native
+        function c_mixed_matrix_int_double_get_mixed(self) &
+                result(SHT_rv) &
+                bind(C, name="TEM_MixedMatrix_int_double_get_mixed")
+            use iso_c_binding, only : C_DOUBLE
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            real(C_DOUBLE) :: SHT_rv
+        end function c_mixed_matrix_int_double_get_mixed
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void convert
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  int value
+        ! Statement: f_in_native
+        subroutine c_mixed_matrix_int_double_convert_int(self, value) &
+                bind(C, name="TEM_MixedMatrix_int_double_convert_int")
+            use iso_c_binding, only : C_INT
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            integer(C_INT), value, intent(IN) :: value
+        end subroutine c_mixed_matrix_int_double_convert_int
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void convert
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  double value
+        ! Statement: f_in_native
+        subroutine c_mixed_matrix_int_double_convert_double(self, value) &
+                bind(C, name="TEM_MixedMatrix_int_double_convert_double")
+            use iso_c_binding, only : C_DOUBLE
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            real(C_DOUBLE), value, intent(IN) :: value
+        end subroutine c_mixed_matrix_int_double_convert_double
+
+        ! ----------------------------------------
+        ! Function:  MixedMatrix
+        ! Statement: c_ctor_shadow_capptr
+        function c_mixed_matrix_double_int_ctor(SHT_rv) &
+                result(SHT_rv_ptr) &
+                bind(C, name="TEM_MixedMatrix_double_int_ctor")
+            use iso_c_binding, only : C_PTR
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+            type(C_PTR) :: SHT_rv_ptr
+        end function c_mixed_matrix_double_int_ctor
+
+        ! ----------------------------------------
+        ! Function:  MixedMatrix
+        ! Statement: f_ctor_shadow_capsule_caller
+        subroutine c_mixed_matrix_double_int_ctor_bufferify(SHT_rv) &
+                bind(C, name="TEM_MixedMatrix_double_int_ctor_bufferify")
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+        end subroutine c_mixed_matrix_double_int_ctor_bufferify
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void set_mixed
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  double v
+        ! Statement: f_in_native
+        ! ----------------------------------------
+        ! Argument:  int w
+        ! Statement: f_in_native
+        subroutine c_mixed_matrix_double_int_set_mixed(self, v, w) &
+                bind(C, name="TEM_MixedMatrix_double_int_set_mixed")
+            use iso_c_binding, only : C_DOUBLE, C_INT
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            real(C_DOUBLE), value, intent(IN) :: v
+            integer(C_INT), value, intent(IN) :: w
+        end subroutine c_mixed_matrix_double_int_set_mixed
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  int get_mixed
+        ! Statement: f_function_native
+        function c_mixed_matrix_double_int_get_mixed(self) &
+                result(SHT_rv) &
+                bind(C, name="TEM_MixedMatrix_double_int_get_mixed")
+            use iso_c_binding, only : C_INT
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            integer(C_INT) :: SHT_rv
+        end function c_mixed_matrix_double_int_get_mixed
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void convert
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  int value
+        ! Statement: f_in_native
+        subroutine c_mixed_matrix_double_int_convert_int(self, value) &
+                bind(C, name="TEM_MixedMatrix_double_int_convert_int")
+            use iso_c_binding, only : C_INT
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            integer(C_INT), value, intent(IN) :: value
+        end subroutine c_mixed_matrix_double_int_convert_int
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void convert
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  double value
+        ! Statement: f_in_native
+        subroutine c_mixed_matrix_double_int_convert_double(self, value) &
+                bind(C, name="TEM_MixedMatrix_double_int_convert_double")
+            use iso_c_binding, only : C_DOUBLE
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            real(C_DOUBLE), value, intent(IN) :: value
+        end subroutine c_mixed_matrix_double_int_convert_double
+
+        ! ----------------------------------------
+        ! Function:  ConcreteMatrix
+        ! Statement: c_ctor_shadow_capptr
+        function c_concrete_matrix_int_ctor(SHT_rv) &
+                result(SHT_rv_ptr) &
+                bind(C, name="TEM_ConcreteMatrix_int_ctor")
+            use iso_c_binding, only : C_PTR
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+            type(C_PTR) :: SHT_rv_ptr
+        end function c_concrete_matrix_int_ctor
+
+        ! ----------------------------------------
+        ! Function:  ConcreteMatrix
+        ! Statement: f_ctor_shadow_capsule_caller
+        subroutine c_concrete_matrix_int_ctor_bufferify(SHT_rv) &
+                bind(C, name="TEM_ConcreteMatrix_int_ctor_bufferify")
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+        end subroutine c_concrete_matrix_int_ctor_bufferify
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void set_concrete
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  int v
+        ! Statement: f_in_native
+        subroutine c_concrete_matrix_int_set_concrete(self, v) &
+                bind(C, name="TEM_ConcreteMatrix_int_set_concrete")
+            use iso_c_binding, only : C_INT
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            integer(C_INT), value, intent(IN) :: v
+        end subroutine c_concrete_matrix_int_set_concrete
+
+        ! ----------------------------------------
+        ! Function:  ConcreteMatrix
+        ! Statement: c_ctor_shadow_capptr
+        function c_concrete_matrix_double_ctor(SHT_rv) &
+                result(SHT_rv_ptr) &
+                bind(C, name="TEM_ConcreteMatrix_double_ctor")
+            use iso_c_binding, only : C_PTR
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+            type(C_PTR) :: SHT_rv_ptr
+        end function c_concrete_matrix_double_ctor
+
+        ! ----------------------------------------
+        ! Function:  ConcreteMatrix
+        ! Statement: f_ctor_shadow_capsule_caller
+        subroutine c_concrete_matrix_double_ctor_bufferify(SHT_rv) &
+                bind(C, name="TEM_ConcreteMatrix_double_ctor_bufferify")
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(OUT) :: SHT_rv
+        end subroutine c_concrete_matrix_double_ctor_bufferify
+
+        ! Generated by cxx_template
+        ! ----------------------------------------
+        ! Function:  void set_concrete
+        ! Statement: f_subroutine
+        ! ----------------------------------------
+        ! Argument:  double v
+        ! Statement: f_in_native
+        subroutine c_concrete_matrix_double_set_concrete(self, v) &
+                bind(C, name="TEM_ConcreteMatrix_double_set_concrete")
+            use iso_c_binding, only : C_DOUBLE
+            import :: TEM_SHROUD_capsule_data
+            implicit none
+            type(TEM_SHROUD_capsule_data), intent(IN) :: self
+            real(C_DOUBLE), value, intent(IN) :: v
+        end subroutine c_concrete_matrix_double_set_concrete
     end interface
 
     interface base_matrix_double
@@ -320,6 +632,14 @@ module templateinherit_mod
         module procedure base_matrix_int_ctor
     end interface base_matrix_int
 
+    interface concrete_matrix_double
+        module procedure concrete_matrix_double_ctor
+    end interface concrete_matrix_double
+
+    interface concrete_matrix_int
+        module procedure concrete_matrix_int_ctor
+    end interface concrete_matrix_int
+
     interface derived_matrix_double
         module procedure derived_matrix_double_ctor
     end interface derived_matrix_double
@@ -327,6 +647,24 @@ module templateinherit_mod
     interface derived_matrix_int
         module procedure derived_matrix_int_ctor
     end interface derived_matrix_int
+
+    interface mixed_matrix_double_int
+        module procedure mixed_matrix_double_int_ctor
+    end interface mixed_matrix_double_int
+
+    interface mixed_matrix_double_int_convert
+        module procedure mixed_matrix_double_int_convert_int
+        module procedure mixed_matrix_double_int_convert_double
+    end interface mixed_matrix_double_int_convert
+
+    interface mixed_matrix_int_double
+        module procedure mixed_matrix_int_double_ctor
+    end interface mixed_matrix_int_double
+
+    interface mixed_matrix_int_double_convert
+        module procedure mixed_matrix_int_double_convert_int
+        module procedure mixed_matrix_int_double_convert_double
+    end interface mixed_matrix_int_double_convert
 
     ! splicer begin additional_declarations
     ! splicer end additional_declarations
@@ -555,6 +893,226 @@ contains
     ! splicer begin class.DerivedMatrix_double.additional_functions
     ! splicer end class.DerivedMatrix_double.additional_functions
 
+    ! ----------------------------------------
+    ! Function:  MixedMatrix
+    ! Statement: f_ctor_shadow_capsule_caller
+    function mixed_matrix_int_double_ctor() &
+            result(SHT_rv)
+        type(mixed_matrix_int_double) :: SHT_rv
+        ! splicer begin class.MixedMatrix_int_double.method.ctor
+        call c_mixed_matrix_int_double_ctor_bufferify(SHT_rv%cxxmem)
+        ! splicer end class.MixedMatrix_int_double.method.ctor
+    end function mixed_matrix_int_double_ctor
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void set_mixed
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  int v
+    ! Statement: f_in_native
+    ! ----------------------------------------
+    ! Argument:  double w
+    ! Statement: f_in_native
+    subroutine mixed_matrix_int_double_set_mixed(obj, v, w)
+        use iso_c_binding, only : C_DOUBLE, C_INT
+        class(mixed_matrix_int_double), intent(INOUT) :: obj
+        integer(C_INT), value, intent(IN) :: v
+        real(C_DOUBLE), value, intent(IN) :: w
+        ! splicer begin class.MixedMatrix_int_double.method.set_mixed
+        call c_mixed_matrix_int_double_set_mixed(obj%cxxmem, v, w)
+        ! splicer end class.MixedMatrix_int_double.method.set_mixed
+    end subroutine mixed_matrix_int_double_set_mixed
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  double get_mixed
+    ! Statement: f_function_native
+    function mixed_matrix_int_double_get_mixed(obj) &
+            result(SHT_rv)
+        use iso_c_binding, only : C_DOUBLE
+        class(mixed_matrix_int_double), intent(INOUT) :: obj
+        real(C_DOUBLE) :: SHT_rv
+        ! splicer begin class.MixedMatrix_int_double.method.get_mixed
+        SHT_rv = c_mixed_matrix_int_double_get_mixed(obj%cxxmem)
+        ! splicer end class.MixedMatrix_int_double.method.get_mixed
+    end function mixed_matrix_int_double_get_mixed
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void convert
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  int value
+    ! Statement: f_in_native
+    subroutine mixed_matrix_int_double_convert_int(obj, value)
+        use iso_c_binding, only : C_INT
+        class(mixed_matrix_int_double), intent(INOUT) :: obj
+        integer(C_INT), value, intent(IN) :: value
+        ! splicer begin class.MixedMatrix_int_double.method.convert_int
+        call c_mixed_matrix_int_double_convert_int(obj%cxxmem, value)
+        ! splicer end class.MixedMatrix_int_double.method.convert_int
+    end subroutine mixed_matrix_int_double_convert_int
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void convert
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  double value
+    ! Statement: f_in_native
+    subroutine mixed_matrix_int_double_convert_double(obj, value)
+        use iso_c_binding, only : C_DOUBLE
+        class(mixed_matrix_int_double), intent(INOUT) :: obj
+        real(C_DOUBLE), value, intent(IN) :: value
+        ! splicer begin class.MixedMatrix_int_double.method.convert_double
+        call c_mixed_matrix_int_double_convert_double(obj%cxxmem, value)
+        ! splicer end class.MixedMatrix_int_double.method.convert_double
+    end subroutine mixed_matrix_int_double_convert_double
+
+    ! splicer begin class.MixedMatrix_int_double.additional_functions
+    ! splicer end class.MixedMatrix_int_double.additional_functions
+
+    ! ----------------------------------------
+    ! Function:  MixedMatrix
+    ! Statement: f_ctor_shadow_capsule_caller
+    function mixed_matrix_double_int_ctor() &
+            result(SHT_rv)
+        type(mixed_matrix_double_int) :: SHT_rv
+        ! splicer begin class.MixedMatrix_double_int.method.ctor
+        call c_mixed_matrix_double_int_ctor_bufferify(SHT_rv%cxxmem)
+        ! splicer end class.MixedMatrix_double_int.method.ctor
+    end function mixed_matrix_double_int_ctor
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void set_mixed
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  double v
+    ! Statement: f_in_native
+    ! ----------------------------------------
+    ! Argument:  int w
+    ! Statement: f_in_native
+    subroutine mixed_matrix_double_int_set_mixed(obj, v, w)
+        use iso_c_binding, only : C_DOUBLE, C_INT
+        class(mixed_matrix_double_int), intent(INOUT) :: obj
+        real(C_DOUBLE), value, intent(IN) :: v
+        integer(C_INT), value, intent(IN) :: w
+        ! splicer begin class.MixedMatrix_double_int.method.set_mixed
+        call c_mixed_matrix_double_int_set_mixed(obj%cxxmem, v, w)
+        ! splicer end class.MixedMatrix_double_int.method.set_mixed
+    end subroutine mixed_matrix_double_int_set_mixed
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  int get_mixed
+    ! Statement: f_function_native
+    function mixed_matrix_double_int_get_mixed(obj) &
+            result(SHT_rv)
+        use iso_c_binding, only : C_INT
+        class(mixed_matrix_double_int), intent(INOUT) :: obj
+        integer(C_INT) :: SHT_rv
+        ! splicer begin class.MixedMatrix_double_int.method.get_mixed
+        SHT_rv = c_mixed_matrix_double_int_get_mixed(obj%cxxmem)
+        ! splicer end class.MixedMatrix_double_int.method.get_mixed
+    end function mixed_matrix_double_int_get_mixed
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void convert
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  int value
+    ! Statement: f_in_native
+    subroutine mixed_matrix_double_int_convert_int(obj, value)
+        use iso_c_binding, only : C_INT
+        class(mixed_matrix_double_int), intent(INOUT) :: obj
+        integer(C_INT), value, intent(IN) :: value
+        ! splicer begin class.MixedMatrix_double_int.method.convert_int
+        call c_mixed_matrix_double_int_convert_int(obj%cxxmem, value)
+        ! splicer end class.MixedMatrix_double_int.method.convert_int
+    end subroutine mixed_matrix_double_int_convert_int
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void convert
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  double value
+    ! Statement: f_in_native
+    subroutine mixed_matrix_double_int_convert_double(obj, value)
+        use iso_c_binding, only : C_DOUBLE
+        class(mixed_matrix_double_int), intent(INOUT) :: obj
+        real(C_DOUBLE), value, intent(IN) :: value
+        ! splicer begin class.MixedMatrix_double_int.method.convert_double
+        call c_mixed_matrix_double_int_convert_double(obj%cxxmem, value)
+        ! splicer end class.MixedMatrix_double_int.method.convert_double
+    end subroutine mixed_matrix_double_int_convert_double
+
+    ! splicer begin class.MixedMatrix_double_int.additional_functions
+    ! splicer end class.MixedMatrix_double_int.additional_functions
+
+    ! ----------------------------------------
+    ! Function:  ConcreteMatrix
+    ! Statement: f_ctor_shadow_capsule_caller
+    function concrete_matrix_int_ctor() &
+            result(SHT_rv)
+        type(concrete_matrix_int) :: SHT_rv
+        ! splicer begin class.ConcreteMatrix_int.method.ctor
+        call c_concrete_matrix_int_ctor_bufferify(SHT_rv%cxxmem)
+        ! splicer end class.ConcreteMatrix_int.method.ctor
+    end function concrete_matrix_int_ctor
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void set_concrete
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  int v
+    ! Statement: f_in_native
+    subroutine concrete_matrix_int_set_concrete(obj, v)
+        use iso_c_binding, only : C_INT
+        class(concrete_matrix_int), intent(INOUT) :: obj
+        integer(C_INT), value, intent(IN) :: v
+        ! splicer begin class.ConcreteMatrix_int.method.set_concrete
+        call c_concrete_matrix_int_set_concrete(obj%cxxmem, v)
+        ! splicer end class.ConcreteMatrix_int.method.set_concrete
+    end subroutine concrete_matrix_int_set_concrete
+
+    ! splicer begin class.ConcreteMatrix_int.additional_functions
+    ! splicer end class.ConcreteMatrix_int.additional_functions
+
+    ! ----------------------------------------
+    ! Function:  ConcreteMatrix
+    ! Statement: f_ctor_shadow_capsule_caller
+    function concrete_matrix_double_ctor() &
+            result(SHT_rv)
+        type(concrete_matrix_double) :: SHT_rv
+        ! splicer begin class.ConcreteMatrix_double.method.ctor
+        call c_concrete_matrix_double_ctor_bufferify(SHT_rv%cxxmem)
+        ! splicer end class.ConcreteMatrix_double.method.ctor
+    end function concrete_matrix_double_ctor
+
+    ! Generated by cxx_template
+    ! ----------------------------------------
+    ! Function:  void set_concrete
+    ! Statement: f_subroutine
+    ! ----------------------------------------
+    ! Argument:  double v
+    ! Statement: f_in_native
+    subroutine concrete_matrix_double_set_concrete(obj, v)
+        use iso_c_binding, only : C_DOUBLE
+        class(concrete_matrix_double), intent(INOUT) :: obj
+        real(C_DOUBLE), value, intent(IN) :: v
+        ! splicer begin class.ConcreteMatrix_double.method.set_concrete
+        call c_concrete_matrix_double_set_concrete(obj%cxxmem, v)
+        ! splicer end class.ConcreteMatrix_double.method.set_concrete
+    end subroutine concrete_matrix_double_set_concrete
+
+    ! splicer begin class.ConcreteMatrix_double.additional_functions
+    ! splicer end class.ConcreteMatrix_double.additional_functions
+
     ! Statement: f_operator_assignment_shadow
     ! BaseMatrix_int = BaseMatrix_int
     subroutine base_matrix_int_assign_BaseMatrix_int(lhs, rhs)
@@ -622,6 +1180,74 @@ contains
         end interface
         call do_assign(lhs%cxxmem, rhs%cxxmem)
     end subroutine derived_matrix_double_assign_DerivedMatrix_double
+
+    ! Statement: f_operator_assignment_shadow
+    ! MixedMatrix_int_double = MixedMatrix_int_double
+    subroutine mixed_matrix_int_double_assign_MixedMatrix_int_double(lhs, rhs)
+        use iso_c_binding, only : c_associated, c_f_pointer
+        class(mixed_matrix_int_double), intent(INOUT) :: lhs
+        type(mixed_matrix_int_double), intent(IN) :: rhs
+        interface
+            subroutine do_assign(lhs, rhs) bind(C, &
+                name="TEM_MixedMatrix_int_double_assign_MixedMatrix_int_double")
+                import :: TEM_SHROUD_capsule_data
+                type(TEM_SHROUD_capsule_data), intent(INOUT) :: lhs
+                type(TEM_SHROUD_capsule_data), intent(IN) :: rhs
+            end subroutine do_assign
+        end interface
+        call do_assign(lhs%cxxmem, rhs%cxxmem)
+    end subroutine mixed_matrix_int_double_assign_MixedMatrix_int_double
+
+    ! Statement: f_operator_assignment_shadow
+    ! MixedMatrix_double_int = MixedMatrix_double_int
+    subroutine mixed_matrix_double_int_assign_MixedMatrix_double_int(lhs, rhs)
+        use iso_c_binding, only : c_associated, c_f_pointer
+        class(mixed_matrix_double_int), intent(INOUT) :: lhs
+        type(mixed_matrix_double_int), intent(IN) :: rhs
+        interface
+            subroutine do_assign(lhs, rhs) bind(C, &
+                name="TEM_MixedMatrix_double_int_assign_MixedMatrix_double_int")
+                import :: TEM_SHROUD_capsule_data
+                type(TEM_SHROUD_capsule_data), intent(INOUT) :: lhs
+                type(TEM_SHROUD_capsule_data), intent(IN) :: rhs
+            end subroutine do_assign
+        end interface
+        call do_assign(lhs%cxxmem, rhs%cxxmem)
+    end subroutine mixed_matrix_double_int_assign_MixedMatrix_double_int
+
+    ! Statement: f_operator_assignment_shadow
+    ! ConcreteMatrix_int = ConcreteMatrix_int
+    subroutine concrete_matrix_int_assign_ConcreteMatrix_int(lhs, rhs)
+        use iso_c_binding, only : c_associated, c_f_pointer
+        class(concrete_matrix_int), intent(INOUT) :: lhs
+        type(concrete_matrix_int), intent(IN) :: rhs
+        interface
+            subroutine do_assign(lhs, rhs) bind(C, &
+                name="TEM_ConcreteMatrix_int_assign_ConcreteMatrix_int")
+                import :: TEM_SHROUD_capsule_data
+                type(TEM_SHROUD_capsule_data), intent(INOUT) :: lhs
+                type(TEM_SHROUD_capsule_data), intent(IN) :: rhs
+            end subroutine do_assign
+        end interface
+        call do_assign(lhs%cxxmem, rhs%cxxmem)
+    end subroutine concrete_matrix_int_assign_ConcreteMatrix_int
+
+    ! Statement: f_operator_assignment_shadow
+    ! ConcreteMatrix_double = ConcreteMatrix_double
+    subroutine concrete_matrix_double_assign_ConcreteMatrix_double(lhs, rhs)
+        use iso_c_binding, only : c_associated, c_f_pointer
+        class(concrete_matrix_double), intent(INOUT) :: lhs
+        type(concrete_matrix_double), intent(IN) :: rhs
+        interface
+            subroutine do_assign(lhs, rhs) bind(C, &
+                name="TEM_ConcreteMatrix_double_assign_ConcreteMatrix_double")
+                import :: TEM_SHROUD_capsule_data
+                type(TEM_SHROUD_capsule_data), intent(INOUT) :: lhs
+                type(TEM_SHROUD_capsule_data), intent(IN) :: rhs
+            end subroutine do_assign
+        end interface
+        call do_assign(lhs%cxxmem, rhs%cxxmem)
+    end subroutine concrete_matrix_double_assign_ConcreteMatrix_double
 
     ! splicer begin additional_functions
     ! splicer end additional_functions
@@ -713,5 +1339,93 @@ contains
             rv = .false.
         endif
     end function derived_matrix_double_ne
+
+    function mixed_matrix_int_double_eq(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(mixed_matrix_int_double), intent(IN) ::a,b
+        logical :: rv
+        if (c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function mixed_matrix_int_double_eq
+
+    function mixed_matrix_int_double_ne(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(mixed_matrix_int_double), intent(IN) ::a,b
+        logical :: rv
+        if (.not. c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function mixed_matrix_int_double_ne
+
+    function mixed_matrix_double_int_eq(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(mixed_matrix_double_int), intent(IN) ::a,b
+        logical :: rv
+        if (c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function mixed_matrix_double_int_eq
+
+    function mixed_matrix_double_int_ne(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(mixed_matrix_double_int), intent(IN) ::a,b
+        logical :: rv
+        if (.not. c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function mixed_matrix_double_int_ne
+
+    function concrete_matrix_int_eq(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(concrete_matrix_int), intent(IN) ::a,b
+        logical :: rv
+        if (c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function concrete_matrix_int_eq
+
+    function concrete_matrix_int_ne(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(concrete_matrix_int), intent(IN) ::a,b
+        logical :: rv
+        if (.not. c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function concrete_matrix_int_ne
+
+    function concrete_matrix_double_eq(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(concrete_matrix_double), intent(IN) ::a,b
+        logical :: rv
+        if (c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function concrete_matrix_double_eq
+
+    function concrete_matrix_double_ne(a,b) result (rv)
+        use iso_c_binding, only: c_associated
+        type(concrete_matrix_double), intent(IN) ::a,b
+        logical :: rv
+        if (.not. c_associated(a%cxxmem%addr, b%cxxmem%addr)) then
+            rv = .true.
+        else
+            rv = .false.
+        endif
+    end function concrete_matrix_double_ne
 
 end module templateinherit_mod

@@ -26,6 +26,26 @@ typemap:
       f_derived_type: base_matrix_int
       f_capsule_data_type: TEM_SHROUD_capsule_data
       f_to_c: "{f_var}%cxxmem"
+  - type: ConcreteMatrix_double
+    fields:
+      base: shadow
+      wrap_header:
+      - typestemplateinherit.h
+      c_type: TEM_ConcreteMatrix_double
+      f_module_name: templateinherit_mod
+      f_derived_type: concrete_matrix_double
+      f_capsule_data_type: TEM_SHROUD_capsule_data
+      f_to_c: "{f_var}%cxxmem"
+  - type: ConcreteMatrix_int
+    fields:
+      base: shadow
+      wrap_header:
+      - typestemplateinherit.h
+      c_type: TEM_ConcreteMatrix_int
+      f_module_name: templateinherit_mod
+      f_derived_type: concrete_matrix_int
+      f_capsule_data_type: TEM_SHROUD_capsule_data
+      f_to_c: "{f_var}%cxxmem"
   - type: DerivedMatrix_double
     fields:
       base: shadow
@@ -44,5 +64,25 @@ typemap:
       c_type: TEM_DerivedMatrix_int
       f_module_name: templateinherit_mod
       f_derived_type: derived_matrix_int
+      f_capsule_data_type: TEM_SHROUD_capsule_data
+      f_to_c: "{f_var}%cxxmem"
+  - type: MixedMatrix_double_int
+    fields:
+      base: shadow
+      wrap_header:
+      - typestemplateinherit.h
+      c_type: TEM_MixedMatrix_double_int
+      f_module_name: templateinherit_mod
+      f_derived_type: mixed_matrix_double_int
+      f_capsule_data_type: TEM_SHROUD_capsule_data
+      f_to_c: "{f_var}%cxxmem"
+  - type: MixedMatrix_int_double
+    fields:
+      base: shadow
+      wrap_header:
+      - typestemplateinherit.h
+      c_type: TEM_MixedMatrix_int_double
+      f_module_name: templateinherit_mod
+      f_derived_type: mixed_matrix_int_double
       f_capsule_data_type: TEM_SHROUD_capsule_data
       f_to_c: "{f_var}%cxxmem"
