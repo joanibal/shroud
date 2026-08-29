@@ -1,11 +1,8 @@
 ctor has_templated_signature False
 set_base has_templated_signature True
 ----------------- set_base ---------------------
-get_base has_templated_signature True
------------------ get_base ---------------------
 ctor []
 set_base [<Declaration('int')>]
-get_base []
 ctor has_templated_signature False
 set_base has_templated_signature True
 ----------------- set_base ---------------------
@@ -31,14 +28,11 @@ ctor []
 set_derived [<Declaration('double')>]
 get_derived []
 ctor has_templated_signature False
-set_mixed has_templated_signature True
------------------ set_mixed ---------------------
 get_mixed has_templated_signature True
 ----------------- get_mixed ---------------------
 convert has_templated_signature True
 ----------------- convert ---------------------
 ctor []
-set_mixed [<Declaration('int')>, <Declaration('double')>]
 get_mixed []
 convert [<Declaration('int')>]
 convert [<Declaration('double')>]
@@ -47,13 +41,9 @@ set_mixed has_templated_signature True
 ----------------- set_mixed ---------------------
 get_mixed has_templated_signature True
 ----------------- get_mixed ---------------------
-convert has_templated_signature True
------------------ convert ---------------------
 ctor []
 set_mixed [<Declaration('double')>, <Declaration('int')>]
 get_mixed []
-convert [<Declaration('int')>]
-convert [<Declaration('double')>]
 ctor has_templated_signature False
 set_concrete has_templated_signature True
 ----------------- set_concrete ---------------------

@@ -449,6 +449,7 @@ class ToDict(visitor.Visitor):
                 "fmtdict",
                 "options",
                 "template_arguments",
+                "template_exclude",
                 "fortran_generic",
                 "fstatements",
                 "splicer",

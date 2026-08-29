@@ -188,6 +188,22 @@ cxx_template
       - instantiation: <int>
       - instantiation: <double>
 
+cxx_template_exclude
+   A list of instantiations of the enclosing class template which this
+   declaration is *not* part of.  Only useful for a declaration within a
+   class which has a *cxx_template* field:
+
+.. code-block:: yaml
+
+      decl: template<typename T> class vector
+      cxx_template:
+      - instantiation: <int>
+      - instantiation: <double>
+      declarations:
+      - decl: double average()
+        cxx_template_exclude:
+        - instantiation: <int>
+
 decl
    Function declaration.
    Parsed to extract function name, type and arguments descriptions.

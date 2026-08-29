@@ -33,8 +33,6 @@ void TEM_BaseMatrix_int_ctor_bufferify(TEM_BaseMatrix_int *SHC_rv);
 
 void TEM_BaseMatrix_int_set_base(TEM_BaseMatrix_int * self, int v);
 
-int TEM_BaseMatrix_int_get_base(TEM_BaseMatrix_int * self);
-
 #ifdef __cplusplus
 }
 #endif

@@ -566,11 +566,20 @@ class GenFunctions(object):
         #     template<typename U> void createFrom(const Vec<U>& other)
         # so every typemap has to be in typemap.cxx_instantiation before any
         # method is expanded.
+        self.check_template_exclude(cls)
         newclasses = []
         # targs -> ast.TemplateArgument
         for i, targs in enumerate(cls.template_arguments):
             newcls = cls.clone()
             clslist.append(newcls)
+
+            # Drop declarations which are not part of this instantiation.
+            # Done before process_class so the wrappers, the overload
+            # numbering and the generic interfaces never see them.
+            newcls.functions = [
+                fcn for fcn in newcls.functions
+                if not self.instantiation_excluded(fcn, targs)
+            ]
 
             # If single template argument, use its name; else sequence.
             # XXX - maybe change to names
@@ -673,6 +682,48 @@ class GenFunctions(object):
             return (access, ns_name, base, base_targs)
         inst_class = self.class_map.get(inst_typemap.flat_name, base)
         return (access, ns_name, inst_class, base_targs)
+
+    def instantiation_excluded(self, fcn, targs):
+        """Return True if fcn is excluded from class instantiation targs.
+
+        Compare typemaps instead of the instantiation strings so that
+        spelling differences such as "<int, double>" and "<int,double>"
+        still match.
+
+        Parameters
+        ----------
+          fcn   - ast.FunctionNode, a method of the class template.
+          targs - ast.TemplateArgument for this instantiation.
+        """
+        if not fcn.template_exclude:
+            return False
+        want = targs_typemaps(targs)
+        for exclude in fcn.template_exclude:
+            if targs_typemaps(exclude) == want:
+                return True
+        return False
+
+    def check_template_exclude(self, cls):
+        """Report cxx_template_exclude which match no instantiation of cls.
+
+        A misspelled instantiation would otherwise silently exclude nothing.
+
+        Parameters
+        ----------
+          cls - ast.ClassNode, the template being instantiated.
+        """
+        known = [targs_typemaps(targs) for targs in cls.template_arguments]
+        for fcn in cls.functions:
+            if not fcn.template_exclude:
+                continue
+            self.cursor.push_node(fcn)
+            for exclude in fcn.template_exclude:
+                if targs_typemaps(exclude) not in known:
+                    self.cursor.generate(
+                        "cxx_template_exclude '{}' does not match any "
+                        "instantiation of class '{}'".format(
+                            exclude.instantiation, cls.name))
+            self.cursor.pop_node(fcn)
 
     def find_class_instantiation(self, ntypemap, want, symtab):
         """Find the instantiation of ntypemap whose arguments are want.
@@ -1634,6 +1685,16 @@ def gen_decl(ast):
         return f"{s} {s2}"
 
 ######################################################################
+
+
+def targs_typemaps(targs):
+    """Return the list of typemaps for an ast.TemplateArgument.
+
+    Used to compare instantiations without comparing strings so that
+    spelling differences such as "<int, double>" and "<int,double>" match.
+    """
+    return [arg.typemap for arg in targs.asts]
+
 
 def add_assign_operator(assign_operators, cls1, cls2, specialize=None):
     """Add an assignment operator overload for Fortran.

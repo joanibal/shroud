@@ -1555,6 +1555,9 @@ class FunctionNode(AstNode):
         self.cxx_template = {}
         self.template_parameters = []
         self.template_arguments = kwargs.get("cxx_template", [])
+        # Instantiations of the enclosing class template which this
+        # declaration is not part of.
+        self.template_exclude = kwargs.get("cxx_template_exclude", [])
         self.doxygen = kwargs.get("doxygen", {})
         self.fortran_generic = kwargs.get("fortran_generic", [])
         self._fortran_generic_wrap = False
@@ -1597,6 +1600,18 @@ class FunctionNode(AstNode):
                 error.cursor.warning("'cxx_template' field only used with a templated function")
         else:
             raise RuntimeError("Expected a function declaration")
+
+        if self.template_exclude:
+            if not isinstance(parent, ClassNode) or not parent.template_arguments:
+                error.cursor.warning(
+                    "'cxx_template_exclude' field only used with a "
+                    "declaration in a templated class"
+                )
+                self.template_exclude = []
+            else:
+                for args in self.template_exclude:
+                    args.parse_instantiation(self.symtab)
+
         if ast.declarator.params is None:
             # 'void foo' instead of 'void foo()'
             raise RuntimeError("Missing arguments to function:", gen_decl(ast))
@@ -2275,6 +2290,59 @@ def promote_wrap(node):
 ######################################################################
 
 
+def convert_template_list(ddct, key, linenumber, allow_format=True):
+    """Convert a cxx_template style field into TemplateArgument instances.
+
+    The field is a list of dictionaries, each with an 'instantiation' key.
+
+      cxx_template:
+      - instantiation: <int, long>
+      - instantiation: <float, double>
+
+    allow_format - True if 'format' and 'options' may be given for each
+                   instantiation.  Only the block which creates wrappers
+                   accepts them.
+
+    Return True if no errors detected.
+    """
+    ok = True
+    lst = ddct[key]
+    if not isinstance(lst, list):
+        error.cursor.ast(linenumber, f"field '{key}' must be a list")
+        return False
+    newlst = []
+    for dct in lst:
+        if not isinstance(dct, dict):
+            error.cursor.ast(
+                linenumber, f"field '{key}' must be a list of dictionaries")
+            ok = False
+            continue
+        dctline = dct.get("__line__", linenumber)
+        if "instantiation" not in dct:
+            error.cursor.ast(
+                dctline,
+                f"'instantation' must be defined for each dictionary in '{key}'"
+            )
+            ok = False
+            continue
+        if not allow_format:
+            for extra in ["format", "options"]:
+                if extra in dct:
+                    error.cursor.ast(
+                        dctline,
+                        f"'{extra}' may not be used with '{key}'")
+                    ok = False
+        newlst.append(
+            TemplateArgument(
+                dct["instantiation"],
+                fmtdict=dct.get("format", None) if allow_format else None,
+                options=dct.get("options", None) if allow_format else None,
+            )
+        )
+    ddct[key] = newlst
+    return ok
+
+
 def clean_dictionary(ddct):
     """YAML converts some blank fields to None,
     but we want blank.
@@ -2305,32 +2373,14 @@ def clean_dictionary(ddct):
     #  - instantiation: <int, long>
     #  - instantiation: <float, double>
     if "cxx_template" in ddct:
-        # Convert to list of TemplateArgument instances
-        cxx_template = ddct["cxx_template"]
-        if not isinstance(cxx_template, list):
-            error.cursor.ast(linenumber, "field 'cxx_template' must be a list")
-            ok = False
-        else:
-            newlst = []
-            for dct in cxx_template:
-                if not isinstance(dct, dict):
-                    error.cursor.ast(linenumber, "field 'cxx_template' must be a list of dictionaries")
-                    ok = False
-                elif "instantiation" not in dct:
-                    linenumber = dct.get("__line__", "?")
-                    error.cursor.ast(linenumber, 
-                        "'instantation' must be defined for each dictionary in 'cxx_template'"
-                    )
-                    ok = False
-                else:
-                    newlst.append(
-                        TemplateArgument(
-                            dct["instantiation"],
-                            fmtdict=dct.get("format", None),
-                            options=dct.get("options", None),
-                        )
-                    )
-            ddct["cxx_template"] = newlst
+        ok = convert_template_list(ddct, "cxx_template", linenumber) and ok
+
+    #  cxx_template_exclude:
+    #  - instantiation: <int>
+    if "cxx_template_exclude" in ddct:
+        ok = convert_template_list(
+            ddct, "cxx_template_exclude", linenumber,
+            allow_format=False) and ok
 
     #  fortran_generic:
     #  - decl: float arg

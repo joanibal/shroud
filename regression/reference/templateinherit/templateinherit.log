@@ -7,8 +7,6 @@ C c BaseMatrix(void)
 C f BaseMatrix(void)
 C c void set_base(int v)
 C f void set_base(int v)
-C c int get_base(void)
-C f int get_base(void)
 Close wrapBaseMatrix_int.h
 Close wrapBaseMatrix_int.cpp
 class BaseMatrix<double>
@@ -41,8 +39,6 @@ Close wrapDerivedMatrix_double.cpp
 class MixedMatrix<int, double>
 C c MixedMatrix(void)
 C f MixedMatrix(void)
-C c void set_mixed(int v, double w)
-C f void set_mixed(int v, double w)
 C c double get_mixed(void)
 C f double get_mixed(void)
 C c void convert(int value)
@@ -58,10 +54,6 @@ C c void set_mixed(double v, int w)
 C f void set_mixed(double v, int w)
 C c int get_mixed(void)
 C f int get_mixed(void)
-C c void convert(int value)
-C f void convert(int value)
-C c void convert(double value)
-C f void convert(double value)
 Close wrapMixedMatrix_double_int.h
 Close wrapMixedMatrix_double_int.cpp
 class ConcreteMatrix<int>
@@ -83,11 +75,9 @@ namespace templateinherit
 class BaseMatrix<int>
 Fortran BaseMatrix(void)
 Fortran void set_base(int v)
-Fortran int get_base(void)
 C-interface c BaseMatrix(void)
 C-interface f BaseMatrix(void)
 C-interface f void set_base(int v)
-C-interface f int get_base(void)
 class BaseMatrix<double>
 Fortran BaseMatrix(void)
 Fortran void set_base(double v)
@@ -114,13 +104,11 @@ C-interface f void set_derived(double v)
 C-interface f double get_derived(void)
 class MixedMatrix<int, double>
 Fortran MixedMatrix(void)
-Fortran void set_mixed(int v, double w)
 Fortran double get_mixed(void)
 Fortran void convert(int value)
 Fortran void convert(double value)
 C-interface c MixedMatrix(void)
 C-interface f MixedMatrix(void)
-C-interface f void set_mixed(int v, double w)
 C-interface f double get_mixed(void)
 C-interface f void convert(int value)
 C-interface f void convert(double value)
@@ -128,14 +116,10 @@ class MixedMatrix<double, int>
 Fortran MixedMatrix(void)
 Fortran void set_mixed(double v, int w)
 Fortran int get_mixed(void)
-Fortran void convert(int value)
-Fortran void convert(double value)
 C-interface c MixedMatrix(void)
 C-interface f MixedMatrix(void)
 C-interface f void set_mixed(double v, int w)
 C-interface f int get_mixed(void)
-C-interface f void convert(int value)
-C-interface f void convert(double value)
 class ConcreteMatrix<int>
 Fortran ConcreteMatrix(void)
 Fortran void set_concrete(int v)

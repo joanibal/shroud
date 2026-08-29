@@ -48,6 +48,28 @@ declarations:
 #  - instantiation: <double>
   fields: need-dict
 
+# cxx_template_exclude is only valid in a templated class.
+- decl: void TemplateExclude0(int arg)
+  cxx_template_exclude:
+  - instantiation: <int>
+
+- decl: template<typename T> class ErrorMatrix
+  cxx_template:
+  - instantiation: <int>
+  declarations:
+  - decl: ErrorMatrix()
+  - decl: void exclude_need_list(T arg)
+    cxx_template_exclude: need-list
+  - decl: void exclude_need_dict(T arg)
+    cxx_template_exclude:
+    - dog
+    - cat: bird
+  - decl: void exclude_no_format(T arg)
+    cxx_template_exclude:
+    - instantiation: <int>
+      format:
+        F_name_function: nope
+
 - decl: void FortranGenericOverloaded0(double arg2)
   fortran_generic: need-list-of-dict
 

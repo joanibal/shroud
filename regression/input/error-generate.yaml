@@ -104,6 +104,19 @@ declarations:
   - decl: struct nested *parent
 
 ##########
+# cxx_template_exclude
+
+- decl: template<typename T> class ErrorMatrix
+  cxx_template:
+  - instantiation: <int>
+  declarations:
+  - decl: ErrorMatrix()
+  # <double> is not an instantiation of ErrorMatrix.
+  - decl: void exclude_no_match(T arg)
+    cxx_template_exclude:
+    - instantiation: <double>
+
+##########
 # fortran generic
 
 - decl: void AssignValues(const int *from, int nfrom, int *to+intent(out), int nto)

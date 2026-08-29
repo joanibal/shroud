@@ -36,100 +36,116 @@ field 'cxx_template' must be a list of dictionaries
 line 46
 'instantation' must be defined for each dictionary in 'cxx_template'
 --------------------
-line 46
+line 41
 'fields' must be a dictionary
 --------------------
-line 51
+Node: TemplateExclude0
+line 52
+'cxx_template_exclude' field only used with a declaration in a templated class
+--------------------
+line 61
+field 'cxx_template_exclude' must be a list
+--------------------
+line 63
+field 'cxx_template_exclude' must be a list of dictionaries
+--------------------
+line 66
+'instantation' must be defined for each dictionary in 'cxx_template_exclude'
+--------------------
+line 69
+'format' may not be used with 'cxx_template_exclude'
+--------------------
+line 73
 field 'fortran_generic' must be a list
 --------------------
-line 54
+line 76
 field 'fortran_generic' must be a list of dictionaries
 --------------------
-line 57
+line 79
 'decl' must be defined for each dictionary in 'fortran_generic'
 --------------------
 Node: FortranGenericOverloaded3
-line 59
+line 81
 Error in 'fortran_generic', argument 'arg3' not found
 --------------------
 Node: FortranGenericOverloaded3
-line 59
+line 81
 Error in 'fortran_generic', argument 'arg2' specified more than once
 --------------------
 Node: FortranGenericOverloaded3
-line 59
+line 81
 Error in 'decl' field
 (doublexx arg2)
 ^
 Expected TYPE_SPECIFIER, found ID 'doublexx'
 --------------------
 Node: GoodFunction
-line 69
+line 91
 void GoodFunction(void)
 Unexpected value of option C_API_case: none
 --------------------
 Node: returnThis
-line 75
+line 97
 void *returnThis(void)
 return_this can only be set for class methods
 --------------------
 Node: returnThis
-line 85
+line 107
 void *returnThis(void)
 return_this must return a pointer to the class
 --------------------
 Node: returnThis2
-line 88
+line 110
 Class1 returnThis2(void)
 return_this must return a pointer to the class
 --------------------
 Node: Color
-line 93
+line 115
 Unknown type in F_enum_type: shorter
 --------------------
 Node: testattrs1
-line 105
+line 127
 Error in 'decl' field
 (+attr)
 ^
 Expected ID, found PLUS
 --------------------
 Node: testattrs2
-line 109
+line 131
 Error in 'decl' field
 ( name, )
        ^
 Expected ID, found RPAREN
 --------------------
 Node: testattrs3
-line 113
+line 135
 Error in 'decl' field
 ( name
 ^
 Expected RPAREN, found EOF
 --------------------
 Node: testattrs4
-line 117
+line 139
 Error in 'decl' field
 ( ) name
    ^
 Expected EOF, found ID
 --------------------
 Node: process_twostruct
-line 128
+line 150
 Templated function requires the 'cxx_template' field
 --------------------
 Node: process_twostruct
-line 128
+line 150
 field f_arg_decl is deprecated, changed to f_dummy_decl
 --------------------
 Node: process_twostruct
-line 136
+line 158
 'cxx_template' field only used with a templated function
 --------------------
 Node: getConstCharPtrAsCopyArg
-line 144
+line 166
 format F_string_result_as_arg is deprecated, changed to option.F_result_as_arg
 Add attribute +funcarg(name)+deref(copy) to decl.
 Option F_result_as_arg is the default name when not specified in +funcarg.
-Too many warnings: 30
+Too many warnings: 35

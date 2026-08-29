@@ -26,7 +26,11 @@ declarations:
   declarations:
   - decl: BaseMatrix()
   - decl: void set_base(T v)
+  # Not part of the <int> instantiation.  BaseMatrix_int, and
+  # DerivedMatrix_int which extends it, have no get_base.
   - decl: T get_base()
+    cxx_template_exclude:
+    - instantiation: <int>
 
 - decl: |
     template<typename T>
@@ -53,15 +57,24 @@ declarations:
       template_suffix: _double_int
   declarations:
   - decl: MixedMatrix()
+  # Multiple template parameters.  The instantiation is spelled without a
+  # blank to show that typemaps, not strings, are compared.
   - decl: void set_mixed(T v, U w)
+    cxx_template_exclude:
+    - instantiation: <int,double>
   - decl: U get_mixed()
   # A member template.  The class carries an explicit template_suffix, which
   # must not name the methods; only this function's own instantiation does,
   # giving convert_int and convert_double.
+  # cxx_template_exclude names an instantiation of the enclosing class, not
+  # of the member template, so both convert_int and convert_double are
+  # dropped from MixedMatrix<double,int> and kept in MixedMatrix<int,double>.
   - decl: template<typename V> void convert(V value)
     cxx_template:
     - instantiation: <int>
     - instantiation: <double>
+    cxx_template_exclude:
+    - instantiation: <double, int>
 
 # The base class may also be templated on a concrete type.
 - decl: |

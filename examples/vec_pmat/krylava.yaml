@@ -82,6 +82,38 @@ declarations:
             - "cxxArrPtr = c_{F_derived_name}_getCXXArrPointer_bufferify(obj%cxxmem)"
             - "call c_f_pointer(cxxArrPtr, obj%arr, [isize])"
             - "obj%B(1:obj%bs, 1:(obj%NLocal+obj%ng)) => obj%arr(1:isize)"
+      # Fortran-only method: there is no C++ PVector::bind() and no C wrapper
+      # is generated for this decl.  `wrap_c: False` suppresses the C wrapper
+      # (wrapc.py) and `F_create_bufferify_function: False` suppresses the
+      # _bufferify wrapper together with its bind(C) interface (wrapf.py).
+      # The decl string is parsed only to shape the Fortran subprogram.
+      # Because it lives in the class body it is cloned into every
+      # cxx_template instantiation, so each derived type gets
+      #    procedure :: bind => PVector_<T>_bind
+      # NOTE: f_call must be non-empty -- an empty list falls through to the
+      # default `call {f_call_function}(...)`, which would reference the C
+      # wrapper we just suppressed.
+      - decl: void bind()
+        options:
+          wrap_c: False
+          F_create_bufferify_function: False
+        fstatements:
+          f:
+            f_module:
+              iso_c_binding: ["C_PTR", "C_INT64_T", "c_f_pointer"]
+            f_local_decl:
+            - "integer(kind=C_INT64_T) :: isize"
+            - "type(C_PTR) :: cxxArrPtr"
+            f_call:
+            - "! TODO(human): set {F_this}%NLocal, {F_this}%bs, {F_this}%ng here"
+            f_post_call:
+            # These lines work for either design: once the sizes are known,
+            # re-point arr/B at the memory owned by the C++ object.
+            - "isize = ({F_this}%NLocal + {F_this}%ng) * int({F_this}%bs, C_INT64_T)"
+            - "cxxArrPtr = c_{F_derived_name}_getCXXArrPointer({F_this}%cxxmem)"
+            - "call c_f_pointer(cxxArrPtr, {F_this}%arr, [isize])"
+            - "{F_this}%B(1:{F_this}%bs, 1:({F_this}%NLocal+{F_this}%ng)) => {F_this}%arr(1:isize)"
+            
       - decl: void createFrom(PVector<VarType> a_other, VarType a_init)
       - decl: void copy(PVector<VarType> a_inVec)
       - decl: void copyScale(const PVector<VarType>& a_inVec, VarType a_alpha)
