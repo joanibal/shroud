@@ -742,6 +742,7 @@ class LibraryNode(AstNode, NamespaceMixin):
             f_assumed_shape="",  # scalar
             f_deref_attr="",
             f_dimension="",
+            f_extra_attr="",     # Extra attribute text, from +f_attr(...).
             f_intent="",
             f_intent_attr="",
             f_kind="",

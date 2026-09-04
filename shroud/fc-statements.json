@@ -73,7 +73,7 @@
             "Used with function results."
         ],
         "f_dummy_decl": [
-            "{f_type}{f_value_attr}{f_intent_attr}{f_deref_attr}{f_target_attr}{f_optional_attr} :: {f_var}{f_dimension}"
+            "{f_type}{f_value_attr}{f_intent_attr}{f_deref_attr}{f_target_attr}{f_optional_attr}{f_extra_attr} :: {f_var}{f_dimension}"
         ],
         "f_module": {
             "{f_module_name}": [
@@ -91,7 +91,7 @@
             "{f_var}"
         ],
         "f_dummy_decl": [
-            "{f_type}{f_value_attr}{f_intent_attr}{f_deref_attr}{f_target_attr}{f_optional_attr} :: {f_var}{f_dimension}"
+            "{f_type}{f_value_attr}{f_intent_attr}{f_deref_attr}{f_target_attr}{f_optional_attr}{f_extra_attr} :: {f_var}{f_dimension}"
         ],
         "f_module": {
             "{f_module_name}": [
@@ -1262,7 +1262,7 @@
             "{f_var}"
         ],
         "f_dummy_decl": [
-            "{targs[0].f_type}{f_intent_attr} :: {f_var}{f_assumed_shape}"
+            "{targs[0].f_type}{f_intent_attr}{f_extra_attr} :: {f_var}{f_assumed_shape}"
         ],
         "f_arg_call": [
             "{f_var}",
@@ -1282,7 +1282,7 @@
             "{i_var_size}"
         ],
         "i_dummy_decl": [
-            "{targs[0].f_type}, intent(IN) :: {i_var}(*)",
+            "{targs[0].f_type}, intent(IN){f_extra_attr} :: {i_var}(*)",
             "integer(C_SIZE_T), intent(IN), value :: {i_var_size}"
         ],
         "i_module": {
@@ -1315,7 +1315,7 @@
             "{f_var}"
         ],
         "f_dummy_decl": [
-            "{targs[0].f_type}{f_intent_attr} :: {f_var}{f_assumed_shape}"
+            "{targs[0].f_type}{f_intent_attr}{f_extra_attr} :: {f_var}{f_assumed_shape}"
         ],
         "f_arg_call": [
             "{f_var}",
@@ -1335,7 +1335,7 @@
             "{i_var_size}"
         ],
         "i_dummy_decl": [
-            "{targs[0].f_type}{i_intent_attr} :: {i_var}(*)",
+            "{targs[0].f_type}{i_intent_attr}{f_extra_attr} :: {i_var}(*)",
             "integer(C_SIZE_T), intent(IN), value :: {i_var_size}"
         ],
         "i_module": {
@@ -1374,7 +1374,7 @@
             "{i_var_size}"
         ],
         "i_dummy_decl": [
-            "{targs[0].f_type}{i_intent_attr} :: {i_var}(*)",
+            "{targs[0].f_type}{i_intent_attr}{f_extra_attr} :: {i_var}(*)",
             "integer(C_SIZE_T){i_intent_attr} :: {i_var_size}"
         ],
         "i_module": {
@@ -1480,7 +1480,7 @@
             "{i_var_size}"
         ],
         "i_dummy_decl": [
-            "{targs[0].f_type}, intent(IN) :: {i_var}(*)",
+            "{targs[0].f_type}, intent(IN){f_extra_attr} :: {i_var}(*)",
             "integer(C_SIZE_T), intent(IN), value :: {i_var_len}",
             "integer(C_SIZE_T), intent(IN), value :: {i_var_size}"
         ],
@@ -1516,7 +1516,7 @@
             "{i_var_cdesc}"
         ],
         "i_dummy_decl": [
-            "{targs[0].f_type}, intent(IN) :: {i_var}(*)",
+            "{targs[0].f_type}, intent(IN){f_extra_attr} :: {i_var}(*)",
             "integer(C_SIZE_T), intent(IN), value :: {i_var_size}",
             "type({F_array_type}), intent(OUT) :: {i_var_cdesc}"
         ],

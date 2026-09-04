@@ -1029,6 +1029,10 @@ def set_f_arg_format(node, arg, bind, wlang):
         fmt.i_intent = intent
         fmt.i_intent_attr = f", intent({fmt.i_intent})"
 
+    if meta["f_attr"]:
+        # Verbatim text added to the dummy declaration, ex. "device" for CUDA Fortran
+        fmt.f_extra_attr = " " + meta["f_attr"]
+
     if meta["optional"]:
         fmt.f_optional_attr = ", optional"
     if meta["value"]:

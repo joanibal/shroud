@@ -330,6 +330,14 @@ class FillMeta(object):
                 intent = "none"
             elif declarator.is_function_pointer():
                 intent = "in"
+            elif arg.typemap is not None and arg.typemap.sgroup == "span":
+                # Look at the template argument, e.g.  std::span<const T>, to 
+                # determine the intent
+                targs = arg.template_arguments
+                if targs and targs[0].const:
+                    intent = "in"
+                else:
+                    intent = "inout"
             elif not declarator.is_indirect():
                 intent = "in"
             elif arg.const:
@@ -1002,6 +1010,7 @@ class FillMetaShare(FillMeta):
                 "charlen",   # Assumed length of intent(out) char *.
                 "external",
                 "deref",
+                "f_attr",   # Extra text for the Fortran dummy declaration.
                 "destructor_name",
                 "dimension",
                 "funptr",
@@ -1341,6 +1350,10 @@ class FillMetaFortran(FillMeta):
         onebasedindex = attrs.get("onebasedindex", missing)
         if onebasedindex is not missing:
             meta["onebasedindex"] = True
+
+        f_attr = attrs.get("f_attr", missing)
+        if f_attr is not missing:
+            meta["f_attr"] = f_attr
 
 ######################################################################
 #
